@@ -33,7 +33,7 @@ main() async {
         int shift = (c + (id % 26));
         if (shift > 122) shift -= 26;
         if (c == 45) shift = 32;
-        word += '${new String.fromCharCode(shift)}';
+        word += new String.fromCharCode(shift);
       });
       if (word.startsWith('north')) {
         location = id;
