@@ -13,7 +13,7 @@ void main() {
       try {
         int index = int.parse(hash[5]);
         if (key2[index] == '_') {
-          key2[int.parse(hash[5])] = hash[6];
+          key2[index] = hash[6];
           if (!key2.contains('_')) break;
         }
       } catch (e) {}
