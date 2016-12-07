@@ -17,7 +17,7 @@ counter = 0
 with open('input.txt') as f:
 	for l in f:
 		possible = [m[0] for m in re.findall(ssl, l)]
-		pairs = [(p1, '{1}{0}{1}'.format(p1[0], p1[1])) for p1 in possible if '{1}{0}{1}'.format(p1[0], p1[1]) in possible]
+		pairs = [(p1, p1[1]+p1[0]+p1[1]) for p1 in possible if p1[1]+p1[0]+p1[1] in possible]
 		if [pair for pair in pairs if pair[0] in hyper.sub('|', l) and pair[1] in ''.join(re.findall(hyper, l))]:
 			counter += 1
 print('Part 2:', counter)
