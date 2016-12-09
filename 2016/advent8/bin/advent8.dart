@@ -66,6 +66,8 @@ main() async {
       List<int> rot = line.substring('rotate column x='.length).split('by').map(int.parse).toList();
       pad.rotateColumn(rot[0], rot[1]);
     }
+    sleep(new Duration(milliseconds: 250));   
+    print(pad.toString());
   }));
   print('Part 1: ${pad.count('#')}');
   print('Part 2: ${pad.toString()}');
