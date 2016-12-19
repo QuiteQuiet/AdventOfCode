@@ -1,0 +1,4 @@
+name: advent15
+description: A sample command-line application
+#dependencies:
+#  crypto: any
