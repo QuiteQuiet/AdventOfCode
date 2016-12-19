@@ -1,0 +1,5 @@
+name: advent11
+description: A sample command-line application
+dependencies:
+  collection: any
+  priority_queue: any
