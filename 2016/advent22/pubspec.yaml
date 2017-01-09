@@ -1,0 +1,4 @@
+name: template
+description: A sample command-line application
+#dependencies:
+#  console: any
