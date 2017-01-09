@@ -82,10 +82,8 @@ State solve(List<List<int>> input) {
         // try moving two things at once first
         for (int j = i + 1; j < options.length; j++) {
           int t2 = options[j];
-          things[state.e + dir].addAll([t1, t2]);
-          things[state.e + dir].sort();
-          things[state.e].remove(t1);
-          things[state.e].remove(t2);
+          things[state.e + dir]..addAll([t1, t2])..sort();
+          things[state.e]..remove(t1)..remove(t2);
           if (correct(things)) {
             List deep = deepcopy(things);
             State newState = new State(deep, state.e + dir, state.m + 1);
@@ -93,14 +91,11 @@ State solve(List<List<int>> input) {
               queue.add(newState);
             }
           }
-          things[state.e + dir].remove(t1);
-          things[state.e + dir].remove(t2);
-          things[state.e].addAll([t1, t2]);
-          things[state.e].sort();
+          things[state.e + dir]..remove(t1)..remove(t2);
+          things[state.e]..addAll([t1, t2])..sort();
         }
         // try with just one item too
-        things[state.e + dir].add(t1);
-        things[state.e + dir].sort();
+        things[state.e + dir]..add(t1)..sort();
         things[state.e].remove(t1);
         if (correct(things)) {
           List deep = deepcopy(things);
@@ -110,8 +105,7 @@ State solve(List<List<int>> input) {
           }
         }
         things[state.e + dir].remove(t1);
-        things[state.e].add(t1);
-        things[state.e].sort();
+        things[state.e]..add(t1)..sort();
       }
     }
   }
