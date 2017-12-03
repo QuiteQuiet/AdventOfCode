@@ -3,12 +3,14 @@ import 'dart:math';
 enum dir {U, D, L, R}
 
 void main() {
-  int input = 347991, outer, distance;
-  outer = sqrt(input).ceil(); // find the bounding square that contains the value (bottom right corner)
-  // outerValue has an (outer - 1) length to reach the start, find how far from that we are
-  distance = outer * outer - input;
-  // part 1 because our input was so nice
-  print('Part 1: ${(outer - 1) - distance}');
+  int input = 347991,
+  outer = sqrt(input).ceil(),                 // find the bounding square that contains the value (bottom right corner)
+  side = outer % 2 != 0 ? outer : outer + 1,  // length of the current side
+  row = (side - 1) ~/ 2,                      // steps to reach the starting row
+  offset = (input - (side - 2) * (side - 2)) % (side - 1); // find starting column offset
+
+  // part 1
+  print('Part 1: ${row + (offset - row).abs()}');
 
   // part 2
   int written = 1, x = 49, y = 49;
