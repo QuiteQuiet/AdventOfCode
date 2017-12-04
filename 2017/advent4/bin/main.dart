@@ -1,17 +1,4 @@
 import 'dart:io';
-/// Returns a new lazy [Iterable] with every permutation of the list
-Iterable<List> permutations(List<dynamic> l) sync* {
-  if (l.length == 2) {
-    yield l;
-    yield [l[1], l[0]];
-  } else {
-    for (int i = 0; i < l.length; i++) {
-      for (List perm in permutations(l.sublist(0, i)..addAll(l.sublist(i + 1)))) {
-        yield [l[i]]..addAll(perm);
-      }
-    }
-  }
-}
 
 main() async {
   int valid1 = 0, valid2 = 0;
@@ -21,17 +8,12 @@ main() async {
     // part 1 
     if (!bounds.hasMatch(line)) valid1++;
     // part 2
+    List<String> words = line.split(' ').map((e) => (e.split('')..sort()).join()).toList()..sort();
     bool valid = true;
-    List<String> words = line.split(' ');
     for (String word in words) {
-      List<String> excluded = line.split(' ')..remove(word);
-      if (!valid) break; // no need to bother with this line anymore 
-      for (List<String> option in permutations(word.split(''))) {
-        String test = option.join();
-        if (excluded.contains(test)) {
-          valid = false;
-          break;
-        }
+      if (words.where((e) => word == e).length > 1) {
+        valid = false;
+        break;
       }
     }
     if (valid) valid2++;
