@@ -3,7 +3,6 @@ import 'dart:io';
 main() async {
   int valid1 = 0, valid2 = 0;
   RegExp bounds = new RegExp(r'(\b[^\s]+?\b).*?\b\1\b');
-  Stopwatch time = new Stopwatch()..start();
   await new File('advent4/input.txt').readAsLines()
   .then((List<String> file) => file.forEach((String line) {
     // part 1 
