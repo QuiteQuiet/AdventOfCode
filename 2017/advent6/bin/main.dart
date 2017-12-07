@@ -5,6 +5,7 @@ main() async {
   int seen = 0;
   List<int> state = new List<int>();
   Map<String, int> visited = new Map<String, int>();
+  Stopwatch time = new Stopwatch()..start();
   await new File('advent6/input.txt').readAsLines()
   .then((List<String> file) =>
     state = file[0].split('\t').map(int.parse).toList()
@@ -20,5 +21,5 @@ main() async {
     }
   }
   print('Part 1: $seen');
-  print('Part 2: ${seen - visited[state.toString()]}');
+  print('Part 2: ${seen - visited[state.toString()]} in ${time.elapsed}');
 }
