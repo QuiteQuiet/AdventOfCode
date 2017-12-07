@@ -1,30 +1,31 @@
 import 'dart:io';
 
 class Node {
-  int w, diff;
+  int w, subw = 0, diff;
   String id;
   List<String> subtree;
   Node(this.id, this.w) { this.subtree = new List<String>();}
   void add(String n) => this.subtree.add(n);
 }
 
-Map<String, Node> allNodes = new Map<String, Node>();
-Node uneven;
-int calcTreeWeight(Node root) {
+int calcTreeWeight(Node root, Map<String, Node> allNodes) {
   if (root.subtree.length < 1) return root.w;
   List<int> subtreeWeights = new List<int>();
   for (String sub in root.subtree) {
-    int w = calcTreeWeight(allNodes[sub]);
+    int w = calcTreeWeight(allNodes[sub], allNodes);
     subtreeWeights.add(w);
-    if (uneven == null && subtreeWeights.any((i) => i != w)) {
-      uneven = allNodes[sub];
+    if (subtreeWeights.any((i) => i != w)) {
+      // bestest way ever to return something, throw an error!
+      Node uneven = allNodes[sub];
       uneven.diff = w - subtreeWeights.firstWhere((i) => uneven.w != i);
+      throw uneven;
     }
   }
   return root.w + subtreeWeights.reduce((a, b) => a + b);
 }
 
 main() async {
+  Map<String, Node> allNodes = new Map<String, Node>();
   Map<String, bool> inSubtree = new Map<String, bool>();
   RegExp weightFind = new RegExp(r'\d+');
   await new File('advent7/input.txt').readAsLines()
@@ -50,6 +51,10 @@ main() async {
     }
   }
   print('Part 1: ${unique}');
-  calcTreeWeight(allNodes[unique]);
-  print('Part 2: ${uneven.w - uneven.diff}');
+  Stopwatch time = new Stopwatch()..start();
+  try {
+    calcTreeWeight(allNodes[unique], allNodes);
+  } catch (e) {
+    print('Part 2: ${e.w - e.diff} in ${time.elapsed}');
+  }
 }
