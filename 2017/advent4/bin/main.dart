@@ -8,7 +8,7 @@ main() async {
     // part 1 
     if (!bounds.hasMatch(line)) valid1++;
     // part 2
-    List<String> words = line.split(' ').map((e) => (e.split('')..sort()).join());
+    List<String> words = line.split(' ').map((e) => (e.split('')..sort()).join()).toList();
     if (words.length == new Set.from(words).length) valid2++;
   }));
   print('Part 1: $valid1');
