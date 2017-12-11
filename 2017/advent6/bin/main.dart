@@ -7,19 +7,19 @@ main() async {
   Map<String, int> visited = new Map<String, int>();
   Stopwatch time = new Stopwatch()..start();
   await new File('advent6/input.txt').readAsLines()
-  .then((List<String> file) =>
-    state = file[0].split('\t').map(int.parse).toList()
-  );
-  while (visited[state.toString()] == null) {
-    visited[state.toString()] = seen++;
-    int consume = state.reduce(max), index = state.indexOf(consume);
-    state[index] = 0;
-    while (consume > 0) {
-      index = (index + 1) % state.length;
-      state[index]++;
-      consume--;
+  .then((List<String> file) {
+    state = file[0].split('\t').map(int.parse).toList();
+    while (visited[state.toString()] == null) {
+      visited[state.toString()] = seen++;
+      int consume = state.reduce(max), index = state.indexOf(consume);
+      state[index] = 0;
+      while (consume > 0) {
+        index = (index + 1) % state.length;
+        state[index]++;
+        consume--;
+      }
     }
-  }
-  print('Part 1: $seen');
-  print('Part 2: ${seen - visited[state.toString()]} in ${time.elapsed}');
+    print('Part 1: $seen');
+    print('Part 2: ${seen - visited[state.toString()]} in ${time.elapsed}');
+  });
 }
