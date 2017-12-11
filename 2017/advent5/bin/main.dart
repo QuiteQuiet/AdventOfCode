@@ -11,6 +11,6 @@ main() async {
       instruction += file[instruction];
       file[old] += part2 && file[old] >= 3 ? -1 : 1;
     }
+    print('Part ${part2 ? 2 : 1}: $ops');
   });
-  print('Part ${part2 ? 2 : 1}: $ops');
 }

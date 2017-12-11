@@ -2,7 +2,7 @@ import 'dart:io';
 
 main() async {
   int score = 0, garbage = 0;
-  await new File('advent9/input.txt').readAsLines()
+  new File('advent9/input.txt').readAsLines()
   .then((List<String> file) {
     // clean up the input so no ignore characters or garbage is there
     String line = file[0].replaceAll(new RegExp(r'\!.'), '').replaceAllMapped(new RegExp('<.*?>'), (Match m) {
@@ -19,7 +19,7 @@ main() async {
         score += openBrackets--;
       }
     }
+    print('Part 1: $score');
+    print('Part 2: $garbage');
   });
-  print('Part 1: $score');
-  print('Part 2: $garbage');
 }
