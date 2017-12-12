@@ -4,7 +4,6 @@ import 'dart:math';
 main() async {
   int x = 0, y = 0, z = 0;
   List<int> distances = new List<int>();
-  Stopwatch time = new Stopwatch()..start();
   new File('advent11/input.txt').readAsLines()
   .then((List<String> file) {
     for (String dir in file[0].split(',')) {
