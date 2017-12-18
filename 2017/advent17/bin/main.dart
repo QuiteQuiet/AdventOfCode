@@ -1,5 +1,4 @@
 void main() {
-  Stopwatch time = new Stopwatch()..start();
   int input = 349, pos = 0;
   List<int> buffer = new List<int>();
   buffer.add(0);
