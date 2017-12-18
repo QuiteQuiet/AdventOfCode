@@ -8,7 +8,7 @@ main() async {
   .then((List<String> file) {
     List<String> parts = file[0].split(',');
     states[programs.join()] = 0;
-    for (int i = 1; i <= remaining; i++) {
+    for (int i = 1; cycle == null; i++) {
       for (String act in parts) {
         String params = act.substring(1);
         switch (act[0]) {
@@ -30,14 +30,18 @@ main() async {
           break;
         }
       }
-      if (cycle == null) {
-        if (states.containsKey(programs.join())) {
-          cycle = i - states[programs.join()];
-          remaining = (remaining % cycle) + i;
+      if (states.containsKey(programs.join())) {
+        cycle = i - states[programs.join()];
+        remaining = (remaining % cycle);
+        for (String k in states.keys) {
+          if (states[k] == remaining) {
+            programs = k.split('');
+            break;
+          }
         }
-        else {
-          states[programs.join()] = i;
-        }
+      }
+      else {
+        states[programs.join()] = i;
       }
       if (i == 1) print('Part 1: ${programs.join()}');
     }
