@@ -83,12 +83,9 @@ main() async {
         Grid.rotate(Grid.rotate(Grid.rotate(key)))
       ];
       for (List<List<String>> a in p) {
-        String id = Grid.toId(a);
-        if (!replace.containsKey(id)) replace[id] = r;
-        id = Grid.toId(Grid.flipX(a));
-        if (!replace.containsKey(id)) replace[id] = r;
-        id = Grid.toId(Grid.flipY(a));
-        if (!replace.containsKey(id)) replace[id] = r;
+        replace[Grid.toId(a)] = r;
+        replace[Grid.toId(Grid.flipX(a))] = r;
+        replace[Grid.toId(Grid.flipY(a))] = r;
       }
     });
 
