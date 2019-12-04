@@ -2,7 +2,7 @@ import 'dart:io';
 class Disc {
   int s, u, a;
   Disc(this.s, this.u, this.a);
-  bool operator==(Disc o) => this.s == o.s && this.u == o.u && this.a == o.a;
+  bool operator==(covariant Disc o) => this.s == o.s && this.u == o.u && this.a == o.a;
 }
 class Grid {
   List _l;

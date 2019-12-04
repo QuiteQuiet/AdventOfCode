@@ -1,5 +1,5 @@
 import 'dart:collection';
-class Elf extends LinkedListEntry {
+class Elf extends LinkedListEntry<Elf> {
   int nr, p;
   Elf(this.nr, [this.p = 1]);
   void takeFrom(Elf other) {

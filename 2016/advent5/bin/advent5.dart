@@ -5,7 +5,7 @@ void main() {
   List<String> key2 = new List(8)..fillRange(0, 8, '_');
   int tracker = 0;
   while (true) {
-    String hash = md5.convert(UTF8.encode('$input$tracker')).toString();
+    String hash = md5.convert(utf8.encode('$input$tracker')).toString();
     if (hash.startsWith('00000')) {
       if (key1.length < 8) {
         key1 += hash[5];

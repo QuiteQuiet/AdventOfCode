@@ -13,8 +13,8 @@ class Room {
     if ('bcdef'.contains(hash4[2])) open.add('L');
     if ('bcdef'.contains(hash4[3])) open.add('R');
   }
-  String _hash4(String h) => md5.convert(UTF8.encode(h)).toString().substring(0, 4);
-  bool operator==(Room other) => this.x == other.x && this.y == other.y;
+  String _hash4(String h) => md5.convert(utf8.encode(h)).toString().substring(0, 4);
+  bool operator==(covariant Room other) => this.x == other.x && this.y == other.y;
 }
 
 void main() {
