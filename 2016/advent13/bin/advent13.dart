@@ -5,7 +5,7 @@ class Location {
   Location(this.x, this.y) {
     isWall = '1'.allMatches((x * x + 3 * x + 2 * x * y + y + y * y + input).toRadixString(2)).length % 2 == 1;
   }
-  bool operator==(Location other) => this.x == other.x && this.y == other.y;
+  bool operator ==(covariant Location other) => this.x == other.x && this.y == other.y;
 }
 List<Location> visited = new List();
 List adj(List<Location> cur) {

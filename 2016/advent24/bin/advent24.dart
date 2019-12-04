@@ -6,7 +6,7 @@ class State {
   Map<String, List<State>> d = new Map();
   String c;
   State(this. x, this.y, this.path, this.c);
-  bool operator==(State o) => this.x == o.x && this.y == o.y;
+  bool operator==(covariant State o) => this.x == o.x && this.y == o.y;
   String get hash => '$x|$y';
 }
 class Grid<T> {

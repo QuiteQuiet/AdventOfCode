@@ -15,7 +15,7 @@ class No5Int {
     return this._i;
   }
   int assign(No5Int o) => this._i = o._i;
-  bool operator==(No5Int o) => this._i == o._i;
+  bool operator==(covariant No5Int o) => this._i == o._i;
   bool operator<(No5Int o) => this._i < o._i;
   No5Int operator+(No5Int o) {
     No5Int t = new No5Int(this._i + o._i);
@@ -42,7 +42,7 @@ main() async {
     for (int fi = 0; fi < file.length; fi++) {
       processed[index.I] = new No5Int(int.parse(file[fi]));
       index.inc();
-    } 
+    }
   });
   for (; instruction.I >= 0 && instruction.I < processed.length; ops++) {
       int old = instruction.I;

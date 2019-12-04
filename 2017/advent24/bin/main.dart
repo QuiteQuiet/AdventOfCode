@@ -8,7 +8,7 @@ class Port {
     this.o = this.i;
     this.i = t;
   }
-  bool operator==(Port o) => this.i == o.i && this.o == o.o || this.i == o.o && this.o == o.i;
+  bool operator==(covariant Port o) => this.i == o.i && this.o == o.o || this.i == o.o && this.o == o.i;
 }
 
 class Bridge {

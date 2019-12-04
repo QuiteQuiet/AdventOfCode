@@ -2,7 +2,7 @@ import 'dart:io';
 
 class Grid {
   List<List<String>> cells;
-  Grid() { 
+  Grid() {
     this.cells = new List<List<String>>();
     this.cells.addAll([
       ['.', '#', '.'],
@@ -21,7 +21,7 @@ class Grid {
       for (int y = 0; y < parts; y++) {
         int xi = x * splitsize, yi = y * splitsize;
         List<List<String>> sublist = this.cells.sublist(xi, xi + splitsize).map((l) => l.sublist(yi, yi + splitsize)).toList();
-        sublist = replace[Grid.toId(sublist)];  
+        sublist = replace[Grid.toId(sublist)];
         // merge sublist into next
         if (yi != 0) {
           sublist = Grid.copy(sublist);
@@ -54,7 +54,7 @@ class Grid {
     }
     return Grid.flipX(temp);
   }
-  static List<List<dynamic>> copy(List<List<dynamic>> l) {
+  static Iterable<List<dynamic>> copy(List<List<dynamic>> l) {
     List<List<dynamic>> temp = new List<List<dynamic>>();
     for (int i = 0; i < l.length; i++) {
       temp.add(new List<dynamic>());

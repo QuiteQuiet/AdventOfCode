@@ -5,7 +5,7 @@ class Program {
   bool visited = false;
   List<Program> pipes;
   Program(this.id) { this.pipes = new List<Program>(); }
-  bool operator==(Program o) => this.id == o.id;
+  bool operator==(covariant Program o) => this.id == o.id;
 }
 
 main() async {
@@ -46,5 +46,5 @@ main() async {
 
     print('Part 1: $programsIn0');
     print('Part 2: $groups');
-  }); 
+  });
 }

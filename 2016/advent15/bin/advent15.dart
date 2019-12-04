@@ -8,7 +8,7 @@ class Cache {
     if (!this.store.containsKey(index))  {
       String hash = '$salt$index';
       for (int i = 0, len = (this.p2 ? 2017 : 1); i < len; i++) {
-        hash = md5.convert(UTF8.encode(hash)).toString();
+        hash = md5.convert(utf8.encode(hash)).toString();
       }
       this.store[index] = hash;
     }
