@@ -8,7 +8,7 @@ int getFuel(int mass) {
 
 void main() async {
   int fuel = 0, fuel2 = 0;
-  await new File('input.txt').readAsLines()
+  await File('input.txt').readAsLines()
     .then((List<String> file) {
       file.forEach((String line) {
         int mass = int.parse(line);
