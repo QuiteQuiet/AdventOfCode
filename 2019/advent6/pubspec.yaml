@@ -1,0 +1,4 @@
+name: advent6
+description: A sample command-line application
+dependencies:
+  collection: ^1.1.3
