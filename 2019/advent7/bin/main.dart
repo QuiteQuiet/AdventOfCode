@@ -9,25 +9,25 @@ void main() {
 
   List<int>  outputA = List(), outputB = List(), outputC = List(), outputD = List(), outputE = List();
   for (List setting in thrusters()) {
-    computer.run(input: [setting[0], 0], output: outputA);
-    computer.run(input: [setting[1], outputA.last], output: outputB);
-    computer.run(input: [setting[2], outputB.last], output: outputC);
-    computer.run(input: [setting[3], outputC.last], output: outputD);
-    computer.run(input: [setting[4], outputD.last], output: outputE);
+    computer..run(input: [setting[0], 0], output: outputA)
+            ..run(input: [setting[1], outputA.last], output: outputB)
+            ..run(input: [setting[2], outputB.last], output: outputC)
+            ..run(input: [setting[3], outputC.last], output: outputD)
+            ..run(input: [setting[4], outputD.last], output: outputE);
   }
-  outputE.sort();
-  print('Part 1: ${outputE.last}');
+  print('Part 1: ${(outputE..sort()).last}');
 
   Permutations feedback = Permutations(5, [5, 6, 7, 8, 9]);
   List<int> signals = List<int>();
   for (List setting in feedback()) {
     outputA.clear(); outputB.clear(); outputC.clear(); outputD.clear(); outputE.clear();
-    // prime computers
-    IntcodeComputer A = IntcodeComputer(input, reboot: false)..run(input: [setting[0]], output: outputA);
-    IntcodeComputer B = IntcodeComputer(input, reboot: false)..run(input: [setting[1]], output: outputB);
-    IntcodeComputer C = IntcodeComputer(input, reboot: false)..run(input: [setting[2]], output: outputC);
-    IntcodeComputer D = IntcodeComputer(input, reboot: false)..run(input: [setting[3]], output: outputD);
-    IntcodeComputer E = IntcodeComputer(input, reboot: false)..run(input: [setting[4]], output: outputE);
+    // prime interpreters
+    IntcodeComputer
+     A = IntcodeComputer(input)..run(input: [setting[0]], output: outputA),
+     B = IntcodeComputer(input)..run(input: [setting[1]], output: outputB),
+     C = IntcodeComputer(input)..run(input: [setting[2]], output: outputC),
+     D = IntcodeComputer(input)..run(input: [setting[3]], output: outputD),
+     E = IntcodeComputer(input)..run(input: [setting[4]], output: outputE);
 
     outputE.add(0);
     while (!A.done && !B.done && !C.done && !D.done && !E.done) {
@@ -39,6 +39,5 @@ void main() {
     }
     signals.add(outputE.first);
   }
-  signals.sort();
-  print('Part 2: ${signals.last}');
+  print('Part 2: ${(signals..sort()).last}');
 }

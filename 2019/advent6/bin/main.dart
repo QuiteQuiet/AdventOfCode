@@ -27,14 +27,9 @@ void main() {
     solarSystem[orbiter].orbiting = solarSystem[orbits];
   });
   // find center of the universe
-  Planet center;
-  String next = solarSystem.keys.first;
-  while (center == null){
-    if (solarSystem[next].orbiting != null) {
-      next = solarSystem[next].orbiting.name;
-    } else {
-      center = solarSystem[next];
-    }
+  Planet center = solarSystem.values.first;
+  while (center.orbiting != null){
+    center = center.orbiting ?? center;
   }
   // traverse universe
   Queue<Planet> planets = Queue<Planet>()..add(center);
