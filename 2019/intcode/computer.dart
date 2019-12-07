@@ -2,10 +2,10 @@ class IntcodeComputer {
   List<int> _program;
   String _base;
   int pointer = 0;
-  bool reboot;
+  bool continous;
   bool done = false;
 
-  IntcodeComputer(String this._base, {this.reboot = null}) { _program = _base.split(',').map(int.parse).toList(); }
+  IntcodeComputer(String this._base) { _program = _base.split(',').map(int.parse).toList(); }
 
   void reset() {
     _program = _base.split(',').map(int.parse).toList();
@@ -92,7 +92,7 @@ class IntcodeComputer {
     if (input != null) {
       result = output.last;
     }
-    reboot ?? reset();
+    reset();
     return result;
   }
 }
