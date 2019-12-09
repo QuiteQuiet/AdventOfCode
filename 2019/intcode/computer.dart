@@ -28,9 +28,7 @@ class IntcodeComputer {
       default: throw Exception('Illegal mode');
     }
   }
-  int run({int noun, int verb, List<int> input, List<int> output}) {
-    _program[1] = noun ?? _program[1];
-    _program[2] = verb ?? _program[2];
+  int run({List<int> input, List<int> output}) {
     do {
       int temp = _program[pointer];
       int m1 = temp ~/ 100 % 10, m2 = temp ~/ 1000 % 10, m3 = temp ~/ 10000 % 10;
@@ -77,11 +75,7 @@ class IntcodeComputer {
           break;
       }
     } while(!done);
-
-    int result = _program[0];
-    if (input != null) {
-      result = output.last;
-    }
+    int result = output?.last ?? _program[0];
     reset();
     return result;
   }
