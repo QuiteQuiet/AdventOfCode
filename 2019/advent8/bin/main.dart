@@ -34,7 +34,7 @@ void main() {
         }
       }
     }
-    int zeros = image.count('1');
+    int zeros = image.count('0');
     if (zeros < min) {
       min = zeros;
       ones = image.count('1');
