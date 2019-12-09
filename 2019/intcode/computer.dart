@@ -2,29 +2,39 @@ class IntcodeComputer {
   List<int> _program;
   String _base;
   int pointer = 0, base = 0;
-  bool continous;
   bool done = false;
 
-  IntcodeComputer(String this._base) { _program = _base.split(',').map(int.parse).toList(); }
+  IntcodeComputer(this._base) : _program = _base.split(',').map(int.parse).toList();
 
   void reset() {
     _program = _base.split(',').map(int.parse).toList();
+    done = false;
     pointer = 0;
     base = 0;
   }
   void alloc(int size) => _program.addAll(List.filled(size, 0, growable: true));
-  int reads(int mode, int value) => _program[{0: _program[value], 1: value, 2: _program[value] + base}[mode]];
-  int writes(int mode, int value) => _program[value] + {0: 0, 2: base}[mode];
-  int run({int noun = null, int verb = null, List<int> input = null, List<int> output = null}) {
-    int temp, opcode;
-
+  int reads(int mode, int value) {
+    switch (mode) {
+      case 0: return _program[_program[value]];
+      case 1: return _program[value];
+      case 2: return _program[_program[value] + base];
+      default: throw Exception('Illegal mode');
+    }
+  }
+  int writes(int mode, int value) {
+    switch (mode) {
+      case 0: return _program[value];
+      case 2: return _program[value] + base;
+      default: throw Exception('Illegal mode');
+    }
+  }
+  int run({int noun, int verb, List<int> input, List<int> output}) {
     _program[1] = noun ?? _program[1];
     _program[2] = verb ?? _program[2];
     do {
-      temp = _program[pointer];
-      opcode = temp % 100;
+      int temp = _program[pointer];
       int m1 = temp ~/ 100 % 10, m2 = temp ~/ 1000 % 10, m3 = temp ~/ 10000 % 10;
-      switch(opcode) {
+      switch(temp % 100) {
         case 1:
           _program[writes(m3, pointer + 3)] = reads(m1, pointer + 1) + reads(m2, pointer + 2);
           pointer += 4;
@@ -45,7 +55,7 @@ class IntcodeComputer {
           pointer += 2;
           break;
         case 5:
-          pointer = reads(m1, pointer + 1) != 0 ? reads(m2,pointer + 2) : pointer + 3;
+          pointer = reads(m1, pointer + 1) != 0 ? reads(m2, pointer + 2) : pointer + 3;
           break;
         case 6:
           pointer = reads(m1, pointer + 1) == 0 ? reads(m2, pointer + 2) : pointer + 3;
@@ -66,7 +76,7 @@ class IntcodeComputer {
           done = true;
           break;
       }
-    } while(opcode != 99);
+    } while(!done);
 
     int result = _program[0];
     if (input != null) {
