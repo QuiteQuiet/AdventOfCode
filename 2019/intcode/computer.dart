@@ -1,13 +1,13 @@
 class IntcodeComputer {
   List<int> _program;
-  String _base;
+  List<String> _base;
   int pointer = 0, base = 0;
   bool done = false;
 
-  IntcodeComputer(this._base) : _program = _base.split(',').map(int.parse).toList();
+  IntcodeComputer(this._base) : _program = _base.map(int.parse).toList();
 
   void reset() {
-    _program = _base.split(',').map(int.parse).toList();
+    _program = _base.map(int.parse).toList();
     done = false;
     pointer = 0;
     base = 0;

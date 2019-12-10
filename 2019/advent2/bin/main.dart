@@ -8,7 +8,7 @@ void main() {
   for (int n = 0; n < 100; n++) {
     for (int v = 0; v < 100; v++) {
       input[1] = '$n'; input[2] = '$v';
-      int result = IntcodeComputer(input.join(',')).run();
+      int result = IntcodeComputer(input).run();
       if (result == goal) {
         noun = n;
         verb = v;
@@ -17,6 +17,6 @@ void main() {
   }
 
   input[1] = '12'; input[2] = '2';
-  print('Part 1: ${IntcodeComputer(input.join(',')).run()}');
+  print('Part 1: ${IntcodeComputer(input).run()}');
   print('Part 2: ${100 * noun + verb}');
 }
