@@ -2,9 +2,9 @@ class IntcodeComputer {
   List<int> _program;
   List<String> _base;
   int pointer = 0, base = 0;
-  bool done = false;
+  bool done = false, resets;
 
-  IntcodeComputer(this._base) : _program = _base.map(int.parse).toList();
+  IntcodeComputer(this._base, {this.resets=true}) : _program = _base.map(int.parse).toList();
 
   void reset() {
     _program = _base.map(int.parse).toList();
@@ -76,7 +76,7 @@ class IntcodeComputer {
       }
     } while(!done);
     int result = output?.last ?? _program[0];
-    reset();
+    if (resets) reset();
     return result;
   }
 }
