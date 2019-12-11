@@ -1,0 +1,4 @@
+name: advent11
+description: A sample command-line application
+dependencies:
+  quiver: ^2.1.2+1

@@ -26,24 +26,23 @@ Map<num, List<int>> getLineOfSight(int x, int y) {
 }
 
 void main() {
-  int bestx, besty, los = 0;
+  int bestx, besty, max = 0;
   for (int y = 0; y < input.length; y++) {
     for (int x = 0; x < input[y].length; x++) {
       if (input[y][x] == '.') continue;
       int count = getLineOfSight(x, y).keys.length;
-      if (count > los) {
-        los = count;
+      if (count > max) {
+        max = count;
         bestx = x;
         besty = y;
       }
     }
   }
-  print('Part 1: $bestx,$besty: ${los}');
+  print('Part 1: $max');
 
   Map<num, List<int>> lineOfSight = getLineOfSight(bestx, besty);
   List<num> sorted = lineOfSight.keys.toList()..sort();
-  int index = sorted.indexOf(0.0) + 1;
-  sorted = (sorted.sublist(index)..addAll(sorted.sublist(0, index))).reversed.toList();
-  List<int> target = lineOfSight[sorted[199]]; // asteriod index 200 to be destroyed
+  int index = sorted.length - 199 + sorted.indexOf(0);
+  List<int> target = lineOfSight[sorted[index]];
   print('Part 2: ${target[0] * 100 + target[1]}');
 }
