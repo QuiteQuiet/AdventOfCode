@@ -42,8 +42,7 @@ void main() {
 
   while (left > 0) {
     ore = produce('FUEL', fuel, {});
-    left = trillion - ore;
-    fuel += left ~/ (ore ~/ fuel);
+    fuel += max(1, (left = trillion - ore) ~/ (ore ~/ fuel));
   }
   while (ore > trillion) ore = produce('FUEL', --fuel, {});
   print('Part 2: $fuel ${time.elapsed}');
