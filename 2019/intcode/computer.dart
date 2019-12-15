@@ -6,6 +6,14 @@ class IntcodeComputer {
 
   IntcodeComputer(this._base, {this.resets=true}) : _program = _base.map(int.parse).toList();
 
+  IntcodeComputer copy() {
+    IntcodeComputer c = IntcodeComputer(_base, resets: resets);
+    c._program = List.from(_program);
+    c.base = base;
+    c.pointer = pointer;
+    c.done = done;
+    return c;
+  }
   void reset() {
     _program = _base.map(int.parse).toList();
     done = false;
