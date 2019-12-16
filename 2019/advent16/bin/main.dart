@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:collection';
 
 void main() {
   Stopwatch time = Stopwatch()..start();
@@ -22,31 +21,26 @@ void main() {
   }
 
   for(int i = 0; i < 100; i++) {
-    List<int> temp = [];
     for (int i = 0; i < signal.length; i++) {
       int sum = 0;
       for (int j = i; j < signal.length; j++) {
           sum += signal[j] * patterns[i][j];
       }
-      temp.add(sum % 10);
+      signal[i] = sum % 10;
     }
-    temp = signal;
   }
   print('Part 1: ${signal.sublist(0, 8).join('')} ${time.elapsed}');
 
-  int offset = int.tryParse(input.substring(0, 7)) ?? -1;
+  int offset = int.parse(input.substring(0, 7));
   int jumps = offset ~/ input.length;
   int index = offset % input.length;
-  input *= (10000 - jumps);
-  input = input.substring(index);
-  Queue<int> signal2 = Queue.from(input.split('').map(int.parse));
+  input = (input * (10000 - jumps)).substring(index);
+  List<int> signal2 = input.split('').map(int.parse).toList();
   for (int i = 0; i < 100; i++) {
     int sum = 0;
-    Queue<int> temp = Queue();
-    while (signal2.isNotEmpty) {
-      temp.addFirst((sum += signal2.removeLast()) % 10);
+    for (int j = signal2.length - 1; j >= 0; j--) {
+      signal2[j] = (sum += signal2[j]) % 10;
     }
-    signal2 = temp;
   }
   print('Part 2: ${signal2.take(8).join('')} ${time.elapsed}');
 }
