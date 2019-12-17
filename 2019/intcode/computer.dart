@@ -1,21 +1,51 @@
+import 'dart:collection';
+
+class GrowableList<E> extends ListBase<E> {
+  final List<E> _l = [];
+  GrowableList();
+  GrowableList.from(Iterable<E> it) { _l.addAll(it); }
+  void set length(int newLength) { _l.length = newLength; }
+  int get length => _l.length;
+  void clear() => _l.clear();
+  E operator [](int index) {
+    try {
+       return _l[index];
+    } catch (RangeError) {
+      E e;
+      _l.addAll(List.filled(index - _l.length + 1, e ?? 0, growable: true));
+      return _l[index];
+    }
+  }
+  void operator []=(int index, E value) {
+    try {
+       _l[index] = value;
+    } catch (RangeError) {
+      E e;
+      _l.addAll(List.filled(index - _l.length + 1, e ?? 0, growable: true));
+      _l[index] = value;
+    }
+  }
+}
+
 class IntcodeComputer {
-  List<int> _program;
+  GrowableList<int> _program;
   List<String> _base;
   int pointer = 0, base = 0;
   bool done = false, resets;
 
-  IntcodeComputer(this._base, {this.resets=true}) : _program = _base.map(int.parse).toList();
+  IntcodeComputer(this._base, {this.resets=true}) : _program = GrowableList.from(_base.map(int.parse));
 
   IntcodeComputer copy() {
     IntcodeComputer c = IntcodeComputer(_base, resets: resets);
-    c._program = List.from(_program);
+    c._program = GrowableList.from(_program);
     c.base = base;
     c.pointer = pointer;
     c.done = done;
     return c;
   }
   void reset() {
-    _program = _base.map(int.parse).toList();
+    _program.clear();
+    _program = GrowableList.from(_base.map(int.parse));
     done = false;
     pointer = 0;
     base = 0;
