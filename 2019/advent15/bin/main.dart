@@ -19,7 +19,7 @@ List bfs(IntcodeComputer computer, {List start}) {
   while (queue.isNotEmpty) {
     output.clear();
     next = queue.removeFirst();
-    computer..run(input: List.from(next), output: output)..reset();
+    copy..run(input: List.from(next), output: output)..reset();
     if (output.last == 1) {
       queue.addAll([1, 2, 3, 4].where((el) => reverse(el, next.last)).map((el) => [...next, el]));
     }

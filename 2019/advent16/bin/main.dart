@@ -1,15 +1,14 @@
 import 'dart:io';
 
 List<int> fft(List<int> signal, List<List<int>> patterns) {
-  List<int> output = [];
   for (int i = 0; i < signal.length; i++) {
     int sum = 0;
     for (int j = i; j < signal.length; j++) {
-        sum += signal[j] * patterns[i][j];
+      sum += signal[j] * patterns[i][j];
     }
-    output.add(sum.abs() % 10);
+    signal[i] = sum.abs() % 10;
   }
-  return output;
+  return signal;
 }
 
 void main() {
@@ -23,15 +22,14 @@ void main() {
                           ..addAll(List.filled(i + 1, basePattern[1]))
                           ..addAll(List.filled(i + 1, basePattern[2]))
                           ..addAll(List.filled(i + 1, basePattern[3]));
-    pattern.add(pattern.first);
-    pattern.removeAt(0);
+    pattern..add(pattern.first)..removeAt(0);
     while (pattern.length < signal.length)
       pattern.addAll([...pattern]);
     pattern.sublist(0, signal.length);
     patterns.add(pattern);
   }
 
-  for(int i = 0; i < 100; i++) {
+  for (int i = 0; i < 100; i++) {
     signal = fft(signal, patterns);
   }
   print('Part 1: ${signal.sublist(0, 8).join('')} ${time.elapsed}');
