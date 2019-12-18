@@ -23,7 +23,7 @@ class Grid<T> {
     return s.join('');
   }
 }
-List sum(Grid<String> grid) {
+List process(Grid<String> grid) {
   Cleaner cleaner;
   int sum = 0;
   for (int y = 0; y < grid.h; y++) {
@@ -43,7 +43,7 @@ List sum(Grid<String> grid) {
   }
   return [sum, cleaner];
 }
-Grid<String> parseOutput(List<int> output) {
+Grid<String> buildGrid(List<int> output) {
   Grid<String> out = Grid.initiate(0, 0, '');
   int w, index = 0;
   for (int char in output) {
@@ -62,15 +62,14 @@ Grid<String> parseOutput(List<int> output) {
   }
   return out;
 }
-List pathfinding(Grid ascii, Cleaner cleaner) {
+List findPath(Grid ascii, Cleaner cleaner) {
   bool done = false;
   List steps = [];
   while (!done) {
     switch (cleaner.dir) {
       case 0: // up
         if (cleaner.y > 0 && ascii.at(cleaner.x, cleaner.y - 1) == '#') {
-          if (steps.last.runtimeType == int) steps.last++;
-          else steps.add(1);
+          steps.last.runtimeType == int ? steps.last++ : steps.add(1);
           cleaner.y--;
         } else {
           if (cleaner.x + 1 < ascii.w && ascii.at(cleaner.x + 1, cleaner.y) == "#") {
@@ -86,8 +85,7 @@ List pathfinding(Grid ascii, Cleaner cleaner) {
       break;
       case 1: // right
         if (cleaner.x + 1 < ascii.w && ascii.at(cleaner.x + 1, cleaner.y) == '#') {
-          if (steps.last.runtimeType == int) steps.last++;
-          else steps.add(1);
+          steps.last.runtimeType == int ? steps.last++ : steps.add(1);
           cleaner.x++;
         } else {
           if (cleaner.y + 1 < ascii.h && ascii.at(cleaner.x, cleaner.y + 1) == "#") {
@@ -103,8 +101,7 @@ List pathfinding(Grid ascii, Cleaner cleaner) {
       break;
       case 2: // down
         if (cleaner.y + 1 < ascii.h && ascii.at(cleaner.x, cleaner.y + 1) == '#') {
-          if (steps.last.runtimeType == int) steps.last++;
-          else steps.add(1);
+          steps.last.runtimeType == int ? steps.last++ : steps.add(1);
           cleaner.y++;
         } else {
           if (cleaner.x > 0 && ascii.at(cleaner.x - 1, cleaner.y) == "#") {
@@ -120,8 +117,7 @@ List pathfinding(Grid ascii, Cleaner cleaner) {
       break;
       case 3: // left
         if (cleaner.x > 0 && ascii.at(cleaner.x - 1, cleaner.y) == '#') {
-          if (steps.last.runtimeType == int) steps.last++;
-          else steps.add(1);
+          steps.last.runtimeType == int ? steps.last++ : steps.add(1);
           cleaner.x--;
         } else {
           if (cleaner.y > 0 && ascii.at(cleaner.x, cleaner.y - 1) == "#") {
@@ -139,41 +135,50 @@ List pathfinding(Grid ascii, Cleaner cleaner) {
   }
   return steps;
 }
+Map findFunctions(List steps) {
+  Map<String, String> functions = {};
+  int letter = 65, size = 2; // A
+  String path = steps.join(',');
+  List moves = List.from(steps);
+  while (path.isNotEmpty) {
+    String test = moves.sublist(0, size).join(',');
+    if (path.substring(2).contains(test) && test.length <= 20) {
+      size += 2;
+    } else {
+      String temp = moves.sublist(0, size - 2).join(',');
+      functions[String.fromCharCode(letter++)] = temp;
+      path = path.replaceAll(temp, '').replaceAll(RegExp(r'^,+'), '');
+      moves = path.split(',');
+      size = 2;
+    }
+  }
+  return functions;
+}
 
 void main() {
   List<String> input = File('input.txt').readAsStringSync().split(',');
   List<int> output = [];
   Cleaner cleaner;
   IntcodeComputer(input).run(output: output);
-  Grid<String> ascii = parseOutput(output);
+  Grid<String> ascii = buildGrid(output);
 
-  List things = sum(ascii);
+  List things = process(ascii);
   cleaner = things[1];
   print('Part 1: ${things[0]}');
-  // follow path
-  List steps = pathfinding(ascii, cleaner);
-  String path = steps.join(',');
-  Map<String, String> functions = {};
-  int letter = 65; // A
-  // find functions (only works for some inputs (mine!))
-  RegExp formula = RegExp(r'((?:[RL],\d+,){2,5}).*?(?:\1)');
-  while (path.indexOf('L') >= 0 || path.indexOf('R') >= 0) {
-    Match m = formula.firstMatch(path);
-    String match = m.group(1).substring(0, m.group(1).length - 1);
-    functions[String.fromCharCode(letter++)] = match;
-    path = path.replaceAll(match, '');
-  }
-  path = steps.join(',');
+
+  List steps = findPath(ascii, cleaner);
+  Map<String, String> functions = findFunctions(steps);
+
   // map functions to path
+  String path = steps.join(',');
   functions.forEach((letter, func) => path = path.replaceAll(func, letter));
   // encode for intcode
   List<int> enter = [];
   enter..addAll(path.runes)..add(10);
-  for (String char in ['A', 'B', 'C']) {
-    enter..addAll(functions[char].runes)..add(10);
-  }
+  ['A', 'B', 'C'].forEach((char) => enter..addAll(functions[char].runes)..add(10));
   //video feed
   enter.addAll([110, 10]);
+
   input[0] = '2';
   print('Part 2: ${IntcodeComputer(input).run(input: enter, output: [])}');
 }
