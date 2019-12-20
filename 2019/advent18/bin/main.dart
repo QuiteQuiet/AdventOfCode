@@ -52,7 +52,7 @@ List bfs(Point start, Point end, Grid<String> maze) {
     if (maze.at(cur.x, cur.y - 1) != '#' && !visited.contains(left)) steps.add([left, blocks]);
     if (maze.at(cur.x, cur.y + 1) != '#' && !visited.contains(right)) steps.add([right, blocks]);
   }
-throw Exception('Should never happen');
+  throw Exception('Should never happen');
 }
 
 int getShortestPath(List<String> input, {bool ignoreDoors = false}) {
@@ -76,7 +76,7 @@ int getShortestPath(List<String> input, {bool ignoreDoors = false}) {
     edges[edge.join()] = weight - 1;
   }
   // edges is now a graph, traverse it
-  int keysToFind = pointsOfInterest.keys.where(lowercase.hasMatch).length + 1; // for @
+  int keysToFind = pointsOfInterest.keys.length;
   Set<String> explored = {};
   PriorityQueue search = PriorityQueue<List>((l1, l2) => l1.last - l2.last);
   List shortest;
@@ -84,7 +84,6 @@ int getShortestPath(List<String> input, {bool ignoreDoors = false}) {
   while (search.isNotEmpty) {
     List things = search.removeFirst();
     String curPos = things[0];
-    int steps = things[2];
     String repr = '$curPos: ${(things[1]..sort()).join()}';
     if (explored.contains(repr)) continue; // we already saw this earlier
     if (things[1].length == keysToFind) {
@@ -96,7 +95,8 @@ int getShortestPath(List<String> input, {bool ignoreDoors = false}) {
       String workingEdge = edge;
       List<String> keys = List.from(things[1]);
       if (workingEdge[0] != curPos) workingEdge = edge.split('').reversed.join();
-      canReachEnd = !keys.contains(workingEdge[workingEdge.length - 1]) || ignoreDoors;
+      String dest = workingEdge[workingEdge.length - 1];
+      canReachEnd = !keys.contains(dest);
       for (int i = 1; i < edge.length && canReachEnd; i++) {
         if (lowercase.hasMatch(workingEdge[i]) && !keys.contains(workingEdge[i])) {
           keys.add(workingEdge[i]);
@@ -106,7 +106,7 @@ int getShortestPath(List<String> input, {bool ignoreDoors = false}) {
         }
       }
       if (canReachEnd) {
-        search.add([workingEdge[workingEdge.length - 1], keys, steps + edges[edge]]);
+        search.add([dest, keys, things[2] + edges[edge]]);
       }
     }
   }
@@ -135,7 +135,6 @@ void main() {
   }
   for (int i = input.length ~/ 2; i < input.length; i++) {
       maze4.add(input[i].substring(input.length ~/ 2, input.length));
-
   }
   int shortestPathMult = getShortestPath(maze1, ignoreDoors: true) +
                          getShortestPath(maze2, ignoreDoors: true) +
