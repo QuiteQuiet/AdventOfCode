@@ -12,6 +12,7 @@ class GrowableList<E> extends ListBase<E> {
        return _l[index];
     } catch (RangeError) {
       E e;
+      if (index - _l.length > 10000) throw OutOfMemoryError();
       _l.addAll(List.filled(index - _l.length + 1, e ?? 0, growable: true));
       return _l[index];
     }
@@ -21,6 +22,7 @@ class GrowableList<E> extends ListBase<E> {
        _l[index] = value;
     } catch (RangeError) {
       E e;
+      if (index - _l.length > 10000) throw OutOfMemoryError();
       _l.addAll(List.filled(index - _l.length + 1, e ?? 0, growable: true));
       _l[index] = value;
     }
