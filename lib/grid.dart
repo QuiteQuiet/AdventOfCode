@@ -37,7 +37,7 @@ class Grid<T> {
   }
 
   /// Iterate over Grid, and apply `func` on every item.
-  void enumerate(Function func) {
+  void enumerate(Function(int, int, T) func) {
     for (int i = 0; i < _h; i++)
       for (int j = 0; j < _w; j++)
         func(j, i, at(i, j));
