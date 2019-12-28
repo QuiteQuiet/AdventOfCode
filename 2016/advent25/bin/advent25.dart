@@ -6,7 +6,7 @@ Iterable run(List instructions, Map heap) sync*{
       case 'cpy':
         List<String> parts = instr.substring(4).split(' ');
         if (heap[parts[1]] != null) {
-          heap[parts[1]] = int.parse(parts[0], onError: (s) => heap[s]);
+          heap[parts[1]] = int.tryParse(parts[0]) ?? heap[parts[0]];
         }
         break;
       case 'inc':
@@ -16,8 +16,10 @@ Iterable run(List instructions, Map heap) sync*{
         heap[instr.substring(4)]--;
         break;
       case 'jnz':
-        if (int.parse(instr.substring(4, 5), onError: (s) => heap[s]) != 0) {
-          pointer += int.parse(instr.substring(6), onError: (s) => heap[s]) - 1;
+        String s = instr.substring(4, 5);
+        if ((int.tryParse(s) ?? heap[s]) != 0) {
+          s = instr.substring(6);
+          pointer += (int.tryParse(s) ?? heap[s]) - 1;
         }
         break;
       case 'out':

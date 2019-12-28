@@ -8,20 +8,20 @@ Future<int> program(List<List<String>> ops) async {
     List<String> parts = ops[index];
     switch (parts[0]) {
       case 'set':
-        registers[parts[1]] = int.parse(parts[2], onError: (String s) => registers[s]);
+        registers[parts[1]] = int.tryParse(parts[2]) ?? registers[parts[2]];
       break;
       case 'sub':
-        registers[parts[1]] -= int.parse(parts[2], onError: (String s) => registers[s]);
+        registers[parts[1]] -= int.tryParse(parts[2]) ?? registers[parts[2]];
       break;
       case 'mul':
-        registers[parts[1]] *= int.parse(parts[2], onError: (String s) => registers[s]);
+        registers[parts[1]] *= int.tryParse(parts[2]) ?? registers[parts[2]];
         mul++;
       break;
       break;
       case 'jnz':
-        int test = int.parse(parts[1], onError: (String s) => registers[s]);
+        int test = int.tryParse(parts[1]) ?? registers[parts[1]];
         if (test != 0) {
-          index += int.parse(parts[2], onError: (String s) => registers[s]) - 1;
+          index += (int.tryParse(parts[2]) ?? registers[parts[2]]) - 1;
         }
       break;
     }
@@ -35,7 +35,7 @@ Future<int> program_t(int initial) async {
   Map<String, int> r = {'a': 1, 'b': initial * 100 + 100000, 'c': initial * 100 + 100000 + 17000, 'd': 0, 'e': 0, 'f': 0, 'g': 0, 'h': 0};
   while (true) {
     r['f'] = 1;
-    r['d'] = 2; 
+    r['d'] = 2;
     r['e'] = 2;
     while (true) {
       if (r['b'] % r['d'] == 0) r['f'] = 0;
@@ -54,7 +54,7 @@ main() async {
   new File('advent23/input.txt').readAsLines()
   .then((List<String> file) async {
     file.forEach((l) => ops.add(l.split(' ')));
-    
+
     print('Part 1: ${await program(ops)}');
     print('Part 2: ${await program_t(int.parse(ops[0][2]))}');
   });

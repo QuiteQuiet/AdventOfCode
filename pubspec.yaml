@@ -1,0 +1,3 @@
+name: AdventOfCode
+description: Package for solving problems for Advent of Code
+dependencies:

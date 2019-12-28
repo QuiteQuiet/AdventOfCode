@@ -10,21 +10,21 @@ Future<int> program(int id, List<List<String>> ops, Queue<int> into, Queue<int> 
     List<String> parts = ops[index];
     switch (parts[0]) {
       case 'snd':
-        int t = int.parse(parts[1], onError: (String s) => registers[s]);
+        int t = int.tryParse(parts[1]) ?? registers[parts[1]];
         outo.add(t);
         sent++;
       break;
       case 'set':
-        registers[parts[1]] = int.parse(parts[2], onError: (String s) => registers[s]);
+        registers[parts[1]] = int.tryParse(parts[2]) ?? registers[parts[2]];
       break;
       case 'add':
-        registers[parts[1]] += int.parse(parts[2], onError: (String s) => registers[s]);
+        registers[parts[1]] += int.tryParse(parts[2]) ?? registers[parts[2]];
       break;
       case 'mul':
-        registers[parts[1]] *= int.parse(parts[2], onError: (String s) => registers[s]);
+        registers[parts[1]] *= int.tryParse(parts[2]) ?? registers[parts[2]];
       break;
       case 'mod':
-        registers[parts[1]] %= int.parse(parts[2], onError: (String s) => registers[s]);
+        registers[parts[1]] %= int.tryParse(parts[2]) ?? registers[parts[2]];
       break;
       case 'rcv':
         if (part1) {
@@ -40,9 +40,9 @@ Future<int> program(int id, List<List<String>> ops, Queue<int> into, Queue<int> 
         registers[parts[1]] = into.removeFirst();
       break;
       case 'jgz':
-        int test = int.parse(parts[1], onError: (String s) => registers[s]);
+        int test = int.parse(parts[1]) ?? registers[parts[1]];
         if (test > 0) {
-          index += int.parse(parts[2], onError: (String s) => registers[s]) - 1;
+          index += (int.tryParse(parts[2]) ?? registers[parts[2]]) - 1;
         }
       break;
     }
@@ -56,7 +56,7 @@ main() async {
   new File('advent18/input.txt').readAsLinesSync().forEach((l) => ops.add(l.split(' ')));
   Queue<int> q1 = new Queue<int>(), q2 = new Queue<int>();
 
-  Future<int> i1 = program(0, ops, q1, q2);
+  program(0, ops, q1, q2);
   Future<int> i2 = program(1, ops, q2, q1);
 
   print('Part 2: ${await i2}');

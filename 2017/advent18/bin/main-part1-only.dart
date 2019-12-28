@@ -12,31 +12,31 @@ main() async {
       List<String> parts = ops[index];
       switch (parts[0]) {
         case 'snd':
-          played = int.parse(parts[1], onError: (String s) => registers[s]);
+          played = int.tryParse(parts[1]) ?? registers[parts[1]];
         break;
         case 'set':
-          registers[parts[1]] = int.parse(parts[2], onError: (String s) => registers[s]);
+          registers[parts[1]] = int.tryParse(parts[2]) ?? registers[parts[2]];
         break;
         case 'add':
-          registers[parts[1]] += int.parse(parts[2], onError: (String s) => registers[s]);
+          registers[parts[1]] += int.tryParse(parts[2]) ?? registers[parts[2]];
         break;
         case 'mul':
-          registers[parts[1]] *= int.parse(parts[2], onError: (String s) => registers[s]);
+          registers[parts[1]] *= int.tryParse(parts[2]) ?? registers[parts[2]];
         break;
         case 'mod':
-          registers[parts[1]] %= int.parse(parts[2], onError: (String s) => registers[s]);
+          registers[parts[1]] %= int.tryParse(parts[2]) ?? registers[parts[2]];
         break;
         case 'rcv':
-          int test = int.parse(parts[1], onError: (String s) => registers[s]);
+          int test = int.tryParse(parts[1]) ?? registers[parts[2]];
           if (test != 0) {
             // recover sound
             recovered = played;
           }
         break;
         case 'jgz':
-          int test = int.parse(parts[1], onError: (String s) => registers[s]);
+          int test = int.tryParse(parts[1]) ?? registers[parts[2]];
           if (test > 0) {
-            index += int.parse(parts[2], onError: (String s) => registers[s]) - 1;
+            index += (int.tryParse(parts[2]) ?? registers[parts[2]]) - 1;
           }
         break;
       }
