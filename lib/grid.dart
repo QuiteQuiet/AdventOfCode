@@ -2,7 +2,7 @@
 /// Contains standard iterator functions used for iterating
 /// over lists, but applied as two dimensional.
 class Grid<T> {
-  List<T> _cells;
+  late List<T> _cells;
   int _w, _h;
 
   int get width => _w;
@@ -44,6 +44,6 @@ class Grid<T> {
   }
 
   /// Apply mapped function `func` on the entire collection.
-  Iterable<T> map(Function func) => _cells.map(func);
+  Iterable<T> map(T Function(T) func) => _cells.map(func);
   Iterator<T> get iterator => _cells.iterator;
 }
