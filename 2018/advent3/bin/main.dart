@@ -1,7 +1,7 @@
 import 'dart:io';
 
 class Grid<T> {
-  List<List<T>> _cells;
+  late List<List<T>> _cells;
   T e;
   String toString() => this._cells.map((r) => r.join()).join('\n');
   T at(int x, int y) => this._cells[x][y];
@@ -25,12 +25,12 @@ void main() async {
   await new File('input.txt').readAsLines()
     .then((List<String> file) {
       file.forEach((String line) {
-        RegExpMatch match = regex.firstMatch(line);
-        int left   = int.parse(match.group(2)),
-            top    = int.parse(match.group(3)),
-            width  = int.parse(match.group(4)),
-            height = int.parse(match.group(5));
-        String id = match.group(1);
+        RegExpMatch match = regex.firstMatch(line)!;
+        int left   = int.parse(match.group(2)!),
+            top    = int.parse(match.group(3)!),
+            width  = int.parse(match.group(4)!),
+            height = int.parse(match.group(5)!);
+        String id = match.group(1)!;
         for (int i = left; i < left + width; i++) {
           for (int j = top; j < top + height; j++) {
             fabric.put(j, i, fabric.at(j, i) == '.' ? id : 'X');
@@ -44,13 +44,13 @@ void main() async {
     for (int j = 0 ; j < 1000; j++) {
       String id = fabric.at(i, j);
       if (remains.containsKey(id)) {
-        remains[id]++;
+        remains[id] = remains[id]! + 1;
       } else {
         remains[id] = 1;
       }
     }
   }
-  String noOverlap;
+  String noOverlap = '';
   claims.forEach((String id, int s) {
     if (s == remains[id]) {
       noOverlap = id;

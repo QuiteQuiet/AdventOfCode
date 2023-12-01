@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import '../../../lib/string.dart';
+
 void main() async {
-  int freq = 0, first = null, repeat = null;
+  int freq = 0;
+  int? first = null, repeat = null;
   Set<int> prev = new Set();
   await new File('input.txt').readAsLines()
   .then((List<String> file) {
@@ -11,8 +14,9 @@ void main() async {
           repeat = freq;
         }
         prev.add(freq);
-        freq += int.tryParse(line);
+        freq += line.toInt();
       });
+      first ??= freq;
     }
 
     print('Part 1: ${first}');

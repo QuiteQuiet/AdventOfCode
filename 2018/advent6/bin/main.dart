@@ -1,7 +1,7 @@
 import 'dart:io';
 
 class Grid<T> {
-  List<List<T>> cells;
+  late List<List<T>> cells;
   T e;
   String toString() => this.cells.map((r) => r.join()).join('\n') + '\n';
   T at(int x, int y) => this.cells[y][x];
@@ -32,7 +32,7 @@ void main() {
   for (int x = xmin; x < xmax; x++) {
     for (int y = ymin; y < ymax; y++) {
       int min = 100000, sum = 0;
-      String point;
+      String point = '';
       for (int z = 0; z < input.length; z++) {
         int dist = (x - input[z][0]).abs() + (y - input[z][1]).abs();
         if (dist < min) {

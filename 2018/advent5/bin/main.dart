@@ -21,13 +21,13 @@ void main() {
   String output = process(input);
   print('Part 1: ${output.length}');
 
-  String shortest;
+  String? shortest;
   'abcdefghijklmnopqrstuvwxyz'.split('').forEach((c) {
     String test = process(output.replaceAll(RegExp(c, caseSensitive: false), ''));
     shortest ??= test;
-    if (test.length < shortest.length) {
+    if (test.length < (shortest?.length)!) {
       shortest = test;
     }
   });
-  print('Part 2: ${shortest.length}');
+  print('Part 2: ${shortest?.length}');
 }
