@@ -2,7 +2,7 @@ import 'dart:io';
 import '../../intcode/computer.dart';
 
 class NIC extends IntcodeComputer {
-  List<int> input, output;
+  late List<int> input, output;
   NIC(base, {resets = true}) : super(base, resets: resets) {
     input = [];
     output = [];

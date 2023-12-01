@@ -10,7 +10,7 @@ List<int> shift(List<int> deck, int index) {
   }
 }
 List<int> deal(List<int> deck, int size) {
-  List<int> newDeck = List.generate(deck.length, (i) => null);
+  List<int> newDeck = List.generate(deck.length, (i) => -1);
   int index = 0;
   for (int i = 0; i < deck.length; i++) {
     newDeck[index] = deck[i];

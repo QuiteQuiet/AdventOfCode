@@ -7,7 +7,11 @@ void main() {
 
   Permutations thrusters = Permutations(5, [0, 1, 2, 3, 4]);
 
-  List<int>  outputA = List(), outputB = List(), outputC = List(), outputD = List(), outputE = List();
+  List<int>  outputA = List.empty(growable: true),
+             outputB = List.empty(growable: true),
+             outputC = List.empty(growable: true),
+             outputD = List.empty(growable: true),
+             outputE = List.empty(growable: true);
   for (List setting in thrusters()) {
     computer..run(input: [setting[0], 0], output: outputA)
             ..run(input: [setting[1], outputA.last], output: outputB)
@@ -18,7 +22,7 @@ void main() {
   print('Part 1: ${(outputE..sort()).last}');
 
   Permutations feedback = Permutations(5, [5, 6, 7, 8, 9]);
-  List<int> signals = List<int>();
+  List<int> signals = List<int>.empty();
   for (List setting in feedback()) {
     outputA.clear(); outputB.clear(); outputC.clear(); outputD.clear(); outputE.clear();
     // prime interpreters
@@ -30,7 +34,7 @@ void main() {
      E = IntcodeComputer(input)..run(input: [setting[4]], output: outputE);
 
     outputE.add(0);
-    while (!A.done && !B.done && !C.done && !D.done && !E.done) {
+    while (!E.done) {
       A.run(input: outputE, output: outputA);
       B.run(input: outputA, output: outputB);
       C.run(input: outputB, output: outputC);

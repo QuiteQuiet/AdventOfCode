@@ -6,7 +6,7 @@ class Cleaner {
   Cleaner(this.x, this.y, this.dir);
 }
 class Grid<T> {
-  List<T> cells;
+  late List<T> cells;
   int w, h;
   T at(int x, int y) => this.cells[y * w + x];
   void put(int x, int y, T e) => this.cells[y * w + x] = e;
@@ -24,7 +24,7 @@ class Grid<T> {
   }
 }
 List process(Grid<String> grid) {
-  Cleaner cleaner;
+  Cleaner cleaner = Cleaner(-1, -1, -1);;
   int sum = 0;
   for (int y = 0; y < grid.h; y++) {
     for (int x = 0; x < grid.w; x++) {
@@ -45,7 +45,8 @@ List process(Grid<String> grid) {
 }
 Grid<String> buildGrid(List<int> output) {
   Grid<String> out = Grid.initiate(0, 0, '');
-  int w, index = 0;
+  int? w;
+  int index = 0;
   for (int char in output) {
     if (char == 10) {
       w ??= index;
@@ -54,7 +55,7 @@ Grid<String> buildGrid(List<int> output) {
       index++;
     }
   }
-  out.w = w; out.h = out.cells.length ~/ w;
+  out.w = w!; out.h = out.cells.length ~/ w;
   int left = out.w * out.h - out.cells.length;
   if (left < 0) {
     out.cells.addAll(List.filled(out.w + left, ' '));
@@ -135,7 +136,7 @@ List findPath(Grid ascii, Cleaner cleaner) {
   }
   return steps;
 }
-Map findFunctions(List steps) {
+Map<String, String> findFunctions(List steps) {
   Map<String, String> functions = {};
   int letter = 65, size = 2; // A
   String path = steps.join(',');
@@ -175,7 +176,7 @@ void main() {
   // encode for intcode
   List<int> enter = [];
   enter..addAll(path.runes)..add(10);
-  ['A', 'B', 'C'].forEach((char) => enter..addAll(functions[char].runes)..add(10));
+  ['A', 'B', 'C'].forEach((char) => enter..addAll((functions[char]?.runes)!)..add(10));
   //video feed
   enter.addAll([110, 10]);
 

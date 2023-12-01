@@ -1,4 +1,7 @@
 name: advent11
 description: A sample command-line application
 dependencies:
-  quiver: ^2.1.2+1
+  quiver: ^3.2.1
+
+environment:
+  sdk: '^3.2.0'

@@ -1,5 +1,8 @@
 name: advent12
 description: A sample command-line application
 dependencies:
-  trotter: ^1.0.2
-  more: ^1.18.2
+  trotter:
+  more:
+
+environment:
+  sdk: '^3.2.0'

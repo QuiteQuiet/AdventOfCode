@@ -14,7 +14,8 @@ class Dir {
 }
 
 class Painter {
-  int x, y, i;
+  int x, y;
+  late int i;
   Dir dir;
   Painter(this.x, this.y, [this.dir=Dir.Up]) { i = Dir.Order.indexOf(dir); }
   String get pos => '$x,$y';
@@ -38,7 +39,7 @@ class Painter {
   }
 }
 
-Map<int, List<Set>> paint(List<String> input, int start) {
+Map<int, List<Set<String>>> paint(List<String> input, int start) {
   Set<String> white = {}, black = {};
   List<int> enter = [start], output = [];
   int firstTimePainted = 1;

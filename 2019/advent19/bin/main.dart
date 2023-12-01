@@ -12,10 +12,10 @@ void main() {
   }
   print('Part 1: $result');
 
-  int sqx, sqy, xstart = 0;
+  int? sqx, sqy, xstart = 0;
   for (int y = 0; y < 1000 && sqx == null && sqy == null; y++) {
-    int prev;
-    for (int x = xstart; x < xstart + 300; x++) {
+    int prev = 0;
+    for (int x = xstart!; x < xstart! + 300; x++) {
       int test1 = (beam..reset()).run(input: [x, y], output: []);
       int test2 = (beam..reset()).run(input: [x, y + 99], output: []);
       int test3 = (beam..reset()).run(input: [x + 99, y], output: []);
@@ -32,5 +32,5 @@ void main() {
       }
     }
   }
-  print('Part 2: ${sqx * 10000 + sqy}');
+  print('Part 2: ${sqx! * 10000 + sqy!}');
 }

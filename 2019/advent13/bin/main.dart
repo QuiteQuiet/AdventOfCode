@@ -2,7 +2,7 @@ import '../../intcode/computer.dart';
 import 'dart:io';
 
 class Grid<T> {
-  List<T> cells;
+  late List<T> cells;
   int w, h;
   T at(int x, int y) => this.cells[y * w + x];
   void put(int x, int y, T e) => this.cells[y * w + x] = e;
@@ -20,8 +20,8 @@ class Grid<T> {
 }
 
 class Game {
-  int score = 0, ballx, paddle;
-  Grid<String> game;
+  late int score = 0, ballx, paddle;
+  late Grid<String> game;
   Game(int w, int h) { game = Grid.initiate(w, h, ' '); }
 
   int count(String s) => game.count(s);

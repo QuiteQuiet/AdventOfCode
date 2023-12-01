@@ -1,7 +1,7 @@
 import 'dart:io';
 
 class Grid<T> {
-  List<List<T>> cells;
+  late List<List<T>> cells;
   T e;
   String toString() => this.cells.map((r) => r.join()).join('\n') + '\n';
   T at(int x, int y) => this.cells[x][y];
@@ -22,7 +22,7 @@ void main() {
   int w = 25, h = 6;
   List<String> input = File('input.txt').readAsStringSync().split('');
   Grid<String> image = Grid.initiate(w, h, ''), output = Grid.initiate(w, h, '.');
-  int index = 0, min = 10000000, ones, twos;
+  int index = 0, min = 10000000, ones = 0, twos = 0;
 
   while (index < input.length) {
     for (int x = 0; x < image.cells.length; x++) {

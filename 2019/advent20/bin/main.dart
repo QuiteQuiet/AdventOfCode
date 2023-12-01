@@ -12,7 +12,7 @@ class Point {
 }
 
 class Grid<T> {
-  List<T> cells;
+  late List<T> cells;
   int w, h;
   T at(int x, int y) => this.cells[y * w + x];
   void put(int x, int y, T e) => this.cells[y * w + x] = e;
@@ -53,8 +53,8 @@ int removeDeadEnds(Grid maze) {
 int bfs(Grid maze, Map<String, List<Point>> portals, {bool recursive = false}) {
   RegExp letter = RegExp(r'[A-Z]');
   Set<Point> visited = {};
-  Point dest = portals['ZZ'].first;
-  Queue queue = Queue()..add(portals['AA'].first);
+  Point dest = (portals['ZZ']?.first)!;
+  Queue queue = Queue()..add(portals['AA']?.first);
   while (queue.isNotEmpty) {
     Point cur = queue.removeFirst();
     if (visited.contains(cur)) continue;
@@ -69,14 +69,14 @@ int bfs(Grid maze, Map<String, List<Point>> portals, {bool recursive = false}) {
       Point toVisit = Point(cur.x - 1, cur.y, cur.steps + 1, cur.level);
       if (letter.hasMatch(maze.at(cur.x - 1, cur.y))) {
         String portal = '${maze.at(cur.x - 2, cur.y)}${maze.at(cur.x - 1, cur.y)}';
-        if (portals[portal].length > 1) {
+        if ((portals[portal]?.length)! > 1) {
           Point dest, src;
-          if (cur.matches(portals[portal].first)) {
-            dest = portals[portal].last;
-            src = portals[portal].first;
+          if (cur.matches((portals[portal]?.first)!)) {
+            dest = (portals[portal]?.last)!;
+            src = (portals[portal]?.first)!;
           } else {
-            dest = portals[portal].first;
-            src = portals[portal].last;
+            dest = (portals[portal]?.first)!;
+            src = (portals[portal]?.last)!;
           }
           toVisit = Point(dest.x, dest.y, cur.steps + 1, cur.level);
           if (recursive) {
@@ -92,14 +92,14 @@ int bfs(Grid maze, Map<String, List<Point>> portals, {bool recursive = false}) {
       Point toVisit = Point(cur.x + 1, cur.y, cur.steps + 1, cur.level);
       if (letter.hasMatch(maze.at(cur.x + 1, cur.y))) {
         String portal = '${maze.at(cur.x + 1, cur.y)}${maze.at(cur.x + 2, cur.y)}';
-        if (portals[portal].length > 1) {
+        if ((portals[portal]?.length)! > 1) {
           Point dest, src;
-          if (cur.matches(portals[portal].first)) {
-            dest = portals[portal].last;
-            src = portals[portal].first;
+          if (cur.matches((portals[portal]?.first)!)) {
+            dest = (portals[portal]?.last)!;
+            src = (portals[portal]?.first)!;
           } else {
-            dest = portals[portal].first;
-            src = portals[portal].last;
+            dest = (portals[portal]?.first)!;
+            src = (portals[portal]?.last)!;
           }
           toVisit = Point(dest.x, dest.y, cur.steps + 1, cur.level);
           if (recursive) {
@@ -115,14 +115,14 @@ int bfs(Grid maze, Map<String, List<Point>> portals, {bool recursive = false}) {
       Point toVisit = Point(cur.x, cur.y - 1, cur.steps + 1, cur.level);
       if (letter.hasMatch(maze.at(cur.x, cur.y - 1))) {
         String portal = '${maze.at(cur.x, cur.y - 2)}${maze.at(cur.x, cur.y - 1)}';
-        if (portals[portal].length > 1) {
+        if ((portals[portal]?.length)! > 1) {
           Point dest, src;
-          if (cur.matches(portals[portal].first)) {
-            dest = portals[portal].last;
-            src = portals[portal].first;
+          if (cur.matches((portals[portal]?.first)!)) {
+            dest = (portals[portal]?.last)!;
+            src = (portals[portal]?.first)!;
           } else {
-            dest = portals[portal].first;
-            src = portals[portal].last;
+            dest = (portals[portal]?.first)!;
+            src = (portals[portal]?.last)!;
           }
           toVisit = Point(dest.x, dest.y, cur.steps + 1, cur.level);
           if (recursive) {
@@ -138,14 +138,14 @@ int bfs(Grid maze, Map<String, List<Point>> portals, {bool recursive = false}) {
       Point toVisit = Point(cur.x, cur.y + 1, cur.steps + 1, cur.level);
       if (letter.hasMatch(maze.at(cur.x, cur.y + 1))) {
         String portal = '${maze.at(cur.x, cur.y + 1)}${maze.at(cur.x, cur.y + 2)}';
-        if (portals[portal].length > 1) {
+        if ((portals[portal]?.length)! > 1) {
           Point dest, src;
-          if (cur.matches(portals[portal].first)) {
-            dest = portals[portal].last;
-            src = portals[portal].first;
+          if (cur.matches((portals[portal]?.first)!)) {
+            dest = (portals[portal]?.last)!;
+            src = (portals[portal]?.first)!;
           } else {
-            dest = portals[portal].first;
-            src = portals[portal].last;
+            dest = (portals[portal]?.first)!;
+            src = (portals[portal]?.last)!;
           }
           toVisit = Point(dest.x, dest.y, cur.steps + 1, cur.level);
           if (recursive) {
@@ -158,7 +158,7 @@ int bfs(Grid maze, Map<String, List<Point>> portals, {bool recursive = false}) {
       }
     }
   }
-  return null;
+  return -1;
 }
 
 void main() {

@@ -12,7 +12,7 @@ class Point {
 }
 
 class Grid<T> {
-  List<T> cells;
+  late List<T> cells;
   int w, h;
   T at(int x, int y) => this.cells[y * w + x];
   void put(int x, int y, T e) => this.cells[y * w + x] = e;
@@ -70,7 +70,7 @@ int getShortestPath(List<String> input, {bool ignoreDoors = false}) {
   Combinations comb = Combinations(2, pointsOfInterest.keys.toList());
   Map<String, int> edges = {};
   for (var pair in comb()) {
-    List edge = bfs(pointsOfInterest[pair[0]], pointsOfInterest[pair[1]], maze);
+    List edge = bfs(pointsOfInterest[pair[0]]!, pointsOfInterest[pair[1]]!, maze);
     int weight = edge.removeAt(0);
     if (edge.last == '@') edge = edge.reversed.toList();
     edges[edge.join()] = weight - 1;
@@ -79,7 +79,7 @@ int getShortestPath(List<String> input, {bool ignoreDoors = false}) {
   int keysToFind = pointsOfInterest.keys.length;
   Set<String> explored = {};
   PriorityQueue search = PriorityQueue<List>((l1, l2) => l1.last - l2.last);
-  List shortest;
+  List? shortest;
   search.add(['@', ['@'], 0]);
   while (search.isNotEmpty) {
     List things = search.removeFirst();
@@ -110,7 +110,7 @@ int getShortestPath(List<String> input, {bool ignoreDoors = false}) {
       }
     }
   }
-  return shortest[2];
+  return shortest?[2];
 }
 
 

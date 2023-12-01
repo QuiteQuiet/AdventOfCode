@@ -1,29 +1,31 @@
 import 'dart:collection';
 
 class GrowableList<E> extends ListBase<E> {
-  final List<E> _l = [];
+  final List<E?> _l = [];
+  late E _defaultValue;
   GrowableList();
-  GrowableList.from(Iterable<E> it) { _l.addAll(it); }
+  GrowableList.from(Iterable<E> it, E defaultValue) {
+    _l.addAll(it);
+    _defaultValue = defaultValue;
+  }
   void set length(int newLength) { _l.length = newLength; }
   int get length => _l.length;
   void clear() => _l.clear();
   E operator [](int index) {
     try {
-       return _l[index];
+       return _l[index]!;
     } catch (RangeError) {
-      E e;
       if (index - _l.length > 10000) throw OutOfMemoryError();
-      _l.addAll(List.filled(index - _l.length + 1, e ?? 0, growable: true));
-      return _l[index];
+      _l.addAll(List.filled(index - _l.length + 1, _defaultValue, growable: true));
+      return _l[index]!;
     }
   }
   void operator []=(int index, E value) {
     try {
        _l[index] = value;
     } catch (RangeError) {
-      E e;
       if (index - _l.length > 10000) throw OutOfMemoryError();
-      _l.addAll(List.filled(index - _l.length + 1, e ?? 0, growable: true));
+      _l.addAll(List.filled(index - _l.length + 1, _defaultValue, growable: true));
       _l[index] = value;
     }
   }
@@ -35,11 +37,11 @@ class IntcodeComputer {
   int pointer = 0, base = 0;
   bool done = false, resets;
 
-  IntcodeComputer(this._base, {this.resets=true}) : _program = GrowableList.from(_base.map(int.parse));
+  IntcodeComputer(this._base, {this.resets=true}) : _program = GrowableList.from(_base.map(int.parse), 0);
 
   IntcodeComputer copy() {
     IntcodeComputer c = IntcodeComputer(_base, resets: resets);
-    c._program = GrowableList.from(_program);
+    c._program = GrowableList.from(_program, 0);
     c.base = base;
     c.pointer = pointer;
     c.done = done;
@@ -47,7 +49,7 @@ class IntcodeComputer {
   }
   void reset() {
     _program.clear();
-    _program = GrowableList.from(_base.map(int.parse));
+    _program = GrowableList.from(_base.map(int.parse), 0);
     done = false;
     pointer = 0;
     base = 0;
@@ -68,7 +70,7 @@ class IntcodeComputer {
       default: throw Exception('Illegal mode');
     }
   }
-  int run({List<int> input, List<int> output}) {
+  int run({List<int>? input, List<int>? output}) {
     do {
       int temp = _program[pointer];
       int m1 = temp ~/ 100 % 10, m2 = temp ~/ 1000 % 10, m3 = temp ~/ 10000 % 10;
@@ -82,14 +84,14 @@ class IntcodeComputer {
           pointer += 4;
           break;
         case 3:
-          if (input.length < 1) {
-            return null;
+          if (input!.length < 1) {
+            return -1;
           }
           _program[writes(m1, pointer + 1)] = input.removeAt(0);
           pointer += 2;
           break;
         case 4:
-          output.add(reads(m1, pointer + 1));
+          output!.add(reads(m1, pointer + 1));
           pointer += 2;
           break;
         case 5:
@@ -115,7 +117,7 @@ class IntcodeComputer {
           break;
       }
     } while(!done);
-    int result = output.last ?? _program[0];
+    int result = output?.last ?? _program[0];
     if (resets) reset();
     return result;
   }

@@ -9,10 +9,10 @@ bool reverse(int a, int b) {
   return true;
 }
 
-List bfs(IntcodeComputer computer, {List start}) {
+List<int> bfs(IntcodeComputer computer, {List? start}) {
   Queue<List<int>> queue = Queue();
-  List<int> oxygenloc;
-  List<int> output = [0], next;
+  List<int> oxygenloc = [];
+  List<int> output = [0], next = [];
   IntcodeComputer copy = computer.copy();
   queue.addAll([[1], [2], [3], [4]]);
 

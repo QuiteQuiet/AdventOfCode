@@ -1,7 +1,7 @@
 import 'dart:io';
 
 class Point {
-  int x, y, steps;
+  late int x, y, steps;
   Point(this.x, this.y);
   bool operator==(covariant Point o) => x == o.x && y == o.y;
   int get hashCode => '$x x $y'.hashCode;
@@ -37,7 +37,7 @@ void main() {
   List<Point> intersects = lineA.keys.where((p) => lineB.containsKey(p)).toList()..sort((p1, p2) => p1.distance - p2.distance);
   print('Part 1: ${intersects[0].distance} (Time: ${time.elapsed})');
 
-  List<int> steps = List.from(intersects.map((p) => lineA[p] + lineB[p]))..sort((p1, p2) => p1 - p2);
+  List<int> steps = List.from(intersects.map((p) => lineA[p]! + lineB[p]!))..sort((p1, p2) => p1 - p2);
   print('Part 2: ${steps[0]} (Time: ${time.elapsed})');
 
 }

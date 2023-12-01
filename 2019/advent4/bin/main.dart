@@ -8,7 +8,7 @@ void main() {
     String pw = i.toString();
     if (increasing.hasMatch(pw) && dupes.hasMatch(pw)) {
       passwords1++;
-      if (dupes.allMatches(pw).any((m) => m.group(1).allMatches(pw).length == 2)) {
+      if (dupes.allMatches(pw).any((m) => m.group(1)!.allMatches(pw).length == 2)) {
         passwords2++;
       }
     }

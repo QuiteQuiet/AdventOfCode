@@ -4,7 +4,7 @@ import 'dart:math';
 class Chemical {
   int amount;
   String name;
-  List<Chemical> inputs;
+  late List<Chemical> inputs;
   Chemical(this.amount, this.name) { this.inputs = <Chemical>[]; }
   bool operator==(covariant Chemical o) => name == o.name;
   int get hashCode => name.hashCode;
@@ -26,19 +26,19 @@ void main() {
     int ore = 0;
     int needed = min(amount,  leftovers[chem] ??= 0);
     amount -= needed;
-    leftovers[chem] -= needed;
-    int prod = chemicals[chem].amount;
+    leftovers[chem] = leftovers[chem]! - needed;
+    int prod = (chemicals[chem]?.amount)!;
     int reactions = (amount / prod).ceil();
-    for (Chemical c in chemicals[chem].inputs) {
+    for (Chemical c in (chemicals[chem]?.inputs)!) {
       ore += produce(c.name, reactions * c.amount, leftovers);
     }
-    leftovers[chem] += reactions * prod - amount;
+    leftovers[chem] = leftovers[chem]! + reactions * prod - amount;
     return ore;
   }
   Stopwatch time = Stopwatch()..start();
   int one = produce('FUEL', 1, {});
   print('Part 1: $one ${time.elapsed}');
-  int trillion = 1000000000000, left = trillion, fuel = trillion ~/ one, ore;
+  int trillion = 1000000000000, left = trillion, fuel = trillion ~/ one, ore = 0;
 
   while (left > 0) {
     ore = produce('FUEL', fuel, {});

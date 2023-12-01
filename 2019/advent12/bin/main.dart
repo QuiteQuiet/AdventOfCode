@@ -1,11 +1,21 @@
 import 'package:trotter/trotter.dart';
-import 'package:more/math.dart';
 
 class Moon {
   int x, y, z, dx = 0, dy = 0, dz = 0;
   Moon(this.x, this.y, this.z);
   void move() { x += dx; y += dy; z += dz; }
   int get energy => (x.abs() + y.abs() + z.abs()) * (dx.abs() + dy.abs() + dz.abs());
+}
+
+int lcm(int a, int b) => (a * b) ~/ gcd(a, b);
+
+int gcd(int a, int b) {
+  while (b != 0) {
+    var t = b;
+    b = a % t;
+    a = t;
+  }
+  return a;
 }
 
 void main() {
@@ -16,10 +26,10 @@ void main() {
 <x=-19, y=7, z=8>'''.split('\n');
   List<Moon> moons = [];
   for (String el in input) {
-    Match m = RegExp(r'<x=(-?\d+), y=(-?\d+), z=(-?\d+)>').firstMatch(el);
-    moons.add(Moon(int.parse(m.group(1)), int.parse(m.group(2)), int.parse(m.group(3))));
+    Match m = RegExp(r'<x=(-?\d+), y=(-?\d+), z=(-?\d+)>').firstMatch(el)!;
+    moons.add(Moon(int.parse(m.group(1)!), int.parse(m.group(2)!), int.parse(m.group(3)!)));
   }
-  int energy;
+  int energy = 0;
   Set<String> xloop = {}, yloop = {}, zloop = {};
   bool xcycle = false, ycycle = false, zcycle = false;
   xloop.add(moons.map((m) => '${m.x}/${m.dx}').join(','));

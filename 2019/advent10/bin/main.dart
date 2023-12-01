@@ -11,7 +11,7 @@ Map<num, List<int>> getLineOfSight(int x, int y) {
       num slope = math.atan2(x - i, y - ii);
       if (slopes.containsKey(slope)) {
         // measure euclidean distance
-        List<int> old = slopes[slope];
+        List<int> old = slopes[slope]!;
         num d1 = math.sqrt(math.pow(i - x, 2) + math.pow(ii - y, 2));
         num d2 = math.sqrt(math.pow(old[0] - x, 2) + math.pow(old[1] - y, 2));
         if (d1 < d2) {
@@ -26,7 +26,7 @@ Map<num, List<int>> getLineOfSight(int x, int y) {
 }
 
 void main() {
-  int bestx, besty, max = 0;
+  int bestx = 0, besty = 0, max = 0;
   for (int y = 0; y < input.length; y++) {
     for (int x = 0; x < input[y].length; x++) {
       if (input[y][x] == '.') continue;
@@ -43,6 +43,6 @@ void main() {
   Map<num, List<int>> lineOfSight = getLineOfSight(bestx, besty);
   List<num> sorted = lineOfSight.keys.toList()..sort();
   int index = sorted.length - 199 + sorted.indexOf(0);
-  List<int> target = lineOfSight[sorted[index]];
+  List<int> target = lineOfSight[sorted[index]]!;
   print('Part 2: ${target[0] * 100 + target[1]}');
 }

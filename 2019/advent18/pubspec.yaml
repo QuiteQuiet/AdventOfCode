@@ -1,5 +1,8 @@
 name: advent18
 description: A sample command-line application
 dependencies:
-    trotter:
     collection:
+    trotter: ^2.2.0
+
+environment:
+  sdk: '^3.2.0'
