@@ -26,7 +26,7 @@ List bfs(IntcodeComputer computer, {List start}) {
     if (output.last == 2) {
       oxygenloc = List.from(next);
     }
-    if (start != null) copy = computer.copy();
+    copy = computer.copy();
   }
   return start == null ? oxygenloc : next;
 }

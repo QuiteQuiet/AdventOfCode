@@ -2,7 +2,7 @@ import 'dart:io';
 
 class Layer {
   int depth, range;
-  Layer({this.depth : 0, this.range: 0, Iterable<int> data: null}) {
+  Layer({this.depth = 0, this.range = 0, Iterable<int> data = null}) {
     if (data.length > 0) {
       this.depth = data.first;
       this.range = data.last;

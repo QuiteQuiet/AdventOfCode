@@ -115,7 +115,7 @@ class IntcodeComputer {
           break;
       }
     } while(!done);
-    int result = output?.last ?? _program[0];
+    int result = output.last ?? _program[0];
     if (resets) reset();
     return result;
   }

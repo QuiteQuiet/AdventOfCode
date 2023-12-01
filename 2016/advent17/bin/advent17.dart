@@ -36,7 +36,7 @@ void main() {
     here = temp;
     if (here.contains(end)) {
       for (Room r in here.where(isEnd)) {
-        if (shortest == null || r.path.length < shortest.path.length) {
+        if (r.path.length < shortest.path.length) {
           shortest = r;
         }
         if (r.path.length > longest.path.length) {

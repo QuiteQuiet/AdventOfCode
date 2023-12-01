@@ -11,7 +11,6 @@ main() async {
       if (range[1] < upper) return;
       if (range[0] > upper + 1) {
         total += range[0] - (upper + 1);
-        if (first == null) first = upper + 1;
       }
       upper = range[1];
     });

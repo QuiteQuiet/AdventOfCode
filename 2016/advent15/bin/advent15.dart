@@ -24,21 +24,19 @@ void main() {
   Stopwatch time = new Stopwatch()..start();
   while (valid < 64) {
     Match test = TRIPLET.firstMatch(cache.hash(input, tracker));
-    if (test != null) {
-      String next = test.group(0);
-      int testing = tracker + 1;
-      while (tracker + 1000 > testing) {
-        for (Match m in QUINT.allMatches(cache.hash(input, testing))) {
-          if (m.group(0).contains(next)) {
-            valid++;
-            testing += 1000;
-            break;
-          }
+    String next = test.group(0);
+    int testing = tracker + 1;
+    while (tracker + 1000 > testing) {
+      for (Match m in QUINT.allMatches(cache.hash(input, testing))) {
+        if (m.group(0).contains(next)) {
+          valid++;
+          testing += 1000;
+          break;
         }
-        testing++;
       }
+      testing++;
     }
-    tracker++;
+      tracker++;
   }
   print('Part ${part2 ? 2 : 1}: ${tracker - 1} | elapsed: ${time.elapsed}');
 }

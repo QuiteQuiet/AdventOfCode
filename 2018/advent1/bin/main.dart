@@ -13,7 +13,6 @@ void main() async {
         prev.add(freq);
         freq += int.tryParse(line);
       });
-      if (first == null) first = freq;
     }
 
     print('Part 1: ${first}');

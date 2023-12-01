@@ -36,8 +36,8 @@ void main() {
   int sum = 0;
   while (planets.isNotEmpty) {
     Planet planet = planets.removeFirst();
-    planet.orbits = (planet.orbiting?.orbits ?? -1) + 1;
-    planet.orbiters?.forEach((p) => planets.add(p));
+    planet.orbits = (planet.orbiting.orbits ?? -1) + 1;
+    planet.orbiters.forEach((p) => planets.add(p));
     sum += planet.orbits;
   }
   print('Part 1: $sum (Time: ${time.elapsed})');
@@ -50,7 +50,7 @@ void main() {
     if (current.name == 'SAN') {
       target = current.orbiting;
     }
-    if (current.orbiting?.visited == false) {
+    if (current.orbiting.visited == false) {
       current.orbiting.hops += current.hops + 1;
       queue.add(current.orbiting);
     }

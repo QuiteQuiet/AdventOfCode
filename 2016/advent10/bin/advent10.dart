@@ -3,7 +3,7 @@ import 'dart:math';
 class Robot {
   int _number, _low, _high;
   Robot(this._number, [this._high = -1]);
-  bool get Full => this._low != null && this._high != -1;
+  bool get Full => this._high != -1;
   int get Low => this._low;
   int get High => this._high;
   int get Number => this._number;
@@ -38,7 +38,7 @@ main() async {
   ops.sort((a, b) => int.parse(a['number']).compareTo(int.parse(b['number'])));
   int result;
   List<int> outputs = new List();
-  while (result == null || outputs.length < 3) {
+  while (outputs.length < 3) {
     Robot next = robots.firstWhere((r) => r.Full);
     if (next.Low == 17 && next.High == 61) result = next.Number;
     String low = ops[next.Number]['low'], high = ops[next.Number]['high'];
