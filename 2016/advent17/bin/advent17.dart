@@ -3,11 +3,11 @@ import 'dart:convert';
 String input = 'lpvhkcbi';
 class Room {
   int x, y;
-  List<String> open;
+  late List<String> open;
   String path;
   Room(this.x, this.y, [this.path = '']) {
     String hash4 = _hash4('$input$path');
-    open = new List();
+    open = new List.empty(growable: true);
     if ('bcdef'.contains(hash4[0])) open.add('U');
     if ('bcdef'.contains(hash4[1])) open.add('D');
     if ('bcdef'.contains(hash4[2])) open.add('L');
@@ -18,12 +18,13 @@ class Room {
 }
 
 void main() {
-  Room end = new Room(3, 3), shortest, longest = new Room(-1, -1);
+  Room end = new Room(3, 3), longest = new Room(-1, -1);
+  Room? shortest;
   bool isEnd(Room r) => r == end;
 
   List<Room> here = [new Room(0, 0)];
   while (here.length > 0) {
-    List<Room> temp = new List();
+    List<Room> temp = new List.empty(growable: true);
     for (Room r in here) {
       if (r.open.length < 1) continue;
       for (String s in r.open) {
@@ -36,7 +37,7 @@ void main() {
     here = temp;
     if (here.contains(end)) {
       for (Room r in here.where(isEnd)) {
-        if (r.path.length < shortest.path.length) {
+        if (shortest == null || r.path.length < shortest.path.length) {
           shortest = r;
         }
         if (r.path.length > longest.path.length) {
@@ -46,6 +47,6 @@ void main() {
       here.removeWhere(isEnd);
     }
   }
-  print('Part 1: ${shortest.path}');
+  print('Part 1: ${shortest!.path}');
   print('Part 2: ${longest.path.length}');
 }

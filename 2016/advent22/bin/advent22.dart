@@ -5,9 +5,9 @@ class Disc {
   bool operator==(covariant Disc o) => this.s == o.s && this.u == o.u && this.a == o.a;
 }
 class Grid {
-  List _l;
+  late List _l;
   int _x, _y;
-  Grid(this._x, this._y) { this._l = new List.generate(this._x, (i) => new List(this._y)); }
+  Grid(this._x, this._y) { this._l = new List.generate(this._x, (i) => new List.filled(this._y, Object())); }
   Disc operator[](List<int> xy) => this._l[xy[0]][xy[1]];
   void operator[]=(List<int> xy, Disc o) { this._l[xy[0]][xy[1]] = o; }
   Iterable<Disc> get All sync* {
@@ -33,7 +33,7 @@ class Grid {
   }
 }
 main() async {
-  List<List<Disc>> pairs = new List();
+  List<List<Disc>> pairs = new List.empty(growable: true);
   Grid discs = new Grid(30, 35);
   await new File('input.txt').readAsLines()
   .then((List<String> file ) => file.sublist(2).forEach((String line) {

@@ -1,35 +1,36 @@
-import 'package:priority_queue/priority_queue.dart';
+import 'package:collection/collection.dart';
+
 class State {
-  List<List<int>> floors, id = new List();
-  int moves, elevator, grade;
+  List<List<int>> floors, id = new List.empty(growable: true);
+  int moves, elevator;
+  late int grade;
   State(this.floors, this.elevator, this.moves) {
     int val = 0;
-    List<int> used = new List();
+    List<int> used = new List.empty(growable: true);
     for (int i = 0; i < this.floors.length; i++) {
       val += floors[i].length * i;
-      for (int obj in this.floors[i]) {
+      for (int obj in floors[i]) {
         if (used.contains(obj)) continue;
         int obj2 = i;
-        for (int j = i + 1; j < this.floors.length; j++) {
-          if (this.floors[j].contains(-obj)) {
+        for (int j = i + 1; j < floors.length; j++) {
+          if (floors[j].contains(-obj)) {
             obj2 = j;
           }
         }
         if (obj > 0) {
           // microchip
-          this.id.add([i, obj2]);
+          id.add([i, obj2]);
         } else {
           // generator
-          this.id.add([obj2, i]);
+          id.add([obj2, i]);
         }
         used.addAll([obj, -obj]);
       }
     }
-    this.grade = val - this.moves;
-    this.id.sort((a, b) => a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);
+    grade = val - moves;
+    id.sort((a, b) => a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);
   }
-  int compareTo(State other) => this.grade - other.grade;
-  String get hashmap => '${elevator}f $id';  
+  String get hashmap => '${elevator}f $id';
 }
 bool done(State n) {
   for (List<int> pair in n.id) {
@@ -47,8 +48,8 @@ bool correct(List<List<int>> floor) {
   }
   return true;
 }
-List<List> deepcopy(List<List> l) {
-  List copy = new List.generate(l.length, (i) => new List.generate(l[i].length, (i) => i, growable: true));
+ List<List<int>> deepcopy(List<List> l) {
+  List<List<int>> copy = new List.generate(l.length, (i) => new List.generate(l[i].length, (i) => i, growable: true));
   for (int i = 0; i < l.length; i++) {
     for (int j = 0; j < l[i].length; j++) {
       copy[i][j] = l[i][j];
@@ -56,13 +57,13 @@ List<List> deepcopy(List<List> l) {
   }
   return copy;
 }
-State solve(List<List<int>> input) {
+State? solve(List<List<int>> input) {
   Map<String, bool> seen = new Map();
-  PriorityQueue<State> queue = new PriorityQueue();
+  PriorityQueue<State> queue = new PriorityQueue<State>((a, b) => b.grade - a.grade);
   queue.add(new State(input, 0, 0));
   while (queue.length > 0) {
-    State state = queue.removeMax();
-    if (seen[state.hashmap]) {
+    State state = queue.removeFirst();
+    if (seen[state.hashmap] != null) {
       continue;
     }
     if (done(state)) {
@@ -85,9 +86,9 @@ State solve(List<List<int>> input) {
           things[state.elevator + dir]..addAll([t1, t2])..sort();
           things[state.elevator]..remove(t1)..remove(t2);
           if (correct(things)) {
-            List deep = deepcopy(things);
+             List<List<int>> deep = deepcopy(things);
             State newState = new State(deep, state.elevator + dir, state.moves + 1);
-            if (!seen[newState.hashmap]) {
+            if (seen[newState.hashmap] == null) {
               queue.add(newState);
             }
           }
@@ -98,9 +99,9 @@ State solve(List<List<int>> input) {
         things[state.elevator + dir]..add(t1)..sort();
         things[state.elevator].remove(t1);
         if (correct(things)) {
-          List deep = deepcopy(things);
+           List<List<int>> deep = deepcopy(things);
           State newState = new State(deep, state.elevator + dir, state.moves + 1);
-          if (!seen[newState.hashmap]) {
+          if (seen[newState.hashmap] == null) {
             queue.add(newState);
           }
         }
@@ -121,8 +122,8 @@ void main() {
     []
   ];
   Stopwatch time = new Stopwatch()..start();
-  print('Part 1: ${solve(input).moves} in ${time.elapsed}');
+  print('Part 1: ${solve(input)!.moves} in ${time.elapsed}');
   input[0].addAll([6, -6, 7, -7]);
   time.reset();
-  print('Part 2: ${solve(input).moves} in ${time.elapsed}');
+  print('Part 2: ${solve(input)!.moves} in ${time.elapsed}');
 }

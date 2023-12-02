@@ -2,7 +2,7 @@ import 'dart:io';
 
 bool validTriangle(List<int> t) => t[0] + t[1] > t[2] && t[0] + t[2] > t[1] && t[1] + t[2] > t[0];
 main() async {
-  List<List<int>> triangles = new List();
+  List<List<int>> triangles = new List.empty(growable: true);
   int vertical = 0;
   await new File('input.txt').readAsLines()
   .then((List<String> file) => triangles = file.map((s) => s.split(' ').where((s2) => s2.length > 0).toList().map(int.parse).toList()).toList());

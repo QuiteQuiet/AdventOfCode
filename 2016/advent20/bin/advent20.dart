@@ -1,6 +1,6 @@
 import 'dart:io';
 main() async {
-  int first, upper, total = 0;
+  int first = 0, upper, total = 0;
   Stopwatch time = new Stopwatch();
   await new File('input.txt').readAsLines()
   .then((List<String> file) {

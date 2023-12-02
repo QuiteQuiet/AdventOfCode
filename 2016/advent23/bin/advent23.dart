@@ -1,5 +1,5 @@
 List copy(List l) {
-  List nl = new List();
+  List nl = new List.empty(growable: true);
   for (Object o in l) {
     nl.add(o);
   }
@@ -24,13 +24,13 @@ int run(List instructions, Map heap) {
         break;
       case 'jnz':
         String str = instr.substring(4, 5);
-        if (int.tryParse(str) ?? heap[str] != 0) {
+        if ((int.tryParse(str) ?? heap[str]) != 0) {
           str = instr.substring(6);
-          pointer += int.tryParse(str) ?? heap[str] - 1;
+          pointer += (int.tryParse(str) ?? heap[str] as int) - 1;
         }
         break;
       case 'tgl':
-        int index = pointer + heap[instr.substring(4)];
+        int index = pointer + heap[instr.substring(4)] as int;
         if (index > -1 && index < instructions.length) {
           String toggle = instructions[index];
           if (toggle.split(' ').length > 2) {

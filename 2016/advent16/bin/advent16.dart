@@ -1,6 +1,6 @@
 String curve(String data) => '${data}0${data.split('').reversed.map((s) => s == "0" ? "1" : "0").toList().join()}';
 String sum(String data) {
-  List<String> sum = new List();
+  List<String> sum = new List.empty(growable: true);
   for (int i = 0; i < data.length; i +=2) {
     sum.add(data[i] == data[i+1] ? '1' : '0');
   }

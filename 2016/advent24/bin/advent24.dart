@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:collection';
 class State {
   int x, y;
-  List<State> path = new List();
+  List<State> path = new List.empty(growable: true);
   Map<String, List<State>> d = new Map();
   String c;
   State(this. x, this.y, this.path, this.c);
@@ -10,9 +10,9 @@ class State {
   String get hash => '$x|$y';
 }
 class Grid<T> {
-  List _l;
+  late List _l;
   int x, y;
-  Grid(this.x, this.y) { this._l = new List.generate(this.x, (i) => new List(this.y)); }
+  Grid(this.x, this.y) { this._l = new List.generate(this.x, (i) => new List.filled(this.y, Object())); }
   T operator[](List<int> xy) => this._l[xy[0]][xy[1]];
   void operator[]=(List<int> xy, T e) { this._l[xy[0]][xy[1]] = e; }
   Iterable<T> get All sync* {
@@ -46,10 +46,10 @@ Iterable<List> permutations(List l) sync* {
     }
   }
 }
-Grid<String> maze;
+late Grid<String> maze;
 Map<String, bool> visited = new Map();
 List<State> moves(State now) {
-  List<State> move = new List();
+  List<State> move = new List.empty(growable: true);
   if (now.x > 0) {
     State next = new State(now.x - 1, now.y, [now]..addAll(now.path), maze[[now.x - 1, now.y]]);
     if (next.c != '#') {
@@ -76,12 +76,12 @@ List<State> moves(State now) {
   }
   return move;
 }
-List<State> bfs(State start, State end) {
+List<State>? bfs(State start, State end) {
   visited.clear();
   ListQueue<State> queue = new ListQueue()..add(start);
   while (queue.length > 0) {
     State next = queue.removeFirst();
-    if (visited[next.hash]) continue;
+    if (visited[next.hash] != null) continue;
     visited[next.hash] = true;
     queue.addAll(moves(next));
     if (queue.contains(end))
@@ -107,8 +107,8 @@ main() async {
   for (State n in nodes.values) {
     for (State n2 in nodes.values) {
       if (n == n2 || n.d.containsKey(n2.c)) continue;
-      n.d[n2.c] = bfs(n, n2);
-      n2.d[n.c] = n.d[n2.c].reversed.toList();
+      n.d[n2.c] = bfs(n, n2)!;
+      n2.d[n.c] = n.d[n2.c]!.reversed.toList();
     }
   }
   int shortest = 0xFFFFFFFFFFF, shortest2 = 0xFFFFFFFFFFF, distance, distance2;
@@ -116,10 +116,10 @@ main() async {
     String cur = '0';
     distance = 0;
     for (String now in p) {
-      distance += nodes[cur].d[now].length;
+      distance += nodes[cur]!.d[now]!.length;
       cur = now;
     }
-    distance2 = distance + nodes[cur].d['0'].length;
+    distance2 = distance + nodes[cur]!.d['0']!.length;
     if (distance < shortest) {
       shortest = distance;
     }

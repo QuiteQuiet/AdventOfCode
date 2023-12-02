@@ -1,4 +1,4 @@
-Iterable run(List instructions, Map heap) sync*{
+Iterable run(List instructions, Map<String, int> heap) sync*{
   int pointer = 0;
   while (pointer < instructions.length) {
     String instr = instructions[pointer];
@@ -6,20 +6,20 @@ Iterable run(List instructions, Map heap) sync*{
       case 'cpy':
         List<String> parts = instr.substring(4).split(' ');
         if (heap[parts[1]] != null) {
-          heap[parts[1]] = int.tryParse(parts[0]) ?? heap[parts[0]];
+          heap[parts[1]] = int.tryParse(parts[0]) ?? heap[parts[0]]!;
         }
         break;
       case 'inc':
-        heap[instr.substring(4)]++;
+        heap[instr.substring(4)] = heap[instr.substring(4)]! + 1;
         break;
       case 'dec':
-        heap[instr.substring(4)]--;
+        heap[instr.substring(4)] = heap[instr.substring(4)]! - 1;
         break;
       case 'jnz':
         String s = instr.substring(4, 5);
         if ((int.tryParse(s) ?? heap[s]) != 0) {
           s = instr.substring(6);
-          pointer += (int.tryParse(s) ?? heap[s]) - 1;
+          pointer += (int.tryParse(s) ?? heap[s])! - 1;
         }
         break;
       case 'out':

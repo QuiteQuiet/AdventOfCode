@@ -6,11 +6,11 @@ main() async {
   .then((List<String> file) {
     file.forEach((String line) {
       Iterable<Match> hyper = HYPER.allMatches(line);
-      if (TLS.hasMatch(line) && !hyper.any((Match m) => m.group(0).contains(TLS))) {
+      if (TLS.hasMatch(line) && !hyper.any((Match m) => m.group(0)!.contains(TLS))) {
           tlssupport++;
       }
-      hyper.forEach((Match m) => line = line.replaceFirst(m.group(0), '|'));
-      if (SSL.allMatches(line).any((Match m) => hyper.any((Match m2) => m2.group(0).contains('${m.group(1)[1]}${m.group(1)[0]}${m.group(1)[1]}')))) {
+      hyper.forEach((Match m) => line = line.replaceFirst(m.group(0)!, '|'));
+      if (SSL.allMatches(line).any((Match m) => hyper.any((Match m2) => m2.group(0)!.contains('${m.group(1)![1]}${m.group(1)![0]}${m.group(1)![1]}')))) {
         sslsupport++;
       }
     });

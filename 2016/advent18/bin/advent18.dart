@@ -8,7 +8,7 @@ bool isSafe(String judge) {
 main() async {
   String input = '^.....^.^^^^^.^..^^.^.......^^..^^^..^^^^..^.^^.^.^....^^...^^.^^.^...^^.^^^^..^^.....^.^...^.^.^^.^', cur, last = input;
   List<String> room = [input];
-  int counter = 0, width = input.length, safe = 0, safe1;
+  int counter = 0, width = input.length, safe = 0, safe1 = 0;
   while (room.length < 400001) {
     cur = '';
     String test;

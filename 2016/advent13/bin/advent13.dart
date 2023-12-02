@@ -1,15 +1,15 @@
 int input = 1362;
 class Location {
   int x, y;
-  bool isWall;
+  late bool isWall;
   Location(this.x, this.y) {
     isWall = '1'.allMatches((x * x + 3 * x + 2 * x * y + y + y * y + input).toRadixString(2)).length % 2 == 1;
   }
   bool operator ==(covariant Location other) => this.x == other.x && this.y == other.y;
 }
-List<Location> visited = new List();
-List adj(List<Location> cur) {
-  List<Location> ret = new List();
+List<Location> visited = new List.empty(growable: true);
+List<Location> adj(List<Location> cur) {
+  List<Location> ret = new List.empty(growable: true);
   cur.forEach((Location loc) {
     if (loc.x != 0) {
       Location next = new Location(loc.x - 1, loc.y);

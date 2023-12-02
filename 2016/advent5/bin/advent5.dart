@@ -2,7 +2,7 @@ import 'package:crypto/crypto.dart';
 import 'dart:convert';
 void main() {
   String input = 'ugkcyxxp', key1 = '';
-  List<String> key2 = new List(8)..fillRange(0, 8, '_');
+  List<String> key2 = new List.filled(8, '_');
   int tracker = 0;
   while (true) {
     String hash = md5.convert(utf8.encode('$input$tracker')).toString();

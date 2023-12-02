@@ -1,4 +1,7 @@
-name: advent15
+name: advent14
 description: A sample command-line application
-#dependencies:
-#  crypto: any
+dependencies:
+  crypto: any
+
+environment:
+  sdk: '^3.2.0'

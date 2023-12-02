@@ -1,20 +1,20 @@
 import 'dart:io';
 main() async {
-  int sum = 0, location;
+  int sum = 0, location = 0;
   await new File('input.txt').readAsLines()
   .then((List<String> file) => file.forEach((String line) {
     Map<String, int> chars = new Map();
     line.substring(0, line.indexOf('[')).runes.forEach((int c) {
       String char = new String.fromCharCode(c);
       if ('1234567890-['.contains(char)) return;
-      chars[char] = chars.containsKey(char) ? chars[char] + 1 : 1;
+      chars[char] = chars.containsKey(char) ? chars[char]! + 1 : 1;
     });
     String keycode = '';
     while (keycode.length < 5) {
       String max = '';
       chars.forEach((k, v) {
         if (max == '') max = k;
-        if (chars[max] < chars[k]) {
+        if (chars[max]! < chars[k]!) {
           max = k;
         } else if (chars[max] == chars[k]) {
           max = max.compareTo(k) < 0 ? max : k;

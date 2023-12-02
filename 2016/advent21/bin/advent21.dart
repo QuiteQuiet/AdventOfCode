@@ -1,24 +1,24 @@
 import 'dart:io';
 /// Returns a new lazy [Iterable] with every permutation of the list
-Iterable<List> permutations(List l) sync* {
+Iterable<List<String>> permutations(List<String> l) sync* {
   if (l.length == 2) {
     yield l;
     yield [l[1], l[0]];
   } else {
     for (int i = 0; i < l.length; i++) {
-      for (List perm in permutations(l.sublist(0, i)..addAll(l.sublist(i + 1)))) {
+      for (List<String> perm in permutations(l.sublist(0, i)..addAll(l.sublist(i + 1)))) {
         yield [l[i]]..addAll(perm);
       }
     }
   }
 }
-List swap(List c, int a, int b) {
+List<String> swap(List<String> c, int a, int b) {
   String temp = c[b];
   c[b] = c[a];
   c[a] = temp;
   return c;
 }
-List mutate(List l, List parts) {
+List<String> mutate(List<String> l, List<String> parts) {
   switch(parts[0]) {
       case 'move':
         String c = l[int.parse(parts[2])];
@@ -58,18 +58,18 @@ List mutate(List l, List parts) {
 main() async {
   List<String> input = new List.from('abcdefgh'.split(''));
   await new File('input.txt').readAsLines()
-  .then((List<String> file) { 
+  .then((List<String> file) {
     file.forEach((String line) {
       input = mutate(input, line.split(' '));
     });
     print('Part 1: ${input.join()}');
-    for (List next in permutations('abcdefgh'.split(''))) {
+    for (List<String> next in permutations('abcdefgh'.split(''))) {
       String undone = next.join();
       file.forEach((String line) => next = mutate(next, line.split(' ')));
       if (next.join() == 'fbgdceah') {
         print('Part 2: $undone');
         break;
-      }      
+      }
     }
   });
 }

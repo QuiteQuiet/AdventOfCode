@@ -1,18 +1,20 @@
 import 'dart:io';
 import 'dart:math';
+
 class Robot {
-  int _number, _low, _high;
+  int _number, _high;
+  int? _low;
   Robot(this._number, [this._high = -1]);
   bool get Full => this._high != -1;
-  int get Low => this._low;
+  int? get Low => this._low;
   int get High => this._high;
   int get Number => this._number;
   void give(int val) {
     if (_low == null && _high == -1) {
       _low = val;
     } else {
-      _high = max(_high, max(val, _low));
-      _low = min(_low, val);   
+      _high = max(_high, max(val, _low!));
+      _low = min(_low!, val);
     }
   }
   void clear() {
@@ -22,7 +24,7 @@ class Robot {
 }
 main() async {
   List<Robot> robots = new List.generate(210, (i) => new Robot(i));
-  List<Map<String, String>> ops = new List();
+  List<Map<String, String>> ops = new List.empty(growable: true);
   await new File('input.txt').readAsLines()
   .then((List<String> file) => file.forEach((String line) {
     if (line.startsWith('value')) {
@@ -35,21 +37,21 @@ main() async {
       ops.add(temp);
     }
   }));
-  ops.sort((a, b) => int.parse(a['number']).compareTo(int.parse(b['number'])));
-  int result;
-  List<int> outputs = new List();
+  ops.sort((a, b) => int.parse(a['number']!).compareTo(int.parse(b['number']!)));
+  int result = 0;
+  List<int> outputs = new List.empty(growable: true);
   while (outputs.length < 3) {
     Robot next = robots.firstWhere((r) => r.Full);
     if (next.Low == 17 && next.High == 61) result = next.Number;
-    String low = ops[next.Number]['low'], high = ops[next.Number]['high'];
+    String low = ops[next.Number]['low']!, high = ops[next.Number]['high']!;
     if (low.startsWith('bot')) {
-      robots[int.parse(low.substring(4))].give(next.Low);
+      robots[int.parse(low.substring(4))].give(next.Low!);
     }
     if (high.startsWith('bot')) {
       robots[int.parse(high.substring(4))].give(next.High);
     }
     if (low.startsWith(new RegExp(r'output [0-2]$'))) {
-      outputs.add(next.Low);
+      outputs.add(next.Low!);
     }
     next.clear();
   }

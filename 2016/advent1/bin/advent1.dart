@@ -3,23 +3,23 @@ void main() {
   Map<String, Map<String, String>> turns = {'n':{'R':'e','L':'w'},'e':{'R':'s','L':'n'},'s':{'R':'w','L':'e'},'w':{'R':'n','L':'s'}};
   Map<String, Map<String, int>> move = {'n':{'x':1,'y':0},'e':{'x':0,'y':1},'s':{'x':-1,'y':0},'w':{'x':0,'y':-1}};
   Map<String, int> loc = {'x':0, 'y':0};
-  List<String> visited = new List();
+  List<String> visited = new List.empty(growable: true);
   String dir = 'n';
   int part2Dist = -1;
   parts.forEach((String s) {
-    dir = turns[dir][s[0]];
+    dir = turns[dir]![s[0]]!;
     for (int i = 0, dist = int.parse(s.substring(1)); i < dist; i++) {
-      loc['x'] += move[dir]['x'];
-      loc['y'] += move[dir]['y'];
+      loc['x'] = loc['x']! + move[dir]!['x']!;
+      loc['y'] = loc['y']! + move[dir]!['y']!;
       // Part 2
       if (part2Dist < 0) {
         if (visited.contains('$loc')) {
-          part2Dist = loc['x'].abs() + loc['y'].abs();
+          part2Dist = loc['x']!.abs() + loc['y']!.abs();
         }
         visited.add('$loc');
       }
     }
   });
-  print('Part 1: ${loc['x'].abs() + loc['y'].abs()}');
+  print('Part 1: ${loc['x']!.abs() + loc['y']!.abs()}');
   print('Part 2: $part2Dist');
 }
