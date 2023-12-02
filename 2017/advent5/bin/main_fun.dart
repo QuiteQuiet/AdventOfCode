@@ -33,21 +33,21 @@ class No5Int {
 main() async {
   int ops = 0;
   No5Int instruction = new No5Int(0);
-  List<No5Int> processed = new List<No5Int>();
-  bool part2 = true;
-  await new File('advent5/input.txt').readAsLines()
+  List<No5Int> processed;;
+  int part = 2;
+  new File('input.txt').readAsLines()
   .then((List<dynamic> file) {
-    processed.length = file.length + 1; // since index 5 isn't open to use
+    processed = List.filled(file.length + 1, No5Int(0)); // since index 5 isn't open to use
     No5Int index = new No5Int(0);
     for (int fi = 0; fi < file.length; fi++) {
       processed[index.I] = new No5Int(int.parse(file[fi]));
       index.inc();
     }
-  });
-  for (; instruction.I >= 0 && instruction.I < processed.length; ops++) {
+    for (; instruction.I >= 0 && instruction.I < processed.length; ops++) {
       int old = instruction.I;
       instruction.assign(instruction + processed[instruction.I]);
-      part2 && processed[old].I >= 3 ? processed[old].dec() : processed[old].inc();
+      part == 2 && processed[old].I >= 3 ? processed[old].dec() : processed[old].inc();
     }
-  print('Part ${part2 ? 2 : 1}: $ops');
+    print('Part $part: $ops');
+  });
 }

@@ -19,10 +19,10 @@ void main() {
 
   // part 1
   List<int> result1 = modify(new List<int>.generate(256, (i) => i++), input.split(',').map(int.parse).toList(), 1);
-  
+
   // part 2
   List<int> result2 = modify(new List<int>.generate(256, (i) => i++), input.runes.toList()..addAll([17, 31, 73, 47, 23]), 64);
-  List<String> hex = new List<String>();
+  List<String> hex = new List<String>.empty(growable: true);
   for (int i = 0; i < result2.length; i += 16) {
     hex.add(result2.sublist(i, i + 16).reduce((a, b) => a ^ b).toRadixString(16).padLeft(2, '0'));
   }

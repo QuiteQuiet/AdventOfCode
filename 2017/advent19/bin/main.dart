@@ -5,9 +5,9 @@ enum Direction { Up, Down, Left, Right }
 main() async {
   int x = 0, y = 0, steps = 0;
   Direction dir = Direction.Down;
-  List<String> letters = new List<String>();
-  List<List<String>> map = new List<List<String>>();
-  new File('advent19/input.txt').readAsLines()
+  List<String> letters = new List<String>.empty(growable: true);
+  List<List<String>> map = new List<List<String>>.empty(growable: true);
+  new File('input.txt').readAsLines()
   .then((List<String> file) {
     file.forEach((String line) => map.add(line.split('')));
     x = map[0].indexOf('|');

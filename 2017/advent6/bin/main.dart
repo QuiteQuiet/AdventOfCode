@@ -3,10 +3,10 @@ import 'dart:math';
 
 main() async {
   int seen = 0;
-  List<int> state = new List<int>();
+  List<int> state = new List<int>.empty(growable: true);
   Map<String, int> visited = new Map<String, int>();
   Stopwatch time = new Stopwatch()..start();
-  await new File('advent6/input.txt').readAsLines()
+  await new File('input.txt').readAsLines()
   .then((List<String> file) {
     state = file[0].split('\t').map(int.parse).toList();
     while (visited[state.toString()] == null) {
@@ -20,6 +20,6 @@ main() async {
       }
     }
     print('Part 1: $seen');
-    print('Part 2: ${seen - visited[state.toString()]} in ${time.elapsed}');
+    print('Part 2: ${seen - visited[state.toString()]!} in ${time.elapsed}');
   });
 }

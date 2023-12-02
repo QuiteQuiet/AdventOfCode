@@ -3,16 +3,17 @@ import 'dart:io';
 class Program {
   int id;
   bool visited = false;
-  List<Program> pipes;
-  Program(this.id) { this.pipes = new List<Program>(); }
+  late List<Program> pipes;
+  Program(this.id) { this.pipes = new List<Program>.empty(growable: true); }
   bool operator==(covariant Program o) => this.id == o.id;
 }
 
 main() async {
-  int groups = 0, programsIn0;
+  int groups = 0, programsIn0 = 0;
   Map<int, Program> programs = new Map<int, Program>();
-  List<Program> currentGroup = new List<Program>(), toExplore = new List<Program>();
-  new File('advent12/input.txt').readAsLines()
+  List<Program> currentGroup = new List<Program>.empty(growable: true),
+                toExplore = new List<Program>.empty(growable: true);
+  new File('input.txt').readAsLines()
   .then((List<String> file) {
     file.forEach((String line) {
       List<String> parts = line.split(' <-> ');
@@ -21,7 +22,7 @@ main() async {
       for (String link in parts[1].split(', ')) {
         int pipe = int.parse(link);
         if (!programs.containsKey(pipe)) programs[pipe] = new Program(pipe);
-        programs[target].pipes.add(programs[pipe]);
+        programs[target]!.pipes.add(programs[pipe]!);
       }
     });
     for (Program next in programs.values) {

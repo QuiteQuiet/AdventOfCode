@@ -3,8 +3,9 @@ import 'dart:io';
 main() async {
   List<String> programs = new List.from('abcdefghijklmnop'.split(''));
   Map<String, int> states = new Map<String, int>();
-  int remaining = 1000000000, cycle;
-  new File('advent16/input.txt').readAsLines()
+  int remaining = 1000000000;
+  int? cycle;
+  new File('input.txt').readAsLines()
   .then((List<String> file) {
     List<String> parts = file[0].split(',');
     states[programs.join()] = 0;
@@ -31,8 +32,8 @@ main() async {
         }
       }
       if (states.containsKey(programs.join())) {
-        cycle = i - states[programs.join()];
-        remaining = (remaining % cycle);
+        cycle = i - states[programs.join()]!;
+        remaining = (remaining % cycle!);
         for (String k in states.keys) {
           if (states[k] == remaining) {
             programs = k.split('');

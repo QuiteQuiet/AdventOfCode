@@ -1,9 +1,9 @@
 enum State { A, B, C, D, E, F}
 class Machine {
   State s;
-  int cursor, offset;
-  List<int> tape;
-  Machine(this.s, [this.cursor = 0]) { 
+  late int cursor, offset;
+  late List<int> tape;
+  Machine(this.s, [this.cursor = 0]) {
     this.tape = new List.generate(10000, (i) => 0);
     this.offset = this.tape.length ~/ 2;
   }
@@ -31,7 +31,7 @@ class Machine {
         else {
           this.current = 1;
           this.cursor--;
-        }   
+        }
       break;
       case State.C:
         if (this.current == 0) {

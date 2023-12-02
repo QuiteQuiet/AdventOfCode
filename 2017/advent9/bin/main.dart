@@ -2,11 +2,11 @@ import 'dart:io';
 
 main() async {
   int score = 0, garbage = 0;
-  new File('advent9/input.txt').readAsLines()
+  new File('input.txt').readAsLines()
   .then((List<String> file) {
     // clean up the input so no ignore characters or garbage is there
     String line = file[0].replaceAll(new RegExp(r'\!.'), '').replaceAllMapped(new RegExp('<.*?>'), (Match m) {
-      garbage += m.group(0).length - 2; // solves part 2, regular `replaceAll` is enough for part 1
+      garbage += m.group(0)!.length - 2; // solves part 2, regular `replaceAll` is enough for part 1
       return '';
     });
 

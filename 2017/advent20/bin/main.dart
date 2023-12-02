@@ -1,7 +1,8 @@
 import 'dart:io';
 
 class Particle {
-  int x, y, z, xv, yv, zv, xa, ya, za, d;
+  int x, y, z, xv, yv, zv, xa, ya, za;
+  late int d;
   bool remove = false;
   Particle(this.x, this.y, this.z, this.xv, this.yv, this.zv, this.xa, this.ya, this.za);
   int tick() {
@@ -17,15 +18,15 @@ class Particle {
 }
 
 main() async {
-  List<Particle> particles = new List<Particle>();
+  List<Particle> particles = new List<Particle>.empty(growable: true);
   RegExp numbers = new RegExp(r'-?\d+');
-  new File('advent20/input.txt').readAsLines()
+  new File('input.txt').readAsLines()
   .then((List<String> file) {
     file.forEach((String line) {
-      List<int> val = numbers.allMatches(line).map((m) => int.parse(m.group(0))).toList();
+      List<int> val = numbers.allMatches(line).map((m) => int.parse(m.group(0)!)).toList();
       particles.add(new Particle(val[0], val[1], val[2], val[3], val[4], val[5], val[6], val[7], val[8]));
     });
-    int id;
+    int id = 0;
     for (int i = 0; i < 1000; i++) {
       int distance = 0xFFFFFFFF;
       for (int j = 0; j < particles.length; j++) {
@@ -40,12 +41,12 @@ main() async {
 
     particles.clear(); // restart for part 2
     file.forEach((String line) {
-      List<int> val = numbers.allMatches(line).map((m) => int.parse(m.group(0))).toList();
+      List<int> val = numbers.allMatches(line).map((m) => int.parse(m.group(0)!)).toList();
       particles.add(new Particle(val[0], val[1], val[2], val[3], val[4], val[5], val[6], val[7], val[8]));
     });
-    List<List<int>> dangerous = new List<List<int>>();
+    List<List<int>> dangerous = new List<List<int>>.empty(growable: true);
     for (int i = 0; i < 100; i++) {
-      List<Particle> next = new List<Particle>();
+      List<Particle> next = new List<Particle>.empty(growable: true);
       dangerous.clear();
       for (Particle p in particles) {
         p.tick();

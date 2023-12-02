@@ -1,6 +1,6 @@
 void main() {
   int input = 349, pos = 0;
-  List<int> buffer = new List<int>();
+  List<int> buffer = new List<int>.empty(growable: true);
   buffer.add(0);
   for (int i = 0; i < 2017; i++) {
     pos = (pos + input) % buffer.length + 1;

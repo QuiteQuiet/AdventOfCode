@@ -1,5 +1,5 @@
 class Generator {
-  int start, seed, prev, mod = 1;
+  late int start, seed, prev, mod = 1;
   Generator(this.start, this.seed) { this.prev = this.start; }
   void reset() => this.prev = this.start;
   int next() {

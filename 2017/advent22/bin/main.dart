@@ -3,8 +3,8 @@ import 'dart:io';
 enum Direction { Up, Down, Left, Right}
 
 class Grid<T> {
-  List<List<T>> cells;
-  Grid() { this.cells = new List<List<T>>(); }
+  late List<List<T>> cells;
+  Grid() { this.cells = new List<List<T>>.empty(); }
   String toString() => this.cells.map((r) => r.join()).join('\n');
   T at(int x, int y) => this.cells[x][y];
   void place(int x, int y, T e) => this.cells[x][y] = e;
@@ -31,7 +31,7 @@ class Carrier {
       case '#': return part2 ? 'F' : '.';
       case 'F': return '.';
     }
-    return null;
+    return '';
   }
   void turn(String cur) {
     if (cur == '#') {
@@ -63,10 +63,10 @@ class Carrier {
 
 main() async {
   Grid<String> grid = new Grid<String>();
-  new File('advent22/input.txt').readAsLines()
+  new File('input.txt').readAsLines()
   .then((List<String> file) {
     for (int parts = 0; parts < 2; parts++) {
-      List<List<String>> infection = new List<List<String>>();
+      List<List<String>> infection;
       infection = file.map((l) => l.split('')).toList();
       grid.initiate(infection.length * 25, infection[0].length * 25, '.'); // just make it really big eh?
       int center = (grid.cells.length / 2).round(), topleft = center - infection.length ~/ 2;
@@ -87,7 +87,7 @@ main() async {
         virus.turn(current);
         String next = virus.mutate(current);
         if (next == '#') newinfections++;
-        grid.place(virus.x, virus.y, next);    
+        grid.place(virus.x, virus.y, next);
         virus.move();
       }
       print('Part ${parts + 1}: $newinfections');

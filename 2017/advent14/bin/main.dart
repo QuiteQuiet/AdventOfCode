@@ -18,7 +18,7 @@ List<int> getHash(List<int> input) {
       skip++;
     }
   }
-  List<int> dense = new List<int>();
+  List<int> dense = new List<int>.empty(growable: true);
   for (int i = 0; i < data.length; i += 16) {
     dense.add(data.sublist(i, i + 16).reduce((a, b) => a ^ b));
   }
@@ -27,17 +27,17 @@ List<int> getHash(List<int> input) {
 
 void main() {
   String input = 'ffayrhll';
-  List<List<String>> disk = new List<List<String>>();
+  List<List<String>> disk = new List<List<String>>.empty(growable: true);
   int count = 0;
   for (int i = 0; i < 128; i++) {
-    List<String> hashbits = new List<String>();
+    List<String> hashbits = new List<String>.empty(growable: true);
     getHash(input.runes.toList()..add(45)..addAll('$i'.runes)).forEach((i) => hashbits.add(i.toRadixString(2).padLeft(8, '0')));
     String hash = hashbits.join();
     count += '1'.allMatches(hash).length;
     disk.add(hash.split(''));
   }
   int groups = 0;
-  List<Node> explore = new List<Node>();
+  List<Node> explore = new List<Node>.empty(growable: true);
   for (int i = 0; i < disk.length; i++) {
     for (int j = 0; j < disk[i].length; j++) {
       if (disk[i][j] != '1') continue;

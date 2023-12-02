@@ -10,22 +10,22 @@ Future<int> program(int id, List<List<String>> ops, Queue<int> into, Queue<int> 
     List<String> parts = ops[index];
     switch (parts[0]) {
       case 'snd':
-        int t = int.tryParse(parts[1]) ?? registers[parts[1]];
+        int t = int.tryParse(parts[1]) ?? registers[parts[1]]!;
         outo.add(t);
         sent++;
       break;
-      case 'set':
-        registers[parts[1]] = int.tryParse(parts[2]) ?? registers[parts[2]];
-      break;
-      case 'add':
-        registers[parts[1]] += int.tryParse(parts[2]) ?? registers[parts[2]];
-      break;
-      case 'mul':
-        registers[parts[1]] *= int.tryParse(parts[2]) ?? registers[parts[2]];
-      break;
-      case 'mod':
-        registers[parts[1]] %= int.tryParse(parts[2]) ?? registers[parts[2]];
-      break;
+        case 'set':
+          registers[parts[1]] = (int.tryParse(parts[2]) ?? registers[parts[2]])!;
+        break;
+        case 'add':
+          registers[parts[1]] = registers[parts[1]]! + (int.tryParse(parts[2]) ?? registers[parts[2]])!;
+        break;
+        case 'mul':
+          registers[parts[1]] = registers[parts[1]]! * (int.tryParse(parts[2]) ?? registers[parts[2]])!;
+        break;
+        case 'mod':
+          registers[parts[1]] = registers[parts[1]]! % (int.tryParse(parts[2]) ?? registers[parts[2]])!;
+        break;
       case 'rcv':
         if (part1) {
           print('Part 1: ${outo.last}');
@@ -40,9 +40,9 @@ Future<int> program(int id, List<List<String>> ops, Queue<int> into, Queue<int> 
         registers[parts[1]] = into.removeFirst();
       break;
       case 'jgz':
-        int test = int.parse(parts[1]) ?? registers[parts[1]];
+        int test = int.tryParse(parts[1]) ?? registers[parts[1]]!;
         if (test > 0) {
-          index += (int.tryParse(parts[2]) ?? registers[parts[2]]) - 1;
+          index += (int.tryParse(parts[2]) ?? registers[parts[2]])! - 1;
         }
       break;
     }
@@ -52,8 +52,8 @@ Future<int> program(int id, List<List<String>> ops, Queue<int> into, Queue<int> 
 }
 
 main() async {
-  List<List<String>> ops = new List<List<String>>();
-  new File('advent18/input.txt').readAsLinesSync().forEach((l) => ops.add(l.split(' ')));
+  List<List<String>> ops = new List<List<String>>.empty(growable: true);
+  new File('input.txt').readAsLinesSync().forEach((l) => ops.add(l.split(' ')));
   Queue<int> q1 = new Queue<int>(), q2 = new Queue<int>();
 
   program(0, ops, q1, q2);

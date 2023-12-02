@@ -13,9 +13,9 @@ class Port {
 
 class Bridge {
   int last, w, len;
-  List<Port> free;
+  late List<Port> free;
   Bridge(List<Port> l, [this.w = 0, this.last = 0, this.len = 0]) {
-    this.free = new List<Port>();
+    this.free = new List<Port>.empty(growable: true);
     for (Port p in l) {
       this.free.add(p);
     }
@@ -30,15 +30,15 @@ class Bridge {
 }
 
 main() async {
-  List<Port> options = new List<Port>();
-  new File('advent24/input.txt').readAsLines()
+  List<Port> options = new List<Port>.empty(growable: true);
+  new File('input.txt').readAsLines()
   .then((List<String> file) {
     file.forEach((String l) {
       List<int> parts = l.split('/').map(int.parse).toList()..sort();
       options.add(new Port(parts.first, parts.last));
     });
     options.sort((a, b) => a.i - b.i);
-    List<Bridge> explore = new List<Bridge>();
+    List<Bridge> explore = new List<Bridge>.empty(growable: true);
     explore.add(new Bridge(options));
     explore.last.use(options[0]);
 

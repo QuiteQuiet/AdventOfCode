@@ -12,7 +12,7 @@ main() async {
   };
   Map<String, int> registers = new Map<String, int>();
   int inProcessMax = 0;
-  await new File('advent8/input.txt').readAsLines()
+  await new File('input.txt').readAsLines()
   .then((List<String> file) {
     file.forEach((String line) {
       List<String> current = line.split(' ');
@@ -21,10 +21,10 @@ main() async {
       if (!registers.containsKey(conditional)) registers[conditional] = 0;
 
       int value = int.parse(current[2]);
-      if (compare[op](registers[conditional], int.parse(current[6]))) {
-        registers[target] += current[1] == 'inc' ? value : -value;
-        if (registers[target] > inProcessMax) {
-          inProcessMax = registers[target];
+      if (compare[op]!(registers[conditional], int.parse(current[6]))) {
+        registers[target] = registers[target]! + (current[1] == 'inc' ? value : -value);
+        if (registers[target]! > inProcessMax) {
+          inProcessMax = registers[target]!;
         }
       }
     });
