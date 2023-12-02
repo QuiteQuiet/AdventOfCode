@@ -5,7 +5,7 @@ class Config {
 }
 
 int quantum(List<int> input, int containers) {
-  List<Config> works = new List<Config>();
+  List<Config> works = new List<Config>.empty(growable: true);
   int section = input.reduce((a,b) => a + b) ~/ containers, testing;
   for (int j = 0; j < 1000000; j++) {
     // We might be lucky!

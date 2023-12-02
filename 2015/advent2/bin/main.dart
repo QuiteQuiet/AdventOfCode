@@ -2,7 +2,7 @@ import 'dart:io';
 
 main() async {
   int paper = 0, ribbon = 0;
-  new File('advent2/input.txt').readAsLines()
+  new File('input.txt').readAsLines()
   .then((List<String> file) {
     file.forEach((String line) {
       List<int> dim = line.split('x').map(int.parse).toList()..sort();

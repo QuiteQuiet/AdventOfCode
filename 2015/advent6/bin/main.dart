@@ -3,7 +3,7 @@ import 'dart:math';
 
 class Lights {
   int h, w;
-  List<List<int>> grid;
+  late List<List<int>> grid;
   Lights(this.w, this.h) {
     this.grid = new List.generate(w, (i) => new List.filled(h, 0));
   }
@@ -40,10 +40,10 @@ class Lights {
 void main() {
   Lights lights = new Lights(1000, 1000), lights2 = new Lights(1000, 1000);
   RegExp digits = new RegExp('[0-9]+');
-  new File('advent6/input.txt').readAsLines()
+  new File('input.txt').readAsLines()
   .then((List<String> file) {
     file.forEach((String line) {
-      List<int> l = digits.allMatches(line).map((m) => int.parse(m.group(0))).toList();
+      List<int> l = digits.allMatches(line).map((m) => int.parse(m.group(0)!)).toList();
       if (line.startsWith('toggle')) {
         lights.toggle(l[0], l[1], l[2], l[3]);
         lights2.inc(l[0], l[1], l[2], l[3]);
@@ -58,7 +58,7 @@ void main() {
         lights2.dec(l[0], l[1], l[2], l[3]);
       }
     });
-    
+
     print('Part 1: ${"1".allMatches("$lights").length}');
     print('Part 2: ${lights2.grid.fold(0, (i, l) => i + l.reduce((a, b) => a + b))}');
   });

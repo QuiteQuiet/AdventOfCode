@@ -1,8 +1,9 @@
 import 'dart:io';
 
 main() async {
-  int floor = 0, first = null;
-  new File('advent1/input.txt').readAsString()
+  int floor = 0;
+  int? first = null;
+  new File('input.txt').readAsString()
   .then((String path) {
     for (int i = 0; i < path.length; i++) {
       floor += path[i] == '(' ? 1 : -1;

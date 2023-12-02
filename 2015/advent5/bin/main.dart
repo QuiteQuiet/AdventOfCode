@@ -7,7 +7,7 @@ main() async {
         banned = new RegExp(r'ab|cd|pq|xy'),
         pairs = new RegExp(r'(..).*?\1'),
         repeat = new RegExp(r'(.).\1');
-  new File('advent5/input.txt').readAsLines()
+  new File('input.txt').readAsLines()
   .then((List<String> file) {
     file.forEach((String line) {
       if (vowels.allMatches(line).length >= 3 && doubles.hasMatch(line) && !banned.hasMatch(line)) nice1++;

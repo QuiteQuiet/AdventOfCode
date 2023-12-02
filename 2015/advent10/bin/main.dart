@@ -1,5 +1,5 @@
 String getNext(String input) {
-  List<String> out = new List<String>();
+  List<String> out = new List<String>.empty(growable: true);
   int index = 0;
   while (index < input.length) {
     int point = index, matched = 0;

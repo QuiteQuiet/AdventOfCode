@@ -3,7 +3,7 @@ import 'dart:io';
 main() async {
   int checksum1 = 0, checksum2 = 0;
 
-  await new File('advent2/input.txt').readAsLines()
+  await new File('input.txt').readAsLines()
   .then((List<String> file) {
     file.forEach((String line) {
       List<int> values = line.split('\t').map(int.parse).toList()..sort();

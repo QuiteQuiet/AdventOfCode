@@ -3,7 +3,7 @@ import 'dart:io';
 void main() {
   int x = 0, y = 0;
   Map<String, int> houses = new Map<String, int>();
-  String input = new File('advent3/input.txt').readAsStringSync();
+  String input = new File('input.txt').readAsStringSync();
   for (int i = 0; i < input.length; i++) {
     houses['$x,$y'] = 1;
     switch (input[i]) {

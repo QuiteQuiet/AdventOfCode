@@ -28,9 +28,9 @@ class Reindeer {
 }
 
 void main() {
-  List<Reindeer> reindeers = new List<Reindeer>();
-  new File('advent14/input.txt').readAsLinesSync().forEach((String line) {
-    List<int> p = new RegExp(r'[0-9]+').allMatches(line).map((m) => int.parse(m.group(0))).toList();
+  List<Reindeer> reindeers = new List<Reindeer>.empty(growable: true);
+  new File('input.txt').readAsLinesSync().forEach((String line) {
+    List<int> p = new RegExp(r'[0-9]+').allMatches(line).map((m) => int.parse(m.group(0)!)).toList();
     reindeers.add(new Reindeer(p[0], p[1], p[2]));
   });
   for (int i = 0; i < 2503; i++) {

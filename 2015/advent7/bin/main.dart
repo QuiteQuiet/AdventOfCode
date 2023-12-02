@@ -25,7 +25,7 @@ int onNull(String name) {
 int calc(String name) => int.tryParse(name) ?? onNull(name);
 
 main() async {
-  List<String> lines = await new File('advent7/input.txt').readAsLines();
+  List<String> lines = await new File('input.txt').readAsLines();
   lines.forEach((String s) {
     List<String> parts = s.split('->');
     operations[parts[1].trim()] = parts[0].trim().split(' ');

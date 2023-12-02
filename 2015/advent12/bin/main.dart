@@ -11,7 +11,7 @@ int map2(Map m) {
 }
 
 void main() {
-  Map input = json.decode(new File('advent12/input.txt').readAsLinesSync()[0]);
+  Map input = json.decode(new File('input.txt').readAsLinesSync()[0]);
   print('Part 1: ${map(input)}');
   print('Part 2: ${map2(input)}');
 }

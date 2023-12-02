@@ -13,7 +13,7 @@ int score(List<Ingredient> ingredients, List<int> distribution) {
     f += ingredients[i].f * distribution[i];
     t += ingredients[i].t * distribution[i];
   }
-  return max(0, c) * max(0, d) * max(0, f) * max(0, t);
+  return (max(0, c) * max(0, d) * max(0, f) * max(0, t)) as int;
 }
 int calories(List<Ingredient> ingredients, List<int> distribution) {
   int cal = 0;
@@ -24,10 +24,10 @@ int calories(List<Ingredient> ingredients, List<int> distribution) {
 }
 
 void main() {
-  List<Ingredient> ingredients = new List<Ingredient>();
-  List<int> dist = [1, 1, 1, 1], scores = new List<int>();;
-  new File('advent15/input.txt').readAsLinesSync().forEach((String line) {
-    List<int> t = new RegExp(r'\-?[0-9]+').allMatches(line).map((m) => int.parse(m.group(0))).toList();
+  List<Ingredient> ingredients = new List<Ingredient>.empty(growable: true);
+  List<int> dist = [1, 1, 1, 1], scores = new List<int>.empty(growable: true);
+  new File('input.txt').readAsLinesSync().forEach((String line) {
+    List<int> t = new RegExp(r'\-?[0-9]+').allMatches(line).map((m) => int.parse(m.group(0)!)).toList();
     ingredients.add(new Ingredient(t[0], t[1], t[2], t[3], t[4]));
   });
   while (dist.reduce((a, b) => a + b) < 100) {
