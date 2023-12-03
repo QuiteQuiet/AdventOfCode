@@ -11,12 +11,11 @@ bool isNumber(String s) => switch (s) {
 void main() async {
   String input = await File('input.txt').readAsString();
   Grid<String> grid = Grid.from(input.split('\n').map((e) => e.trim().split('')));
-  Set<String> symbols = Set.from(
-    RegExp(r'[^0-9\.]').allMatches(input).map((e) => e.group(0)!));
+  Set<String> noise = {'.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
   int sum = 0, ratio = 0;
   grid.every((int x, int y, String e) {
-    if (symbols.contains(e)) {
+    if (!noise.contains(e)) {
       List<int> xDim = [if (x - 1 >= 0) x - 1,
                         x,
                         if (x + 1 < grid.width) x + 1];

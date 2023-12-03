@@ -60,12 +60,10 @@ class Grid<T> {
 
   Iterable<T> takeFromWhile(int x, int y, bool Function(T) func) sync* {
     for (int i = x; i < _h; i++)
-      if (func(at(i, y))) {
+      if (func(at(i, y)))
         yield at(i, y);
-      }
-      else {
+      else
         return;
-      }
   }
 
   /// Apply mapped function `func` on the entire collection.
