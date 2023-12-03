@@ -3,7 +3,7 @@
 /// over lists, but applied as two dimensional.
 class Grid<T> {
   late List<T> _cells;
-  int _w, _h;
+  late int _w, _h;
 
   int get width => _w;
   int get height => _h;
@@ -26,6 +26,21 @@ class Grid<T> {
   /// Initiate a Grid of size `w` and height `h` filled with `e`.
   Grid.initiate(this._w, this._h, T e) { _cells = List.filled(_h * _w, e, growable: true); }
 
+  Grid.from(Iterable<Iterable<T>> it) {
+    _w = 0;
+    _h = 0;
+    _cells = [];
+    for (Iterable<T> itt in it) {
+      for (T t in itt) {
+        _cells.add(t);
+      }
+      if (_w == 0) {
+        _w = _cells.length;
+      }
+    }
+    _h = _cells.length ~/ _w;
+  }
+
   String toString() {
     List<String> s = [];
     for (int i = 0; i < _h; i++) {
@@ -37,10 +52,20 @@ class Grid<T> {
   }
 
   /// Iterate over Grid, and apply `func` on every item.
-  void enumerate(Function(int, int, T) func) {
+  void every(Function(int, int, T) func) {
     for (int i = 0; i < _h; i++)
       for (int j = 0; j < _w; j++)
-        func(j, i, at(i, j));
+        func(i, j, at(i, j));
+  }
+
+  Iterable<T> takeFromWhile(int x, int y, bool Function(T) func) sync* {
+    for (int i = x; i < _h; i++)
+      if (func(at(i, y))) {
+        yield at(i, y);
+      }
+      else {
+        return;
+      }
   }
 
   /// Apply mapped function `func` on the entire collection.
