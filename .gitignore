@@ -1,2 +1,4 @@
 .vscode/
 **.dart_tool/
+
+**/input.txt
