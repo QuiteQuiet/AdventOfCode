@@ -9,8 +9,8 @@ bool isNumber(String s) => switch (s) {
 };
 
 void main() async {
-  String input = await File('input.txt').readAsString();
-  Grid<String> grid = Grid.from(input.split('\n').map((e) => e.trim().split('')));
+  List<String> input = await File('input.txt').readAsLines();
+  Grid<String> grid = Grid.from(input.map((e) => e.split('')));
   Set<String> noise = {'.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
   int sum = 0, ratio = 0;
