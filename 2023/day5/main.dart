@@ -1,53 +1,56 @@
 import 'dart:io';
 
-import 'package:AdventOfCode/string.dart';
-
-class AoCMap {
-  late int s, d, c;
-  AoCMap(List<String> e) {
-    d = e[0].toInt();
-    s = e[1].toInt();
-    c = e[2].toInt();
+class RelocationMap {
+  late int sStart, sEnd, dStart, dEnd;
+  RelocationMap(List<int> e) {
+    int dest = e[0].toInt(), source = e[1].toInt(), len = e[2].toInt();
+    dStart = dest;
+    sStart = source;
+    dEnd = dStart + len;
+    sEnd = sStart + len;
   }
-  int inRange(int item) {
-    if (s <= item && item < s + c) {
-      return d + item - s;
+  int inRange(int item, [bool backwards=false]) {
+    if (backwards) {
+      if (dStart <= item && item < dEnd) {
+        return sStart + item - dStart;
+      }
+    } else {
+      if (sStart <= item && item < sEnd) {
+        return dStart + item - sStart;
+      }
     }
     return -1;
   }
 }
 
-int? getLoc(int? first, List<List<AoCMap>> maps, List<int> seeds) {
-  for (int seed in seeds) {
-    int dest = seed;
-    for (int curMap = 0; curMap < maps.length; curMap++) {
-      List<AoCMap> cur = maps[curMap];
-      for (int i = 0; i < cur.length; i++) {
-        int newDest = cur[i].inRange(dest);
-        if (newDest != -1) {
-          dest = newDest;
-          break;
-        }
+int goToEnd(int? lowest, List<List<RelocationMap>> maps, int entry, [bool reversed=false]) {
+  for (List<RelocationMap> cur in maps) {
+    for (RelocationMap next in cur) {
+      int newDest = next.inRange(entry, reversed);
+      if (newDest != -1) {
+        entry = newDest;
+        break;
       }
     }
-    if (first == null || dest < first) {
-      first = dest;
-    }
   }
-  return first;
+  if (lowest == null || entry < lowest) {
+    lowest = entry;
+  }
+  return lowest;
 }
 
-List<AoCMap> unpack(List<String> input, String map) {
+List<RelocationMap> unpack(List<String> input, String map) {
   return input.sublist(input.indexOf(map) + 1)
     .takeWhile((e) => e.length != 0)
-    .map((e) => AoCMap(e.split(' '))).toList();
+    .map((e) => RelocationMap(e.split(' ').map(int.parse).toList())).toList();
 }
 
 void main() async {
   List<String> lines = await File('input.txt').readAsLines();
 
+  Stopwatch time = Stopwatch()..start();
   List<int> seeds = lines[0].split(' ').sublist(1).map(int.parse).toList();
-  List<List<AoCMap>> maps = [
+  List<List<RelocationMap>> maps = [
     unpack(lines, 'seed-to-soil map:'),
     unpack(lines, 'soil-to-fertilizer map:'),
     unpack(lines, 'fertilizer-to-water map:'),
@@ -56,13 +59,19 @@ void main() async {
     unpack(lines, 'temperature-to-humidity map:'),
     unpack(lines, 'humidity-to-location map:'),
   ];
+  print('Part 1: ${seeds.fold<int?>(null, (lowest, entry) => goToEnd(lowest, maps, entry))}');
 
-  int? lowest;
-  print('Part 1: ${getLoc(lowest, maps, seeds)}');
+  maps = maps.reversed.toList();
+  List<RelocationMap> seedRanges = [];
   for (int i = 0; i < seeds.length; i += 2) {
-    lowest = getLoc(lowest,
-                    maps,
-                    List.generate(seeds[i + 1], (index) => seeds[i] + index));
+    seedRanges.add(RelocationMap([seeds[i], seeds[i], seeds[i + 1]]));
   }
-  print('Part 2: $lowest');
+  for (int i = 0; i < 0xFFFFFFFF; i++) {
+    int seed = goToEnd(null, maps, i, true);
+    if (seedRanges.any((range) => range.inRange(seed) != -1)) {
+      print('Part 2: $i');
+      break;
+    }
+  }
+  print('Total: ${time.elapsed}');
 }
