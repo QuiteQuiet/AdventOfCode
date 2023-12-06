@@ -3,7 +3,7 @@ import 'dart:io';
 class RelocationMap {
   late int sStart, sEnd, dStart, dEnd;
   RelocationMap(List<int> e) {
-    int dest = e[0].toInt(), source = e[1].toInt(), len = e[2].toInt();
+    int dest = e[0], source = e[1], len = e[2];
     dStart = dest;
     sStart = source;
     dEnd = dStart + len;
@@ -48,7 +48,6 @@ List<RelocationMap> unpack(List<String> input, String map) {
 void main() async {
   List<String> lines = await File('input.txt').readAsLines();
 
-  Stopwatch time = Stopwatch()..start();
   List<int> seeds = lines[0].split(' ').sublist(1).map(int.parse).toList();
   List<List<RelocationMap>> maps = [
     unpack(lines, 'seed-to-soil map:'),
@@ -66,6 +65,7 @@ void main() async {
   for (int i = 0; i < seeds.length; i += 2) {
     seedRanges.add(RelocationMap([seeds[i], seeds[i], seeds[i + 1]]));
   }
+  // Yes, actually test 2 billion numbers. Why not?
   for (int i = 0; i < 0xFFFFFFFF; i++) {
     int seed = goToEnd(null, maps, i, true);
     if (seedRanges.any((range) => range.inRange(seed) != -1)) {
@@ -73,5 +73,4 @@ void main() async {
       break;
     }
   }
-  print('Total: ${time.elapsed}');
 }
