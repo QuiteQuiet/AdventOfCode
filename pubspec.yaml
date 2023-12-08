@@ -1,6 +1,7 @@
 name: AdventOfCode
 description: Package for solving problems for Advent of Code
 dependencies:
+  dart_numerics: ^0.0.6
 
 environment:
   sdk: '^3.2.0'

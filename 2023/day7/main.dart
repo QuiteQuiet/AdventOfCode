@@ -4,10 +4,10 @@ import 'package:AdventOfCode/string.dart';
 
 class Hand {
   late int bet, value = 0;
-  Hand(List<String> mine, Map<String, int> suits) {
+  Hand(List<String> mine, Map<String, int> cardMap) {
     Map<int, int> cards = {};
     for (final (int i, String c) in mine[0].split('').indexed) {
-      int card = c.toInt(onError: (c) => suits[c]);
+      int card = c.toInt(onError: (c) => cardMap[c]);
       cards[card] = (cards[card] ?? 0) + 1;
       value |= card << (16 - 4 * i);
     }
@@ -36,8 +36,8 @@ int calc(List<String> lines, Map<String, int> cardMap) {
     .toList()..sort((a, b) => a.value - b.value);
 
   int sum = 0;
-  for (int i = 0; i < hands.length; i++) {
-    sum += hands[i].bet * (i + 1);
+  for (final (int i, Hand hand) in hands.indexed) {
+    sum += hand.bet * (i + 1);
   }
   return sum;
 }
