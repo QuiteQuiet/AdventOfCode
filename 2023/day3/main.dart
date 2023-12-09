@@ -16,25 +16,15 @@ void main() async {
   int sum = 0, ratio = 0;
   grid.every((int x, int y, String e) {
     if (!noise.contains(e)) {
-      List<int> xDim = [if (x - 1 >= 0) x - 1,
-                        x,
-                        if (x + 1 < grid.width) x + 1];
-      List<int> yDim = [if (y - 1 >= 0) y - 1,
-                        y,
-                        if (y + 1 < grid.height) y + 1];
-
       Set<int> foundNumbers = {};
-      for (int newY in yDim) {
-        for (int newX in xDim) {
-          if (isNumber(grid.at(newX, newY))) {
-            // Find first character of the number
-            while (newX >= 0 && isNumber(grid.at(newX - 1, newY)))
-              newX--;
-            foundNumbers.add(
-              grid.takeFromWhile(newX, newY, isNumber).join('').toInt());
-          }
+      grid.neighbours(x, y, (nx, ny, el) {
+        if (isNumber(el)) {
+          while (nx >= 0 && isNumber(grid.at(nx - 1, ny)))
+            nx--;
+          foundNumbers.add(
+            grid.takeFromWhile(nx, ny, isNumber).join('').toInt());
         }
-      }
+      });
       sum += foundNumbers.reduce((a, b) => a + b);
       if (foundNumbers.length == 2 && e == '*') {
         ratio += foundNumbers.first * foundNumbers.last;

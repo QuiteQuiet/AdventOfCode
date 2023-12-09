@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:AdventOfCode/int.dart';
+
 class RelocationMap {
   late int sStart, sEnd, dStart, dEnd;
   RelocationMap(List<int> e) {
@@ -62,11 +64,11 @@ void main() async {
 
   maps = maps.reversed.toList();
   List<RelocationMap> seedRanges = [];
-  for (int i = 0; i < seeds.length; i += 2) {
+  for (int i in 0.to(seeds.length - 1, step: 2)) {
     seedRanges.add(RelocationMap([seeds[i], seeds[i], seeds[i + 1]]));
   }
   // Yes, actually test 2 billion numbers. Why not?
-  for (int i = 0; i < 0xFFFFFFFF; i++) {
+  for (int i in 0.to(0xFFFFFFFF)) {
     int seed = goToEnd(null, maps, i, true);
     if (seedRanges.any((range) => range.inRange(seed) != -1)) {
       print('Part 2: $i');

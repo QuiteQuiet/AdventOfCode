@@ -1,21 +1,9 @@
 import 'dart:io';
 
-List<int> extrapolate(List<int> row, Function(List<int>, List<int>) calcNext) {
-  List<List<int>> folds = [List.from(row)];
-  while (!folds.last.every((e) => e == 0)) {
-    List<int> next = [];
-    for (int i = 0; i < folds.last.length - 1; i++)
-      next.add(folds.last[i + 1] - folds.last[i]);
-    folds.add(next);
-  }
-
-  folds.last.add(0);
-  for (int i = folds.length - 1; i >= 1; i--) {
-    int val = calcNext(folds[i - 1], folds[i]);
-    folds[i - 1].add(val);
-    folds[i - 1].insert(0, val);
-  }
-  return [folds[0].first, folds[0].last];
+int extrapolate(List<int> row) {
+  if (row.every((e) => e == 0))
+    return 0;
+  return row.last + extrapolate(List.generate(row.length - 1, (i) => row[i + 1] - row[i]));
 }
 
 void main() async {
@@ -24,8 +12,8 @@ void main() async {
 
   int part1 = 0, part2 = 0;
   for (List<int> seq in lines) {
-    part1 += extrapolate(seq, (a, b) => a.last + b.last).last;
-    part2 += extrapolate(seq, (a, b) => a.first - b.first).first;
+    part1 += extrapolate(seq);
+    part2 += extrapolate([...seq.reversed]);
   }
   print('Part 1: $part1');
   print('Part 2: $part2');

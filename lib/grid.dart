@@ -1,3 +1,5 @@
+import 'package:AdventOfCode/int.dart';
+
 /// Two dimensional array implementation for Dart.
 /// Contains standard iterator functions used for iterating
 /// over lists, but applied as two dimensional.
@@ -56,6 +58,19 @@ class Grid<T> {
     for (int i = 0; i < _h; i++)
       for (int j = 0; j < _w; j++)
         func(i, j, at(i, j));
+  }
+
+  void neighbours(int x, int y, Function(int x, int y, T el) func) {
+    for (int i in (x - 1).to(x + 1)) {
+      for (int j in (y - 1).to(y + 1)) {
+        // The center and bounds
+        if ((i == x && j == y) ||
+            (i < 0 || i >= _w) ||
+            (j < 0 || j >= _h))
+          continue;
+        func(i, j, at(i, j));
+      }
+    }
   }
 
   Iterable<T> takeFromWhile(int x, int y, bool Function(T) func) sync* {

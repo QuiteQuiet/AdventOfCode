@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import '../../lib/string.dart';
+import 'package:AdventOfCode/string.dart';
 
 String normalize(String number) {
   return {

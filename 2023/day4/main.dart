@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:AdventOfCode/int.dart';
+
 // This is just a funny method of doing it that doesn't even care for the |.
 // void main() async {
 //   int points = 0;
@@ -23,7 +25,7 @@ void main() async {
 
     int cardCount = stack[index];
     int matches = numbers.intersection(winningNumbers).length;
-    for (int i = 0; i < matches; i++) {
+    for (int i in 0.to(matches - 1)) {
         stack[index + 1 + i] += cardCount;
     }
     points += matches > 0 ? 1 << matches - 1 : 0;
