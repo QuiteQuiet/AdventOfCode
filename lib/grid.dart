@@ -54,10 +54,17 @@ class Grid<T> {
   }
 
   /// Iterate over Grid, and apply `func` on every item.
-  void every(Function(int, int, T) func) {
-    for (int i = 0; i < _h; i++)
-      for (int j = 0; j < _w; j++)
+  void every(Function(int x, int y, T e) func) {
+    for (int i = 0; i < _w; i++)
+      for (int j = 0; j < _h; j++)
         func(i, j, at(i, j));
+  }
+
+  void adjacent(int x, int y, Function(int x, int y, T el) func) {
+    if (x - 1 >= 0) func(x - 1, y, at(x - 1, y));
+    if (x + 1 < _w) func(x + 1, y, at(x + 1, y));
+    if (y - 1 >= 0) func(x, y - 1, at(x, y - 1));
+    if (y + 1 < _h) func(x, y + 1, at(x, y + 1));
   }
 
   void neighbours(int x, int y, Function(int x, int y, T el) func) {
