@@ -54,6 +54,7 @@ void main() async {
 
   print('Part 1: ${steps ~/ 2}');
 
+  // https://en.wikipedia.org/wiki/Pick%27s_theorem
   corners.add(corners.first);
   int sum = 0;
   for (final (int i, Coord cur) in corners.sublist(0, corners.length - 1).indexed) {

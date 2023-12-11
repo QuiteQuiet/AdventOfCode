@@ -55,9 +55,9 @@ class Grid<T> {
 
   /// Iterate over Grid, and apply `func` on every item.
   void every(Function(int x, int y, T e) func) {
-    for (int i = 0; i < _w; i++)
-      for (int j = 0; j < _h; j++)
-        func(i, j, at(i, j));
+    for (int y = 0; y < _h; y++)
+      for (int x = 0; x < _w; x++)
+        func(x, y, at(x, y));
   }
 
   void adjacent(int x, int y, Function(int x, int y, T el) func) {
