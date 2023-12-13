@@ -1,7 +1,5 @@
 import 'dart:io';
 
-// target is 1738259948652
-
 Function memoizeVariants() {
   Map<String, int> cache = {};
   int wrapped(List<String> springs, BigInt groups, bool lava) {
@@ -38,9 +36,7 @@ void main() async {
   Function variants = memoizeVariants();
 
   int valid1 = 0, valid2 = 0;
-  for (final (int i, String line) in input.indexed) {
-    print('$i: $line');
-
+  for (String line in input) {
     List<String> parts = line.split(' ');
     List<String> springs = parts[0].split('');
     List<int> numbers = parts[1].split(',').map(int.parse).toList();
@@ -50,11 +46,11 @@ void main() async {
     }
     valid1 += variants(springs, groups, false) as int;
 
-    springs = [...springs, '?', ...springs, '?', ...springs, '?', ...springs, '?', ...springs];
+    List<String> fiveSprings = [...springs, '?', ...springs, '?', ...springs, '?', ...springs, '?', ...springs];
     BigInt fiveGroups = BigInt.zero;
     for (int i = 0; i < 5; i++)
       fiveGroups |= groups << numbers.length * i * 4;
-    valid2 += variants(springs, fiveGroups, false) as int;
+    valid2 += variants(fiveSprings, fiveGroups, false) as int;
   }
   print('Part 1: $valid1');
   print('Part 2: $valid2');
