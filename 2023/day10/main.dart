@@ -13,8 +13,7 @@ class Coord {
 }
 
 void main() async {
-  Grid<String> input = Grid.from(
-    (await File('input.txt').readAsLines()).map((e) => e.split('')));
+  Grid<String> input = Grid.string(await File('input.txt').readAsString(), (e) => e);
 
   Coord start = Coord.invalid();
   input.every((x, y, e) {

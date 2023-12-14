@@ -9,20 +9,19 @@ bool isNumber(String s) => switch (s) {
 };
 
 void main() async {
-  List<String> input = await File('input.txt').readAsLines();
-  Grid<String> grid = Grid.from(input.map((e) => e.split('')));
+  Grid<String> input = Grid.string(await File('input.txt').readAsString(), (e) => e);
   Set<String> noise = {'.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
   int sum = 0, ratio = 0;
-  grid.every((int x, int y, String e) {
+  input.every((int x, int y, String e) {
     if (!noise.contains(e)) {
       Set<int> foundNumbers = {};
-      grid.neighbours(x, y, (nx, ny, el) {
+      input.neighbours(x, y, (nx, ny, el) {
         if (isNumber(el)) {
-          while (nx >= 0 && isNumber(grid.at(nx - 1, ny)))
+          while (nx >= 0 && isNumber(input.at(nx - 1, ny)))
             nx--;
           foundNumbers.add(
-            grid.takeFromWhile(nx, ny, isNumber).join('').toInt());
+            input.takeFromWhile(nx, ny, isNumber).join('').toInt());
         }
       });
       sum += foundNumbers.reduce((a, b) => a + b);

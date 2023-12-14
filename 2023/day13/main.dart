@@ -46,7 +46,7 @@ void main() async {
 
   int sum = 0, sum2 = 0;
   for (String line in input) {
-    Grid<String> ground = Grid.from(line.split('\r\n').map((e) => e.split('')));
+    Grid<String> ground = Grid.string(line, (e) => e);
     int vert = verticalSearch(ground, ground.width, ground.height, -1);
     int horiz = horizontalSearch(ground, ground.width, ground.height, -1);
     sum += vert * 100 + horiz;

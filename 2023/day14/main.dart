@@ -21,16 +21,15 @@ Grid<String> tilt(Grid<String> rocks, Function(int, int) next) {
 }
 
 void main() async {
-  Grid<String> stones = Grid.from((await File('input.txt').readAsLines()).map((e) => e.split('')));
+  Grid<String> stones = Grid.string((await File('input.txt').readAsString()), (e) => e);
+  Grid<String> once;
 
-  stones = tilt(stones, (x, y) => (x: x, y: y - 1));
+  once = tilt(Grid.copy(stones), (x, y) => (x: x, y: y - 1));
 
   int load = 0;
-  stones.every((x, y, e) => load += e == 'O' ? stones.height - y : 0);
+  once.every((x, y, e) => load += e == 'O' ? once.height - y : 0);
 
   print('Part 1: $load');
-  // Hard reset
-  stones = Grid.from((await File('input.txt').readAsLines()).map((e) => e.split('')));
 
   int iterations = 1000000000;
   // Find where the pattern stop changing
@@ -51,7 +50,7 @@ void main() async {
   }
   List<String> cycle = List.from(seen.sublist(cycleStart));
   load = 0;
-  Grid.from(cycle[(iterations - cycleStart - 1) % cycle.length].split('\n').map((e) => e.split('')))
+  Grid.string(cycle[(iterations - cycleStart - 1) % cycle.length], (e) => e)
     .every((x, y, e) => load += e == 'O' ? stones.height - y : 0);
 
   print('Part 2: $load');

@@ -28,38 +28,66 @@ class Grid<T> {
   /// Initiate a Grid of size `w` and height `h` filled with `e`.
   Grid.initiate(this._w, this._h, T e) { _cells = List.filled(_h * _w, e, growable: true); }
 
+  /// Create Grid<T> from a compatible iterable.
   Grid.from(Iterable<Iterable<T>> it) {
     _w = 0;
     _h = 0;
     _cells = [];
     for (Iterable<T> itt in it) {
-      for (T t in itt) {
+      for (T t in itt)
         _cells.add(t);
-      }
-      if (_w == 0) {
-        _w = _cells.length;
-      }
+      if (_w == 0) _w = _cells.length;
     }
     _h = _cells.length ~/ _w;
   }
 
+  /// Create Grid from multi-line String.
+  /// Additional argument is conversion function to convert values from
+  /// String int <T>.
+  /// For example a Grid<int> might call this as `Grid.string(input, int.parse)`.
+  /// A Grid<String> can give `Grid.string(input, (e) => e)`.
+  Grid.string(String from, T Function(String) f) {
+    _w = 0;
+    _cells = [];
+    for (String row in from.split(RegExp(r'\r?\n'))) {
+      for (String e in row.split(''))
+        _cells.add(f(e));
+      if (_w == 0) _w = _cells.length;
+    }
+    _h = _cells.length ~/ _w;
+  }
+
+  /// Copy an existing grid into
+  Grid.copy(Grid<T> from) {
+    _w = from._w;
+    _h = from._h;
+    _cells = [];
+    for (int y in 0.to(from._h - 1))
+      for (int x in 0.to(from._w - 1))
+        _cells.add(from.at(x, y));
+  }
+
+  /// Get string representation of a Grid.
   String toString() {
     List<String> s = [];
-    for (int i = 0; i < _h; i++) {
-      for (int j = 0; j < _w; j++)
+    for (int i in 0.to(_h - 1)) {
+      for (int j in 0.to(_w - 1))
         s.add(at(j, i).toString());
       s.add('\n');
     }
+    s.removeLast();
     return s.join('');
   }
 
   /// Iterate over Grid, and apply `func` on every item.
   void every(Function(int x, int y, T e) func) {
-    for (int y = 0; y < _h; y++)
-      for (int x = 0; x < _w; x++)
+    for (int y in 0.to(_h - 1))
+      for (int x in 0.to(_w - 1))
         func(x, y, at(x, y));
   }
 
+  /// Iterate over adjacent grid elements (the cross)
+  /// accounting for borders.
   void adjacent(int x, int y, Function(int x, int y, T el) func) {
     if (x - 1 >= 0) func(x - 1, y, at(x - 1, y));
     if (x + 1 < _w) func(x + 1, y, at(x + 1, y));
@@ -67,6 +95,13 @@ class Grid<T> {
     if (y + 1 < _h) func(x, y + 1, at(x, y + 1));
   }
 
+  /// Iterate over all elements close to an index in all directions.
+  /// The full grid this will cover is:
+  /// . . . . .
+  /// . + + + .
+  /// . + x + .
+  /// . + + + .
+  /// . . . . .
   void neighbours(int x, int y, Function(int x, int y, T el) func) {
     for (int i in (x - 1).to(x + 1)) {
       for (int j in (y - 1).to(y + 1)) {
@@ -80,8 +115,9 @@ class Grid<T> {
     }
   }
 
+  /// Take elements starting from `[x, y] that `func` returns `true` for.
   Iterable<T> takeFromWhile(int x, int y, bool Function(T) func) sync* {
-    for (int i = x; i < _h; i++)
+    for (int i in x.to(_h - 1))
       if (func(at(i, y)))
         yield at(i, y);
       else

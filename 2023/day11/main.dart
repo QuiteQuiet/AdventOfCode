@@ -14,8 +14,7 @@ int distance(List<(int, int, int, int)> galaxies, int multiplier) {
 }
 
 void main() async {
-  Grid<String> input = Grid.from(
-    (await File('input.txt').readAsLines()).map((e) => e.split('')));
+  Grid<String> input = Grid.string(await File('input.txt').readAsString(), (e) => e);
 
   List<(int, int)> galaxies = [];
   input.every((x, y, e) {
