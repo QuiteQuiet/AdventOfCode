@@ -1,6 +1,7 @@
 name: AdventOfCode
 description: Package for solving problems for Advent of Code
 dependencies:
+  ansicolor: ^2.0.2
   collection: ^1.18.0
   dart_numerics: ^0.0.6
   trotter: ^2.2.0

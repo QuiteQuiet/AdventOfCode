@@ -13,11 +13,19 @@ class Grid<T> {
   void set height(int i) => _h = i;
   int get length => _cells.length;
 
+  Set<(int, int)> _highlight = {};
+
   /// Get element from location `[x, y]` in the grid.
   T at(int x, int y) => _cells[y * _w + x];
 
   /// Set location `[x, y]` to `e`.
   T put(int x, int y, T e) => _cells[y * _w + x] = e;
+
+  /// Mark grid position when printing in terminal
+  void mark(int x, int y) => _highlight.add((x, y));
+
+  /// Unmark tile position when printing in terminal
+  bool unmark(int x, int y) => _highlight.remove((x, y));
 
   /// Increase grid size by one, without changing the dimensions of
   /// the grid.
@@ -26,7 +34,9 @@ class Grid<T> {
   /// Default constructor
   Grid(this._w, this._h);
   /// Initiate a Grid of size `w` and height `h` filled with `e`.
-  Grid.initiate(this._w, this._h, T e) { _cells = List.filled(_h * _w, e, growable: true); }
+  Grid.filled(this._w, this._h, T e) { _cells = List.filled(_h * _w, e, growable: true); }
+  /// Initiate a Grid of size `w` and height `h` that calls function `e` to generate each element.
+  Grid.generate(this._w, this._h, T Function(int i) e) { _cells = List.generate(_h * _w, e, growable: true); }
 
   /// Create Grid<T> from a compatible iterable.
   Grid.from(Iterable<Iterable<T>> it) {
@@ -71,13 +81,21 @@ class Grid<T> {
   String toString() {
     List<String> s = [];
     for (int i in 0.to(_h - 1)) {
-      for (int j in 0.to(_w - 1))
-        s.add(at(j, i).toString());
+      for (int j in 0.to(_w - 1)) {
+        String toAdd = at(j, i).toString();
+        if (_highlight.contains((j, i))) {
+          toAdd = '\x1B[35m$toAdd\x1B[0m';
+        }
+        s.add(toAdd);
+      }
       s.add('\n');
     }
     s.removeLast();
     return s.join('');
   }
+
+  /// Returns true if coordinate is inside the bounds of the Grid.
+  bool hasCoord(int x, int y) => x < 0 || x >= _w || y < 0 || y >= _h;
 
   /// Iterate over Grid, and apply `func` on every item.
   void every(Function(int x, int y, T e) func) {
