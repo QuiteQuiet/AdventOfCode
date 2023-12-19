@@ -35,6 +35,6 @@ void main() async {
     areaH += prevH.$1 * curH.$2 - prevH.$2 * curH.$1;
     prevH = curH;
   }
-  print('Part 1: ${(area + circumference) ~/ 2 + 1}');
-  print('Part 2: ${(areaH + circumferenceH) ~/ 2 + 1}');
+  print('Part 1: ${(area.abs() + circumference) ~/ 2 + 1}');
+  print('Part 2: ${(areaH.abs() + circumferenceH) ~/ 2 + 1}');
 }

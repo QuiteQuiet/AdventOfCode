@@ -19,12 +19,9 @@ void main() async {
   }
   print('Part 1: ${find("ZZZ", "AAA")}');
 
-  Map<String, int> loc = Map.fromIterable(nodes.keys.where((e) => e.endsWith('A')),
-    key: (e) => e, value: (_) => 0);
-
   int distance = 1;
-  for (String pos in loc.keys) {
-    distance = numerics.leastCommonMultiple(distance, find('Z', pos));
-  }
+  nodes.keys.where((e) => e.endsWith('A')).forEach(
+    (pos) => distance = numerics.leastCommonMultiple(distance, find('Z', pos)));
+
   print('Part 2: $distance');
 }
