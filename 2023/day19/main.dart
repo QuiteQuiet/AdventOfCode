@@ -23,13 +23,7 @@ class Part {
                                 p.xmas['m']!.$1, p.xmas['m']!.$2,
                                 p.xmas['a']!.$1, p.xmas['a']!.$2,
                                 p.xmas['s']!.$1, p.xmas['s']!.$2);
-
-  (int, int) operator[](String s) => s == '' ? (0, 0) : xmas[s]!;
-
-  int get value {
-    if (!range) return xmas.values.fold(0, (a, b) => a + b.$1);
-    return xmas.values.fold(1, (a, b) => a * (1 + b.$2 - b.$1));
-  }
+  int get value => range ? xmas.values.fold(1, (a, b) => a * (1 + b.$2 - b.$1)) : xmas.values.fold(0, (a, b) => a + b.$1);
 }
 
 
@@ -50,9 +44,9 @@ void main() async {
         case [String instr, String bin]:
           int value = int.parse(instr.substring(2));
           if (instr[1] == '>') {
-            process[name]!.add((cat: instr[0], v: value, i: instr[1], f: (e) => e.$1 > value, next: bin));
+            process[name]!.add((cat: instr[0], v: value, i: instr[1], next: bin, f: (e) => e.xmas[instr[0]].$1 > value));
           } else {
-            process[name]!.add((cat: instr[0], v: value, i: instr[1], f: (e) => e.$2 < value, next: bin));
+            process[name]!.add((cat: instr[0], v: value, i: instr[1], next: bin, f: (e) => e.xmas[instr[0]].$2 < value));
           }
         case [String bin]:
           process[name]!.add((cat: '', v: 0, i: '', f: (e) => true, next: bin));
@@ -67,20 +61,20 @@ void main() async {
     int sum = 0;
     for (var rule in process[curBin]!) {
       if (piece.range) {
-        if (rule.f(piece[rule.cat])) {
+        if (rule.f(piece)) {
           sum += work(rule.next, piece);
         } else {
           Part truth = Part.copy(piece);
           if (rule.i == '<') {
-            truth.xmas[rule.cat] = (truth[rule.cat].$1 , rule.v - 1);
-            piece.xmas[rule.cat] = (rule.v, piece[rule.cat].$2);
+            truth.xmas[rule.cat] = (truth.xmas[rule.cat]!.$1 , rule.v - 1);
+            piece.xmas[rule.cat] = (rule.v, piece.xmas[rule.cat]!.$2);
           } else if (rule.i == '>') {
-            piece.xmas[rule.cat] = (piece[rule.cat].$1 , rule.v);
-            truth.xmas[rule.cat] = (rule.v + 1, truth[rule.cat].$2);
+            piece.xmas[rule.cat] = (piece.xmas[rule.cat]!.$1 , rule.v);
+            truth.xmas[rule.cat] = (rule.v + 1, truth.xmas[rule.cat]!.$2);
           }
           sum += work(rule.next, truth);
         }
-      } else if (rule.f(piece[rule.cat])) {
+      } else if (rule.f(piece)) {
         return work(rule.next, piece);
       }
     }
