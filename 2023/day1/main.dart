@@ -26,8 +26,8 @@ String normalize(String number) {
 }
 
 int findNumbers(String line, RegExp exp) {
-    List<String> matches = List.from(exp.allMatches(line).map((e) => normalize(e.group(1)!)));
-    return (matches.first + matches.last).toInt();
+  List<String> matches = List.from(exp.allMatches(line).map((e) => normalize(e.group(1)!)));
+  return (matches.first + matches.last).toInt();
 }
 
 void main() async {
