@@ -3,8 +3,6 @@ import 'dart:io';
 
 import 'package:AdventOfCode/int.dart';
 
-import '../../2016/advent24/bin/advent24.dart';
-
 class Brick {
   int x1, y1, z1, x2, y2, z2;
   Brick(this.x1, this.y1, this.z1, this.x2, this.y2, this.z2);
@@ -45,12 +43,12 @@ void main() async {
   }
 
   // Find which bricks every brick is supported by and which brick every brick supports
-  Map<Brick, Set<Brick>> supporters = {};
+  Map<Brick, Set<Brick>> supportedBy = {};
   Map<Brick, Set<Brick>> supports = {};
   for (int z in 1.to(bricks.last.z1)) {
     for (Brick b in bricks.where((e) => e.z1 == z)) {
       for (Brick supported in bricks.where((e) => e.z1 == b.z2 + 1).where((e) => e ^ b)) {
-        (supporters[supported] ??= {}).add(b);
+        (supportedBy[supported] ??= {}).add(b);
         (supports[b] ??= {}).add(supported);
       }
     }
@@ -59,7 +57,7 @@ void main() async {
   int canRemove = 0;
   for (Brick b in bricks) {
     // If the brick we support has another brick supporting it, this one can be removed
-    if (supporters.values.where((s) => s.contains(b)).every((s) => s.length > 1)) {
+    if (supportedBy.values.where((s) => s.contains(b)).every((s) => s.length > 1)) {
       canRemove++;
     }
   }
@@ -71,7 +69,7 @@ void main() async {
 
     while (chainReaction.isNotEmpty) {
       Brick next = chainReaction.removeFirst();
-      if ((supporters[next] ?? {}).every((e) => willFall.contains(e))) {
+      if ((supportedBy[next] ?? {}).every((e) => willFall.contains(e))) {
         willFall.add(next);
         chainReaction.addAll(supports[next] ?? {});
       }
