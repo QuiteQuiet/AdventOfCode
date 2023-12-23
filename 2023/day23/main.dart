@@ -16,7 +16,13 @@ class Node {
 }
 
 int findLongest(Map<Node, Node> nodes, Node start, Node end) {
-  List<(int, Node, Set<Node>)> toTest = [(0, nodes[start]!, {nodes[start]!})];
+  // This keeps track of which nodes we have seen in a bitmap which is
+  // much faster than having a list of them that needs to be copied. It cuts
+  // execution time from 30s to 2s.
+  Map<Node, int> bitMapping = {};
+  nodes.keys.indexed.forEach((e) => bitMapping[e.$2] = 1 << e.$1);
+
+  List<(int, Node, int)> toTest = [(0, nodes[start]!, bitMapping[start]!)];
   int longest = 0;
   while (toTest.isNotEmpty) {
     var (steps, cur, path) = toTest.removeLast();
@@ -30,8 +36,8 @@ int findLongest(Map<Node, Node> nodes, Node start, Node end) {
       }
     } else {
       cur.connections.forEach((node, s) {
-        if (path.contains(node)) return;
-        toTest.add((steps + s, nodes[node]!, Set.from(path)..add(nodes[node]!)));
+        if (path & bitMapping[node]! > 0) return;
+        toTest.add((steps + s, nodes[node]!, path | bitMapping[node]!));
       });
     }
   }
@@ -90,7 +96,6 @@ void main() async {
       options.add((n, prev, steps + 1));
     }
   }
-
   print('Part 1: ${findLongest(nodes, start, end!)}');
 
   // Complete the graph to be bi-directional
