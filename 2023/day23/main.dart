@@ -12,13 +12,12 @@ class Node {
   operator==(Object o) => o is Node && x == o.x && y == o.y;
   int? _hashCode;
   int get hashCode => _hashCode ??= Object.hash(x, y);
-  String toString() => '$x:$y';
 }
 
 int findLongest(Map<Node, Node> nodes, Node start, Node end) {
-  // This keeps track of which nodes we have seen in a bitmap which is
-  // much faster than having a list of them that needs to be copied. It cuts
-  // execution time from 30s to 2s.
+  // This keeps track of which nodes we have seen in a bitmap. It is much
+  // faster than having a list of them that needs to be copied. It cuts
+  // execution time from 30s to 2s. Works because there are <64 nodes in the graph.
   Map<Node, int> bitMapping = {};
   nodes.keys.indexed.forEach((e) => bitMapping[e.$2] = 1 << e.$1);
 
@@ -76,11 +75,10 @@ void main() async {
     int walls = 0;
     maze.adjacent(cur.x, cur.y, (x, y, el) {
       Node next = Node(x, y);
-      if (maze.at(x, y) == '#') walls++;
+      if (el == '#') walls++;
       if ((el == '>' && cur.x + 1 == x) || (el == '<' && cur.x - 1 == x) ||
-          (el == 'v' && cur.y + 1 == y) || (el == '^' && cur.y - 1 == y)) {
-        possible.add(next);
-      } else if (el == '.') {
+          (el == 'v' && cur.y + 1 == y) || (el == '^' && cur.y - 1 == y) ||
+          (el == '.')) {
         possible.add(next);
       }
     });
