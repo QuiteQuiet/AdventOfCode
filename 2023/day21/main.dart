@@ -42,7 +42,6 @@ void main() async {
   // Number of whole gardens we can cross in 26501365 steps minus the one we start in
   int half = (garden.width ~/ 2);
   int n = (26501365 - half) ~/ garden.width;
-  print(n);
 
   // Half the gardens it's only possible to step on odd tiles
   // and other half only even tiles. First garden is odd.

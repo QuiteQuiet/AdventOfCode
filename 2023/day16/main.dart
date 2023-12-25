@@ -40,7 +40,6 @@ int energize(Grid<String> mirrors, ({int x, int y, int dx, int dy}) start) {
 void main() async {
   Grid<String> mirrors = Grid.string(await File('input.txt').readAsString(), (e) => e);
 
-  Stopwatch time = Stopwatch()..start();
   print('Part 1: ${energize(mirrors, (x: 0, y: 0, dx: 1, dy: 0))}');
 
   int best = 0;
@@ -61,5 +60,4 @@ void main() async {
     }
   }
   print('Part 2: $best');
-  print(time.elapsed);
 }

@@ -39,7 +39,7 @@ void main() async {
     Set<String> tmp = Set.from(wires[start]!); // To avoid changing the iterated list
     for (String end in tmp) {
       // Already tested this in the other direction
-      if (lookedAt.containsKey(end) && lookedAt[end]!.contains(start)) continue;
+      if ((lookedAt[end] ?? {}).contains(start)) continue;
       (lookedAt[start] ??= {}).add(end);
 
       wires[start]!.remove(end);

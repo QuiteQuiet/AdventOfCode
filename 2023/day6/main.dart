@@ -7,7 +7,6 @@ int simulate(int duration, int record) {
 }
 
 void main() {
-  Stopwatch time = Stopwatch()..start();
   List<(int, int)> races = [(38, 241), (94, 1549), (79, 1074), (70, 1091)];
   final (int p2d, int p2r) = (38947970, 241154910741091);
 
@@ -17,5 +16,4 @@ void main() {
   }
   print('Part 1: $product');
   print('Part 2: ${simulate(p2d, p2r)}');
-  print('${time.elapsed}');
 }
