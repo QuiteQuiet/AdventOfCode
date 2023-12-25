@@ -101,17 +101,17 @@ void main() async {
   num dz = possibleZ.first;
 
   // Any two random stones work for this
+  // I don't really understand why subtracting the stone vector from two hailstones
+  // gives a linear equation for the position of the stone, but I assume there is some
+  // trigonometry proof that this holds
   HailStone first = hailstones[0], second = hailstones[1];
+  HailStone a = HailStone([first.pos.x, first.pos.y, first.pos.z],
+                          [first.vel.x - dx, first.vel.y - dy, first.vel.z - dz]);
+  HailStone b = HailStone([second.pos.x, second.pos.y, second.pos.z],
+                          [second.vel.x - dx, second.vel.y - dy, second.vel.z - dz]);
 
-  num mx = (first.vel.y - dy) / (first.vel.x - dx);
-  num my = (second.vel.y - dy) / (second.vel.x - dx);
-  num cx = first.pos.y - (mx * first.pos.x);
-  num cy = second.pos.y - (my * second.pos.x);
-
-  num xpos = (cy - cx) / (mx - my);
-  num ypos = mx * xpos + cx;
-  num t = (xpos - first.pos.x) / (first.vel.x - dx);
-  num zpos = first.pos.z + (first.vel.z - dz) * t;
-
-  print('Part 2: ${(xpos + ypos + zpos).round()}');
+  Point point = a.intersects(b)!;
+  num t = (point.x - first.pos.x) / a.vel.x;
+  point.z = first.pos.z + a.vel.z * t;
+  print('Part 2: ${(point.x + point.y + point.z).round()}');
 }
