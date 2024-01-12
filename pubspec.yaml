@@ -5,6 +5,7 @@ dependencies:
   collection: ^1.18.0
   dart_numerics: ^0.0.6
   trotter: ^2.2.0
+  http: ^1.1.2
 
 environment:
   sdk: '^3.2.0'

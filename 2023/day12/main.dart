@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 
 Function memoizeVariants() {
   Map<String, int> cache = {};
@@ -32,7 +32,7 @@ Function memoizeVariants() {
 }
 
 void main() async {
-  List<String> input = await File('input.txt').readAsLines();
+  List<String> input = await aoc.getInput();
   Function variants = memoizeVariants();
 
   int valid1 = 0, valid2 = 0;

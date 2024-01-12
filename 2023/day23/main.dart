@@ -1,5 +1,6 @@
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
+
 import 'dart:collection';
-import 'dart:io';
 
 import 'package:AdventOfCode/grid.dart';
 import 'package:AdventOfCode/int.dart';
@@ -44,7 +45,7 @@ int findLongest(Map<Node, Node> nodes, Node start, Node end) {
 }
 
 void main() async {
-  Grid<String> maze = Grid.string(await File('input.txt').readAsString(), (e) => e);
+  Grid<String> maze = Grid.string(await aoc.getInputString(), (e) => e);
 
   Node? start, end;
   for (int i in 0.to(maze.width - 1)) {

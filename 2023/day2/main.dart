@@ -1,10 +1,11 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
+
 import 'dart:math';
 
 dynamic convert(String s) => int.tryParse(s) ?? s;
 
 void main() async {
-  List<String> lines = await File('input.txt').readAsLines();
+  List<String> lines = await aoc.getInput();
   int possibleSum = 0, powerSum = 0;
   for (String line in lines) {
     List<List<dynamic>> pulls = RegExp(r'(\w+) (\w+)').allMatches(line).map(

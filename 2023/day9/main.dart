@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 
 int extrapolate(List<int> row) {
   if (row.every((e) => e == 0))
@@ -7,7 +7,7 @@ int extrapolate(List<int> row) {
 }
 
 void main() async {
-  List<List<int>> lines = (await File('input.txt').readAsLines()).map(
+  List<List<int>> lines = (await aoc.getInput()).map(
     (e) => e.split(' ').map(int.parse).toList()).toList();
 
   int part1 = 0, part2 = 0;

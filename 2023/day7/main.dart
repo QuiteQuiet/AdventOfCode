@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 
 import 'package:AdventOfCode/string.dart';
 
@@ -43,7 +43,7 @@ int calc(List<String> lines, Map<String, int> cardMap) {
 }
 
 void main() async {
-  List<String> lines = await File('input.txt').readAsLines();
+  List<String> lines = await aoc.getInput();
 
   print("Part 1: ${calc(lines, {'T': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14})}");
   print("Part 2: ${calc(lines, {'T': 10, 'J': 1, 'Q': 12, 'K': 13, 'A': 14})}");

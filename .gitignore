@@ -1,4 +1,5 @@
 .vscode/
 **.dart_tool/
 
+**/session_cookie
 **/input.txt

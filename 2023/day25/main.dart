@@ -1,5 +1,6 @@
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
+
 import 'dart:collection';
-import 'dart:io';
 
 import 'package:collection/collection.dart';
 
@@ -21,18 +22,17 @@ int stepsToGoal(String start, String end, Map<String, Set<String>> wires) {
 }
 
 void main() async {
-  List<String> input = await File('input.txt').readAsLines();
+  List<String> input = await aoc.getInput();
 
   Map<String, Set<String>> wires = {};
   for (String line in input) {
     List<String> components = RegExp(r'\w+').allMatches(line).map((e) => e.group(0)!).toList();
-
-    wires[components[0]] ??= {};
     for (String comp in components.sublist(1)) {
-      wires[components[0]]!.add(comp);
+      (wires[components[0]] ??= {}).add(comp);
       (wires[comp] ??= {}).add(components[0]);
     }
   }
+
   Map<int, List<(String, String)>> costs = {};
   Map<String, Set<String>> lookedAt = {};
   for (String start in wires.keys) {
@@ -67,7 +67,6 @@ void main() async {
     String next = toVisit.removeFirst();
     if (seen.contains(next)) continue;
     seen.add(next);
-
     wires[next]!.forEach(toVisit.add);
   }
   // We didn't find all wires going through this so there are two groups (probably)

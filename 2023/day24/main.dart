@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 
 import 'package:AdventOfCode/int.dart';
 
@@ -51,7 +51,7 @@ void promisingVelocity(num vel, num aP, num bP, Set<int> previous) {
 }
 
 void main() async {
-  List<String> input = await File('input.txt').readAsLines();
+  List<String> input = await aoc.getInput();
 
   num start = 200000000000000, end = 400000000000000;
   num startX = start, endX = end,

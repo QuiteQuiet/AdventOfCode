@@ -1,4 +1,5 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
+
 import 'package:AdventOfCode/grid.dart';
 
 class Coord {
@@ -13,7 +14,7 @@ class Coord {
 }
 
 void main() async {
-  Grid<String> input = Grid.string(await File('input.txt').readAsString(), (e) => e);
+  Grid<String> input = Grid.string(await aoc.getInputString(), (e) => e);
 
   Coord start = Coord.invalid();
   input.every((x, y, e) {

@@ -1,5 +1,6 @@
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
+
 import 'dart:collection';
-import 'dart:io';
 
 import 'package:AdventOfCode/grid.dart';
 
@@ -12,7 +13,7 @@ class Point {
 }
 
 void main() async {
-  Grid<String> garden = Grid.string(await File('input.txt').readAsString(), (e) => e);
+  Grid<String> garden = Grid.string(await aoc.getInputString(), (e) => e);
 
   Point start = Point(-1, -1, -1);
   garden.every((x, y, e) => e == 'S' ? start = Point(x, y, 0) : 0);

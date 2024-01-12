@@ -1,4 +1,5 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
+
 import 'package:AdventOfCode/grid.dart';
 
 Grid<String> tilt(Grid<String> rocks, Function(int, int) next) {
@@ -21,7 +22,7 @@ Grid<String> tilt(Grid<String> rocks, Function(int, int) next) {
 }
 
 void main() async {
-  Grid<String> stones = Grid.string((await File('input.txt').readAsString()), (e) => e);
+  Grid<String> stones = Grid.string((await aoc.getInputString()), (e) => e);
   Grid<String> once;
 
   once = tilt(Grid.copy(stones), (x, y) => (x: x, y: y - 1));

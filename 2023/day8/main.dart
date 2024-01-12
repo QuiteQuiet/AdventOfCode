@@ -1,8 +1,9 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
+
 import 'package:dart_numerics/dart_numerics.dart' as numerics;
 
 void main() async {
-  List<String> lines = await File('input.txt').readAsLines();
+  List<String> lines = await aoc.getInput();
   String instructions = lines.first;
 
   Map<String, Map<String, String>> nodes = {};

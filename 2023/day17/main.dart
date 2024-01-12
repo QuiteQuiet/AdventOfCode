@@ -1,4 +1,5 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
+
 import 'package:collection/collection.dart';
 
 import 'package:AdventOfCode/grid.dart';
@@ -48,7 +49,7 @@ int run(Grid<int> input, int minSteps, int maxSteps) {
 }
 
 void main() async {
-  Grid<int> input = Grid.string(await File('input.txt').readAsString(), int.parse);
+  Grid<int> input = Grid.string(await aoc.getInputString(), int.parse);
 
   print('Part 1: ${run(input, 0, 3)}');
   print('Part 2: ${run(input, 4, 10)}');

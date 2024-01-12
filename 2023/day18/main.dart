@@ -1,7 +1,7 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 
 void main() async {
-  List<String> input = await File('input.txt').readAsLines();
+  List<String> input = await aoc.getInput();
 
   (int, int) directions(String d) => switch (d) {
     'L' || '2' => (-1, 0),

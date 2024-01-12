@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 
 import 'package:AdventOfCode/int.dart';
 
@@ -14,7 +14,7 @@ import 'package:AdventOfCode/int.dart';
 // }
 
 void main() async {
-  List<String> lines = await File('input.txt').readAsLines();
+  List<String> lines = await aoc.getInput();
   int points = 0;
   List<int> stack = List.filled(lines.length, 1);
   for (final (int index, String line) in lines.indexed) {

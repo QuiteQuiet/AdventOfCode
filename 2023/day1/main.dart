@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 
 import 'package:AdventOfCode/string.dart';
 
@@ -31,7 +31,7 @@ int findNumbers(String line, RegExp exp) {
 }
 
 void main() async {
-  List<String> lines = await File('input.txt').readAsLines();
+  List<String> lines = await aoc.getInput();
   RegExp expPart1 = RegExp(r'(?=(\d))');
   RegExp expPart2 = RegExp(r'(?=(\d|one|two|three|four|five|six|seven|eight|nine))');
   int part1 = 0, part2 = 0;

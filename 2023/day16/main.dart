@@ -1,4 +1,5 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
+
 import 'package:AdventOfCode/grid.dart';
 import 'package:AdventOfCode/int.dart';
 
@@ -38,7 +39,7 @@ int energize(Grid<String> mirrors, ({int x, int y, int dx, int dy}) start) {
 }
 
 void main() async {
-  Grid<String> mirrors = Grid.string(await File('input.txt').readAsString(), (e) => e);
+  Grid<String> mirrors = Grid.string(await aoc.getInputString(), (e) => e);
 
   print('Part 1: ${energize(mirrors, (x: 0, y: 0, dx: 1, dy: 0))}');
 

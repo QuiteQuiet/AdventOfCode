@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 
 import 'package:AdventOfCode/int.dart';
 
@@ -48,7 +48,7 @@ List<RelocationMap> unpack(List<String> input, String map) {
 }
 
 void main() async {
-  List<String> lines = await File('input.txt').readAsLines();
+  List<String> lines = await aoc.getInput();
 
   List<int> seeds = lines[0].split(' ').sublist(1).map(int.parse).toList();
   List<List<RelocationMap>> maps = [

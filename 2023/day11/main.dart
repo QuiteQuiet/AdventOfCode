@@ -1,4 +1,5 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
+
 import 'package:AdventOfCode/grid.dart';
 import "package:trotter/trotter.dart";
 
@@ -14,7 +15,7 @@ int distance(List<(int, int, int, int)> galaxies, int multiplier) {
 }
 
 void main() async {
-  Grid<String> input = Grid.string(await File('input.txt').readAsString(), (e) => e);
+  Grid<String> input = Grid.string(await aoc.getInputString(), (e) => e);
 
   List<(int, int)> galaxies = [];
   input.every((x, y, e) {

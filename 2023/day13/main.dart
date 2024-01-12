@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 
 import 'package:AdventOfCode/grid.dart';
 
@@ -42,7 +42,7 @@ int horizontalSearch(Grid<String> ground, int xbound, int ybound, int prev) {
 }
 
 void main() async {
-  List<String> input = (await File('input.txt').readAsString()).split('\r\n\r\n');
+  List<String> input = (await aoc.getInputString()).split('\r\n\r\n');
 
   int sum = 0, sum2 = 0;
   for (String line in input) {

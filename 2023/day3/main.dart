@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 
 import 'package:AdventOfCode/string.dart';
 import 'package:AdventOfCode/grid.dart';
@@ -9,7 +9,7 @@ bool isNumber(String s) => switch (s) {
 };
 
 void main() async {
-  Grid<String> input = Grid.string(await File('input.txt').readAsString(), (e) => e);
+  Grid<String> input = Grid.string(await aoc.getInputString(), (e) => e);
   Set<String> noise = {'.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
   int sum = 0, ratio = 0;

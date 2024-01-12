@@ -1,5 +1,6 @@
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
+
 import 'dart:collection';
-import 'dart:io';
 
 import 'package:dart_numerics/dart_numerics.dart' as numerics;
 
@@ -39,7 +40,7 @@ class Module {
 }
 
 void main() async {
-  List<String> input = await File('input.txt').readAsLines();
+  List<String> input = await aoc.getInput();
 
   Map<String, Module> modules = {'rx': Module('rx', 'rx', [])};
 

@@ -1,9 +1,9 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 
 int hash(String s) => s.runes.fold(0, (s, e) => ((s + e) * 17) % 256);
 
 void main() async {
-  List<String> input = (await File('input.txt').readAsLines())[0].split(',');
+  List<String> input = (await aoc.getInput())[0].split(',');
   List<Map<String, int>> hashmap = List.generate(256, (i) => {});
 
   int current = 0;

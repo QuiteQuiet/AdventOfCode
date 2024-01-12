@@ -1,5 +1,6 @@
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
+
 import 'dart:collection';
-import 'dart:io';
 
 import 'package:AdventOfCode/int.dart';
 
@@ -25,7 +26,7 @@ class Brick {
 
 void main() async {
   List<Brick> bricks = [];
-  for (String line in await File('input.txt').readAsLines()) {
+  for (String line in await aoc.getInput()) {
     List<int> c = RegExp(r'\d+').allMatches(line).map((e) => int.parse(e.group(0)!)).toList();
     bricks.add(Brick(c[0], c[1], c[2], c[3], c[4], c[5]));
   }
