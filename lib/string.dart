@@ -9,4 +9,6 @@ extension Operations on String {
     '0' || '1' || '2' || '3' || '4' || '5' || '6' || '7' || '8' || '9' => true,
     _ => false,
   };
+  List<int> numbers() =>
+    RegExp(r'-?\d+').allMatches(this).map((e) => e.group(0)!.toInt()).toList();
 }
