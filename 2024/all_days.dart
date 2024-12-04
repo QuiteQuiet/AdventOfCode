@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'day1/main.dart' as day1;
-// import 'day2/main.dart' as day2;
-// import 'day3/main.dart' as day3;
+import 'day2/main.dart' as day2;
+import 'day3/main.dart' as day3;
 // import 'day4/main.dart' as day4;
 // import 'day5/main.dart' as day5;
 // import 'day6/main.dart' as day6;
@@ -38,7 +38,7 @@ void main() async {
   String cur = Platform.script.path;
   cur = cur.substring(1, cur.lastIndexOf('/'));
   Directory.current = cur;
-  List days = [day1.main];
+  List<Function> days = [day1.main, day2.main, day3.main];
 
   Stopwatch total = Stopwatch()..start();
   for (final (int day, Function solve) in days.indexed) {
