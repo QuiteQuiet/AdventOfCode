@@ -9,9 +9,10 @@ class Grid<T> {
 
   int get width => _w;
   int get height => _h;
+  int get length => _cells.length;
+
   void set width(int i) => _w = i;
   void set height(int i) => _h = i;
-  int get length => _cells.length;
 
   Set<(int, int)> _highlight = {};
 
@@ -28,7 +29,7 @@ class Grid<T> {
   bool unmark(int x, int y) => _highlight.remove((x, y));
 
   /// Increase grid size by one, without changing the dimensions of
-  /// the grid.
+  /// the grid. Very niche but has been required in one puzzle.
   void add(T e) => this._cells.add(e);
 
   /// Default constructor
@@ -94,8 +95,8 @@ class Grid<T> {
     return s.join('');
   }
 
-  /// Returns true if coordinate is inside the bounds of the Grid.
-  bool hasCoord(int x, int y) => x < 0 || x >= _w || y < 0 || y >= _h;
+  /// Returns true if coordinate is outside the bounds of the Grid.
+  bool outOfBounds(int x, int y) => x < 0 || x >= _w || y < 0 || y >= _h;
 
   /// Iterate over Grid, and apply `func` on every item.
   void every(Function(int x, int y, T e) func) {

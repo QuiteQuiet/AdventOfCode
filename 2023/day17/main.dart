@@ -34,7 +34,7 @@ int run(Grid<int> input, int minSteps, int maxSteps) {
 
     (int, int) dir = directions[cur.d];
     int newx = cur.x + dir.$1, newy = cur.y + dir.$2;
-    if (input.hasCoord(newx, newy)) continue;
+    if (input.outOfBounds(newx, newy)) continue;
 
     int loss = cur.h + input.at(newx, newy);
     if (cur.s >= minSteps - 1) {

@@ -14,7 +14,7 @@ void main() async {
       int found = 1;
       for (int d in [1, 2, 3]) {
         int nx = x + dx * d, ny = y + dy * d;
-        if (!input.hasCoord(nx, ny) && input.at(nx, ny) == goal[d]) {
+        if (!input.outOfBounds(nx, ny) && input.at(nx, ny) == goal[d]) {
           found++;
         }
       }
@@ -36,7 +36,7 @@ void main() async {
       for (final (int dx, int dy) in direction) {
         for (int d in [1, -1]) {
           int nx = x + dx * d, ny = y + dy * d;
-          if (!input.hasCoord(nx, ny) && input.at(nx, ny) == goal[1 + d]) {
+          if (!input.outOfBounds(nx, ny) && input.at(nx, ny) == goal[1 + d]) {
             found++;
           }
         }
