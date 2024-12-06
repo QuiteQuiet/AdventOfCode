@@ -29,11 +29,10 @@ void main() async {
   int sum = 0;
   List<List<int>> invalid = [];
   for (List<int> update in updates) {
-    if (sorted(update) < 0) {
+    if (sorted(update) < 0)
       sum += update[update.length ~/ 2];
-    } else {
+    else
       invalid.add(update);
-    }
   }
   print('Part 1: $sum');
 
@@ -41,9 +40,8 @@ void main() async {
   for (List<int> update in invalid) {
     List<int> attempts = List.filled(update.length, 0);
     int index = sorted(update);
-    while (index >= 0) {
+    while (index >= 0)
       index = sorted(update..swap(index, index + ++attempts[index]));
-    }
     corrections += update[update.length ~/ 2];
   }
   print('Part 2: $corrections');
