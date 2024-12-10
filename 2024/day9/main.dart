@@ -5,33 +5,14 @@ import 'package:collection/collection.dart';
 void main() async {
   String diskMap = await aoc.getInputString();
 
-  Stopwatch time = Stopwatch()..start();
   List<int> disk = [];
   int id = 0;
   for (final (int i, int c) in diskMap.runes.indexed) {
-    for (int _ in 0.to(c - 49)) {
-      disk.add(i % 2 == 0 ? id : -id);
-    }
+    disk.addAll(List.generate(c - 48, (_) => i % 2 == 0 ? id : -id));
     if (i % 2 == 0) {
       id++;
     }
   }
-
-  List<int> copy = List.from(disk);
-  int index = 0, back = disk.length - 1;
-  while (index < back) {
-    if (copy[index] < 0) {
-      int last = copy[back];
-      while (last < 0) {
-        last = copy[--back];
-      }
-      copy[back] = copy[index];
-      copy[index] = last;
-      back--;
-    }
-    index++;
-  }
-  print('Part 1: ${copy.foldIndexed(0, (i, s, e) => e < 0 ? s : s + i * e)}');
 
   // Build a map of all blocks and open space so we don't need to
   // move through the array later.
@@ -49,6 +30,22 @@ void main() async {
       last = s;
     }
   }
+
+  int index = 0, back = disk.length - 1;
+  while (index < back) {
+    if (disk[index] < 0) {
+      int last = disk[back];
+      while (last < 0) {
+        last = disk[--back];
+      }
+      disk[back] = disk[index];
+      disk[index] = last;
+      back--;
+    }
+    index++;
+  }
+  print('Part 1: ${disk.foldIndexed(0, (i, s, e) => e < 0 ? s : s + i * e)}');
+
 
   Map<int, int> empty = Map.fromIterable(holes.values,
                                          key: (e) => e.$1,
@@ -78,5 +75,4 @@ void main() async {
     }
   }
   print('Part 2: $sum');
-  print(time.elapsed);
 }
