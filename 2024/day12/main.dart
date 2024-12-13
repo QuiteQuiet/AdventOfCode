@@ -2,19 +2,12 @@ import 'dart:collection';
 
 import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 import 'package:AdventOfCode/grid.dart';
-import 'package:AdventOfCode/int.dart';
 
 
 void main() async {
   Grid<String> garden = Grid.string(await aoc.getInputString(), (e) => e);
   int scale = 2;
-  Grid<String> upscale = Grid.filled(garden.width * scale, garden.height * scale, ' ');
-
-  garden.every((x, y, e) {
-    for (int i in 0.to(1))
-      for (int ii in 0.to(1))
-        upscale.put(x * scale + i, y * scale + ii, e);
-  });
+  Grid<String> upscale = Grid.upscale(garden, scale);
 
   Set<(int, int)> visited = {};
   Map<(int, int), Map<String, int>> regions = {};

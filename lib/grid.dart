@@ -1,6 +1,7 @@
 import 'package:AdventOfCode/int.dart';
 
 /// Two dimensional array implementation for Dart.
+///
 /// Contains standard iterator functions used for iterating
 /// over lists, but applied as two dimensional.
 class Grid<T> {
@@ -53,6 +54,7 @@ class Grid<T> {
   }
 
   /// Create Grid from multi-line String.
+  ///
   /// Additional argument is conversion function to convert values from
   /// String int <T>.
   /// For example a Grid<int> might call this as `Grid.string(input, int.parse)`.
@@ -68,7 +70,7 @@ class Grid<T> {
     _h = _cells.length ~/ _w;
   }
 
-  /// Copy an existing grid into
+  /// Copy an existing grid
   Grid.copy(Grid<T> from) {
     _w = from._w;
     _h = from._h;
@@ -76,6 +78,24 @@ class Grid<T> {
     for (int y in 0.to(from._h - 1))
       for (int x in 0.to(from._w - 1))
         _cells.add(from.at(x, y));
+  }
+
+  /// Upscale an existing grid by `scale`.
+  ///
+  /// A 2x2 upscaled x2 grid becomes:
+  /// ```
+  /// 12 -> 1122
+  /// 34    1122
+  ///       3344
+  ///       3344
+  /// ```
+  Grid.upscale(Grid<T> from, int scale) {
+    _w = from._w * scale;
+    _h = from._h * scale;
+    _cells = [];
+    for (int y in 0.to(_h - 1))
+      for (int x in 0.to(_w - 1))
+        _cells.add(from.at(x ~/ scale, y ~/ scale));
   }
 
   /// Get string representation of a Grid.
@@ -115,12 +135,15 @@ class Grid<T> {
   }
 
   /// Iterate over all elements close to an index in all directions.
+  ///
   /// The full grid this will cover is:
+  /// ```
   /// . . . . .
   /// . + + + .
   /// . + x + .
   /// . + + + .
   /// . . . . .
+  /// ```
   void neighbours(int x, int y, Function(int x, int y, T el) func) {
     for (int i in (x - 1).to(x + 1)) {
       for (int j in (y - 1).to(y + 1)) {
