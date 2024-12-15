@@ -61,7 +61,6 @@ void main() async {
       seconds += i;
       break;
     }
-
     rows.clear();
   }
   Grid<String> room = Grid.filled(width, height, '.');

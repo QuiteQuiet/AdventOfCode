@@ -166,6 +166,30 @@ class Grid<T> {
         return;
   }
 
+  /// Flip the grid either horizontally or vertically (in-place)
+  ///
+  /// The grid can also be flipped both horizontally and vertically
+  /// at the same time, which functionally is the same as inverting it.
+  void flip({vertical = false, horizontal = false}) {
+    int hor = _h - 1, ver = _w - 1;
+    int Function(int) ypos = (int y) => y,
+                      xpos = (int x) => x;
+    if (vertical) {
+      hor = (_h - 1) ~/ 2;
+      ypos =  (int y) => _h - 1 - y;
+    }
+    if (horizontal) {
+      ver = (_w - 1) ~/ 2;
+      xpos = (int x) => _w - 1 - x;
+    }
+    for (int y in 0.to(hor))
+      for (int x in 0.to(ver)) {
+        T e = at(xpos(x), ypos(y));
+        put(xpos(x), ypos(y), at(x, y));
+        put(x, y, e);
+      }
+  }
+
   /// Apply mapped function `func` on the entire collection.
   Iterable<T> map(T Function(T) func) => _cells.map(func);
   Iterator<T> get iterator => _cells.iterator;
