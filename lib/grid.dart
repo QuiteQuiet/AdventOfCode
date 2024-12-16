@@ -190,6 +190,15 @@ class Grid<T> {
       }
   }
 
+  /// Reduce the collection to a single value by iteratively
+  /// combining each element with an existing value.
+  E fold<E>(E initial, E Function(E prev, int x, int y, T e) f) {
+    for (int y in 0.to(_h - 1))
+      for (int x in 0.to(_w - 1))
+        initial = f(initial, x, y, at(x, y));
+    return initial;
+  }
+
   /// Apply mapped function `func` on the entire collection.
   Iterable<T> map(T Function(T) func) => _cells.map(func);
   Iterator<T> get iterator => _cells.iterator;

@@ -75,10 +75,6 @@ void main() async {
     }
   }
 
-  int sum = 0;
-  first.every((x, y, e) => sum += (e == 'O' ? 100 * y + x : 0));
-  print('Part 1: $sum');
-  sum = 0;
-  second.every((x, y, e) => sum += (e == '[' ? 100 * y + x : 0));
-  print('Part 2: $sum');
+  print('Part 1: ${first.fold(0, (s, x, y, e) => s + ({'O': 100 * y + x}[e] ?? 0))}');
+  print('Part 2: ${second.fold(0, (s, x, y, e) => s + ({'[': 100 * y + x}[e] ?? 0))}');
 }
