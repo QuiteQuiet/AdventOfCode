@@ -1,36 +1,23 @@
 import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 
-int Function(String, List<String>) memoizedFunction() {
-  Map<String, int> cache = {};
-
-  int options(String pattern, List<String> patterns) {
-    if (cache.containsKey(pattern)) {
-      return cache[pattern]!;
-    }
-    if (pattern.length == 0)
-      return 1;
-
-    List<int> all = [0];
-    for (String opt in patterns) {
-      if (pattern.startsWith(opt)) {
-        all.add(options(pattern.replaceFirst(opt, ''), patterns));
-      }
-    }
-    return cache[pattern] = all.reduce((a, b) => a + b);
-  }
-  return options;
-}
-
-
 void main() async {
-  List<String> lines = await aoc.getInput();
-  int Function(String, List<String>) possible = memoizedFunction();
+  List<String> input = await aoc.getInput();
+  List<String> patterns = input[0].split(', ');
+  List<String> towels = input.sublist(2);
 
-  List<String> patterns = lines[0].split(', ');
-  List<String> desired = lines.sublist(2);
+  Map<String, int> cache = {};
+  int options(String towel) {
+    if (cache.containsKey(towel))
+      return cache[towel]!;
+    if (towel.length == 0)
+      return 1;
+    return cache[towel] = patterns.where(towel.startsWith)
+                                  .map((opt) => options(towel.replaceFirst(opt, '')))
+                                  .fold(0, (a, b) => a + b);
+  }
+
   int works = 0, all = 0;
-
-  desired.map((d) => possible(d, patterns)).where((e) => e != 0).forEach((e) {
+  towels.map(options).where((e) => e != 0).forEach((e) {
     works++;
     all += e;
   });
