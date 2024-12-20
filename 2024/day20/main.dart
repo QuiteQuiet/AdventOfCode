@@ -48,10 +48,8 @@ void main() async {
     }
   });
 
-  Stopwatch time = Stopwatch()..start();
   List<Point> steps = path(race, start!, goal!);
   for (final (int i, int e) in [2, 20].indexed) {
     print('Part ${i + 1}: ${cheats(steps, e)}');
   }
-  print(time.elapsed);
 }

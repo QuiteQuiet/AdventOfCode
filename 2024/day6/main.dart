@@ -26,21 +26,25 @@ void main() async {
     return (g, d);
   }
 
-  Set<(int, int)> visited = {};
+  List<(int, int, int)> visited = [];
   ({int x, int y}) guard = (x: startx, y: starty);
   int direction = 0;
 
   while (!input.outOfBounds(guard.x, guard.y)) {
-    visited.add((guard.x, guard.y));
+    visited.add((guard.x, guard.y, direction));
     (guard, direction) = move(guard, direction);
   }
+  // Remove duplicate coordinates while preserving step order
+  Set<(int, int)> unique = {};
+  visited.retainWhere((e) => unique.add((e.$1, e.$2)));
+
   print('Part 1: ${visited.length}');
 
   Set<(int, int)> loops = {};
-  for (final (int x, int y) in visited.skip(1)) {
+  for (final (int i, (int x, int y, int _)) in visited.skip(1).indexed) {
     Set<(int, int, int)> seen = {};
-    guard = (x: startx, y: starty);
-    direction = 0;
+    guard = (x: visited[i].$1, y: visited[i].$2);
+    direction = visited[i].$3;
     input.put(x, y, '#');
     while (!input.outOfBounds(guard.x, guard.y)) {
       (int, int, int) next = (guard.x, guard.y, direction);
