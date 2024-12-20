@@ -18,8 +18,12 @@ class Point {
     _hash = Object.hash(_x, _y);
   }
 
+  @override
   bool operator==(Object o) => o is Point && _x == o.x && _y == o.y;
+  @override
   int get hashCode => _hash;
+  @override
+  String toString() => 'P($x, $y)';
 
   /// Euclidian distance between two points
   num euclidianDist(Point o) => sqrt(pow(_x- o.x, 2) + pow(_y - o.y, 2));
