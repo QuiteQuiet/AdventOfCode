@@ -1,4 +1,5 @@
 import 'package:AdventOfCode/int.dart';
+import 'package:AdventOfCode/space.dart';
 
 /// Two dimensional array implementation for Dart.
 ///
@@ -19,6 +20,8 @@ class Grid<T> {
 
   /// Get element from location `[x, y]` in the grid.
   T at(int x, int y) => _cells[y * _w + x];
+
+  T atPoint(Point p) => _cells[p.y.toInt() * _w + p.x.toInt()];
 
   /// Set location `[x, y]` to `e`.
   T put(int x, int y, T e) => _cells[y * _w + x] = e;
