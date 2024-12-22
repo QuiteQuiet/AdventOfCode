@@ -22,21 +22,17 @@ List<String> pathForNumberKeys(List<Point> keycode, Grid<String> keypad) {
       options.add(path.join(''));
       continue;
     }
-    if (keypad.atPoint(cur) == ' ') {
+    if (keypad.atPoint(cur) == ' ' || keypad.outOfBounds(cur.x.toInt(), cur.y.toInt())) {
       continue;
     }
     Point end = keycode[dest];
-    num dx = end.x - cur.x, dy = end.y - cur.y;
+    int dx = (end.x - cur.x).toInt(), dy = (end.y - cur.y).toInt();
     if (dx == 0 && dy == 0)
       stack.add((Point(cur.x, cur.y), dest + 1, [...path, 'A']));
-    if (dy < 0)
-      stack.add((Point(cur.x, cur.y - 1), dest, [...path, '^']));
-    if (0 < dx)
-      stack.add((Point(cur.x + 1, cur.y), dest, [...path, '>']));
-    if (0 < dy)
-      stack.add((Point(cur.x, cur.y + 1), dest, [...path, 'v']));
-    if (dx < 0)
-      stack.add((Point(cur.x - 1, cur.y), dest, [...path, '<']));
+    if (dy != 0)
+      stack.add((Point(cur.x, cur.y + dy), dest, [...path, ...List.filled(dy.abs(), dy < 0 ? '^' : 'v')]));
+    if (dx != 0)
+      stack.add((Point(cur.x + dx, cur.y), dest, [...path, ...List.filled(dx.abs(), dx < 0 ? '<' : '>')]));
   }
   return options;
 }
