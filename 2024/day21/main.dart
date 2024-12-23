@@ -13,6 +13,8 @@ List<Point> asCoordinates(Grid<String> keypad, List<String> sequence) => sequenc
     return ret!;
   }).toList();
 
+/// Calculate all possible methods for traveling from one number to another on the keypad.
+/// It's harder to know which is best here so all options need to be considered.
 List<String> pathForNumberKeys(List<Point> keycode, Grid<String> keypad) {
   List<String> options = [];
   List<(Point, int, List<String>)> stack = [(keycode[0], 1, [])];
@@ -43,6 +45,9 @@ String pathForArrowKeys(List<Point> points, Grid<String> arrows) {
     Point start = points[i - 1], end = points[i];
     num dx = end.x - start.x, dy = end.y - start.y;
 
+    // Stacking < and v together saves the most time for recursive robots
+    // so do that first if possible, which is always unless traveling to the
+    // < itself, which would go over the empty tile.
     if (arrows.atPoint(end) == '<') {
       for (; 0 < dy; dy--) moves.add('v');
       for (; dx < 0; dx++) moves.add('<');
@@ -51,6 +56,8 @@ String pathForArrowKeys(List<Point> points, Grid<String> arrows) {
       for (; 0 < dy; dy--) moves.add('v');
     }
 
+    // Similarly, ^ and > in that order is the best unless going from <
+    // where going up first goes over the empty square.
     if (arrows.atPoint(start) == '<') {
       for (; 0 < dx; dx--) moves.add('>');
       for (; dy < 0; dy++) moves.add('^');
@@ -63,6 +70,10 @@ String pathForArrowKeys(List<Point> points, Grid<String> arrows) {
   return moves.join('');
 }
 
+/// This calculates the cost of moving between two buttons for the maximum recursion
+/// depth (the number of robots). It can only handle a single movement at a time.
+/// To calculate a sequence of moves like vA<A>>^AvAAA>A it needs to be split up
+/// into individual moves that ends at A (vA, <A, >>^A, vA, A, A, >A).
 int Function(String, int) memoizeFunction(Map costs, int maxDepth) {
   List<Map<String, int>> cache = List.generate(maxDepth + 1, (_) => {});
 
@@ -90,6 +101,7 @@ void main() async {
               arrows = Grid.from([[' ', '^', 'A'],
                                   ['<', 'v', '>']]);
 
+  // Pre-compute a cost array from going from one button to any other button
   Map<String, Map<String, String>> costs = {};
   for (String start in ['A', '^', '<', '>', 'v']) {
     costs[start] = {};
@@ -100,10 +112,12 @@ void main() async {
   int Function(String, int) part1 = memoizeFunction(costs, 2);
   int Function(String, int) part2 = memoizeFunction(costs, 25);
 
+  // Calculate the best possible length of moves for a given list of button presses.
   int bestScore(int Function(String, int) scoreFunction, List<String> options) {
     int best = 0xFFFFFFFFFFFFFFF;
     for (String option in options) {
       int total = 0;
+      // Split the moves according to the requirements for `findPresses`.
       List<String> parts = option.split('A');
       for (String part in parts) {
         if (part.isEmpty) continue;
