@@ -29,11 +29,9 @@ void main() async {
   searchNetwork(network,
     (connected) => connected.length > 3,
     (connected) {
-      if (connected.length == 3 && connected.any((e) => e.startsWith('t'))) {
+      if (connected.length == 3 && connected.any((e) => e.startsWith('t')))
         triplets.add((connected..sort()).join(','));
-      }
-    }
-  );
+    });
   print('Part 1: ${triplets.length}');
 
   Set<String> checked = {};

@@ -46,24 +46,24 @@ void main() async {
   }
   print('Part 1: ${disk.foldIndexed(0, (i, s, e) => e < 0 ? s : s + i * e)}');
 
+  List<HeapPriorityQueue<int>> open = List.generate(10, (index) => HeapPriorityQueue());
+  holes.values.forEach((e) => open[e.$2].add(e.$1));
 
-  Map<int, int> empty = Map.fromIterable(holes.values,
-                                         key: (e) => e.$1,
-                                         value: (e) => e.$2);
   for (; last >= 0; last--) {
     final (int cur, int size) = blocks[last]!;
-    for (int to in empty.keys.toList()..sort()) {
-      if (to > cur) break; // Don't move files backwards
-      int space = empty[to]!;
-      if (space >= size) {
-        blocks[last] = (to, size);
-        empty.remove(to);
-        int left = space - size;
-        if (left > 0) {
-          empty[to + size] = left;
-        }
-        break;
+    // Go through all spaces big enough for this and find the first index
+    int gap = size;
+    for (int i = size; i < open.length; i++) {
+      if (open[gap].first > open[i].first) {
+        gap = i;
       }
+    }
+    if (open[gap].first > cur) continue; // Don't move files backwards
+    int dest = open[gap].removeFirst();
+    blocks[last] = (dest, size);
+    int spare = gap - size;
+    if (spare > 0) {
+      open[spare].add(dest + size);
     }
   }
 
