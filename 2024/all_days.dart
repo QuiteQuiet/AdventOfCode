@@ -22,8 +22,8 @@ import 'day20/main.dart' as day20;
 import 'day21/main.dart' as day21;
 import 'day22/main.dart' as day22;
 import 'day23/main.dart' as day23;
-// import 'day24/main.dart' as day24;
-// import 'day25/main.dart' as day25;
+import 'day24/main.dart' as day24;
+import 'day25/main.dart' as day25;
 
 Future<void> run(String day, Function f) async {
   print(day);
@@ -42,7 +42,7 @@ void main() async {
     day1.main, day2.main, day3.main, day4.main, day5.main, day6.main, day7.main,
     day8.main, day9.main, day10.main, day11.main, day12.main, day13.main, day14.main,
     day15.main, day16.main, day17.main, day18.main, day19.main, day20.main, day21.main,
-    day22.main, day23.main];
+    day22.main, day23.main, day24.main, day25.main];
 
   Stopwatch total = Stopwatch()..start();
   for (final (int day, Function solve) in days.indexed) {
