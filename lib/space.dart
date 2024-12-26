@@ -25,6 +25,10 @@ class Point {
   @override
   String toString() => 'P($x, $y)';
 
+  Point operator+(Point o) => Point(_x + o._x, _y + o._y);
+  Point operator-(Point o) => Point(_x - o._x, _y - o._y);
+  Point operator*(num o) => Point(_x * o, _y * o);
+
   /// Euclidian distance between two points
   num euclidianDist(Point o) => sqrt(pow(_x- o.x, 2) + pow(_y - o.y, 2));
 
@@ -47,4 +51,26 @@ class Line {
 
   /// Returns true if the point is on the line
   bool contains(Point p) => p.y == findY(p.x);
+}
+
+class Vector {
+  late List<num> origin, direction;
+  Vector(or, dir) {
+    this.origin = List.from(or);
+    this.direction = List.from(dir);
+    assert(origin.length == direction.length);
+  }
+
+  Vector operator*(num t) {
+    List<num> or = List.generate(origin.length, (i) => origin[i] + t * direction[i]);
+    return Vector(or, direction);
+  }
+
+  Vector once() {
+    List<num> or = List.generate(origin.length, (i) => origin[i] + direction[i]);
+    return Vector(or, direction);
+  }
+
+  @override
+  String toString() => 'V([${origin.join(', ')}] + t * [${direction.join(', ')}])';
 }
