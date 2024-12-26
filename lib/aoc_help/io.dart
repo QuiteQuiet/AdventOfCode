@@ -9,7 +9,7 @@ Map<String, String> HEADERS = {
 
 /// If you thought the hack to get the day and year was bad.
 /// There is, as-far-as-I-can-Google, no good way to find this
-/// specific folder lcoation otherwise. Someone please
+/// specific folder locoation otherwise. Someone please
 /// prove me wrong on this and give a more general method of
 /// finding the aoc_help directory?
 String _findThisDirectory() {

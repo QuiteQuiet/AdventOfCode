@@ -32,6 +32,9 @@ class Grid<T> {
   /// Unmark tile position when printing in terminal
   bool unmark(int x, int y) => _highlight.remove((x, y));
 
+  /// Clear all marked ties directly
+  void clearMarks() => _highlight.clear();
+
   /// Increase grid size by one, without changing the dimensions of
   /// the grid. Very niche but has been required in one puzzle.
   void add(T e) => this._cells.add(e);
