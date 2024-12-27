@@ -24,11 +24,11 @@ void main() async {
     if (i == 20) {
       print('Part 1: ${score()}');
     }
-    List<String> next = ['.', '.', '.'];
+    List<String> next = [];
     for (int s = 2; s < plantpots.length - 2; s++) {
       next.add(rules[plantpots.substring(s - 2, s + 3)]!);
     }
-    plantpots = [...next, '.', '.', '.'].join('');
+    plantpots = ['.', '.', '.', ...next, '.', '.', '.'].join('');
     center += 1;
     toGo--;
     cur = score();

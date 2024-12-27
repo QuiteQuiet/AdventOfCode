@@ -1,12 +1,11 @@
 import 'dart:io';
 
-String template = """
-import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
-
-void main() async {
-  List<String> lines = await aoc.getInput();
-
-}
+String template = """import 'package:AdventOfCode/aoc_help/get.dart' as aoc;\r
+\r
+void main() async {\r
+  List<String> lines = await aoc.getInput();\r
+\r
+}\r
 """;
 
 void main(List<String> args) async {
