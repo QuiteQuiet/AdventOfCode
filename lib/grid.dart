@@ -123,6 +123,7 @@ class Grid<T> {
 
   /// Returns true if coordinate is outside the bounds of the Grid.
   bool outOfBounds(int x, int y) => x < 0 || x >= _w || y < 0 || y >= _h;
+  bool pointOutOfBounds(Point p) => outOfBounds(p.x.toInt(), p.y.toInt());
 
   /// Iterate over Grid, and apply `func` on every item.
   void every(Function(int x, int y, T e) func) {

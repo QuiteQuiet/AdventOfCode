@@ -15,7 +15,6 @@ void main() async {
   }
 
   String result = recipies.join('');
-
   print('Part 1: ${result.substring(target, target + 10)}');
   print('Part 2: ${result.indexOf(target.toString())}');
 }
