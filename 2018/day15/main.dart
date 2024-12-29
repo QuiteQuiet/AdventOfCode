@@ -12,7 +12,6 @@ class Unit {
   int hp;
   Unit(this.loc, this.type, [this.hp = 200]);
   static int order(Unit a, Unit b) => a.hp != b.hp ? a.hp - b.hp : pointOrder(a.loc, b.loc);
-  String toString() => '$loc ($hp)';
 }
 
 (Point, int) bfs(Grid<String> maze, List<Point> priority, Point start, Point end) {
