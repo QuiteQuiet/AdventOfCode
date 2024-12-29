@@ -21,10 +21,14 @@ class Grid<T> {
   /// Get element from location `[x, y]` in the grid.
   T at(int x, int y) => _cells[y * _w + x];
 
+  /// Get element from location `Point(x, y)` in the grid.
   T atPoint(Point p) => _cells[p.y.toInt() * _w + p.x.toInt()];
 
   /// Set location `[x, y]` to `e`.
   T put(int x, int y, T e) => _cells[y * _w + x] = e;
+
+  /// Set location `Point(x, y)` to `e`.
+  T putPoint(Point p, T e) => _cells[p.y.toInt() * _w + p.x.toInt()] = e;
 
   /// Mark grid position when printing in terminal
   void mark(int x, int y) => _highlight.add((x, y));

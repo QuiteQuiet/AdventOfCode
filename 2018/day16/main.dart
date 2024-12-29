@@ -7,31 +7,24 @@ class Computer {
   Computer() {
     reg = List.filled(4, 0);
     operations = {
-      'addr': addr, 'addi': addi,
-      'mulr': mulr, 'muli': muli,
-      'banr': banr, 'bani': bani,
-      'borr': borr, 'bori': bori,
-      'setr': setr, 'seti': seti,
-      'gtir': gtir, 'gtri': gtri, 'gtrr': gtrr,
-      'eqir': eqir, 'eqri': eqri, 'eqrr': eqrr,
+      'addr': (int a, int b, int c) => reg[c] = reg[a] + reg[b],
+      'addi': (int a, int b, int c) => reg[c] = reg[a] + b,
+      'mulr': (int a, int b, int c) => reg[c] = reg[a] * reg[b],
+      'muli': (int a, int b, int c) => reg[c] = reg[a] * b,
+      'banr': (int a, int b, int c) => reg[c] = reg[a] & reg[b],
+      'bani': (int a, int b, int c) => reg[c] = reg[a] & b,
+      'borr': (int a, int b, int c) => reg[c] = reg[a] | reg[b],
+      'bori': (int a, int b, int c) => reg[c] = reg[a] | b,
+      'setr': (int a, int b, int c) => reg[c] = reg[a],
+      'seti': (int a, int b, int c) => reg[c] = a,
+      'gtir': (int a, int b, int c) => reg[c] = a > reg[b] ? 1 : 0,
+      'gtri': (int a, int b, int c) => reg[c] = reg[a] > b ? 1 : 0,
+      'gtrr': (int a, int b, int c) => reg[c] = reg[a] > reg[b] ? 1 : 0,
+      'eqir': (int a, int b, int c) => reg[c] = a == reg[b] ? 1 : 0,
+      'eqri': (int a, int b, int c) => reg[c] = reg[a] == b ? 1 : 0,
+      'eqrr': (int a, int b, int c) => reg[c] = reg[a] == reg[b] ? 1 : 0,
     };
   }
-  void addr(int a, int b, int c) => reg[c] = reg[a] + reg[b];
-  void addi(int a, int b, int c) => reg[c] = reg[a] + b;
-  void mulr(int a, int b, int c) => reg[c] = reg[a] * reg[b];
-  void muli(int a, int b, int c) => reg[c] = reg[a] * b;
-  void banr(int a, int b, int c) => reg[c] = reg[a] & reg[b];
-  void bani(int a, int b, int c) => reg[c] = reg[a] & b;
-  void borr(int a, int b, int c) => reg[c] = reg[a] | reg[b];
-  void bori(int a, int b, int c) => reg[c] = reg[a] | b;
-  void setr(int a, int b, int c) => reg[c] = reg[a];
-  void seti(int a, int b, int c) => reg[c] = a;
-  void gtir(int a, int b, int c) => reg[c] = a > reg[b] ? 1 : 0;
-  void gtri(int a, int b, int c) => reg[c] = reg[a] > b ? 1 : 0;
-  void gtrr(int a, int b, int c) => reg[c] = reg[a] > reg[b] ? 1 : 0;
-  void eqir(int a, int b, int c) => reg[c] = a == reg[b] ? 1 : 0;
-  void eqri(int a, int b, int c) => reg[c] = reg[a] == b ? 1 : 0;
-  void eqrr(int a, int b, int c) => reg[c] = reg[a] == reg[b] ? 1 : 0;
 
   bool equals(List<int> cmp) {
     for (int i = 0; i < reg.length; i++)
