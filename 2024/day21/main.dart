@@ -24,17 +24,17 @@ List<String> pathForNumberKeys(List<Point> keycode, Grid<String> keypad) {
       options.add(path.join(''));
       continue;
     }
-    if (keypad.atPoint(cur) == ' ' || keypad.outOfBounds(cur.x.toInt(), cur.y.toInt())) {
+    if (keypad.atPoint(cur) == ' ' || keypad.outOfBounds(cur.xi, cur.yi)) {
       continue;
     }
     Point end = keycode[dest];
-    int dx = (end.x - cur.x).toInt(), dy = (end.y - cur.y).toInt();
+    int dx = end.xi - cur.xi, dy = end.yi - cur.yi;
     if (dx == 0 && dy == 0)
-      stack.add((Point(cur.x, cur.y), dest + 1, [...path, 'A']));
+      stack.add((Point(cur.xi, cur.yi), dest + 1, [...path, 'A']));
     if (dy != 0)
-      stack.add((Point(cur.x, cur.y + dy), dest, [...path, ...List.filled(dy.abs(), dy < 0 ? '^' : 'v')]));
+      stack.add((Point(cur.xi, cur.yi + dy), dest, [...path, ...List.filled(dy.abs(), dy < 0 ? '^' : 'v')]));
     if (dx != 0)
-      stack.add((Point(cur.x + dx, cur.y), dest, [...path, ...List.filled(dx.abs(), dx < 0 ? '<' : '>')]));
+      stack.add((Point(cur.xi + dx, cur.yi), dest, [...path, ...List.filled(dx.abs(), dx < 0 ? '<' : '>')]));
   }
   return options;
 }
@@ -43,7 +43,7 @@ String pathForArrowKeys(List<Point> points, Grid<String> arrows) {
   List<String> moves = [];
   for (int i = 1; i < points.length; i++) {
     Point start = points[i - 1], end = points[i];
-    num dx = end.x - start.x, dy = end.y - start.y;
+    num dx = end.xi - start.xi, dy = end.yi - start.yi;
 
     // Stacking < and v together saves the most time for recursive robots
     // so do that first if possible, which is always unless traveling to the

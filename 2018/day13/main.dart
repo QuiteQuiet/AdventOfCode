@@ -32,11 +32,11 @@ void main() async {
   while (cartCount > 1) {
     List<List<Cart>> tmp = List.generate(minecarts.length, (i) => []);
     for (final List<Cart> carts in minecarts) {
-      carts.sort((a, b) => (a.dir.x - b.dir.x).toInt());
+      carts.sort((a, b) => (a.dir.xi - b.dir.xi).toInt());
       for (Cart cart in carts) {
         Point next = cart.pos + cart.dir;
 
-        int ny = next.y.toInt();
+        int ny = next.yi.toInt();
         List<Cart> newPos = tmp[ny];
         if (minecarts[ny].any((e) => e.pos == next && !e.moved)) {
           firstCrash ??= next;
@@ -51,11 +51,11 @@ void main() async {
           continue;
         }
         Point direction = switch (track.atPoint(next)) {
-          r'\' => Point(cart.dir.y, cart.dir.x),
-          r'/' => Point(-cart.dir.y, -cart.dir.x),
-          r'+' => switch (cart.dir.x) {
-            0 => [Point(cart.dir.y, cart.dir.x), cart.dir, Point(-cart.dir.y, -cart.dir.x)][cart.turn++],
-            _ => [Point(-cart.dir.y, -cart.dir.x), cart.dir, Point(cart.dir.y, cart.dir.x)][cart.turn++],
+          r'\' => Point(cart.dir.yi, cart.dir.xi),
+          r'/' => Point(-cart.dir.yi, -cart.dir.xi),
+          r'+' => switch (cart.dir.xi) {
+            0 => [Point(cart.dir.yi, cart.dir.xi), cart.dir, Point(-cart.dir.yi, -cart.dir.xi)][cart.turn++],
+            _ => [Point(-cart.dir.yi, -cart.dir.xi), cart.dir, Point(cart.dir.yi, cart.dir.xi)][cart.turn++],
           },
           _ => cart.dir,
         };
@@ -67,7 +67,7 @@ void main() async {
     minecarts = tmp;
     cartCount = minecarts.fold(0, (s, e) => s + e.length);
   }
-  print('Part 1: ${firstCrash!.x},${firstCrash.y}');
+  print('Part 1: ${firstCrash!.xi},${firstCrash.yi}');
   Point last = minecarts.firstWhere((e) => e.length > 0).first.pos;
-  print('Part 2: ${last.x},${last.y}');
+  print('Part 2: ${last.xi},${last.yi}');
 }

@@ -16,7 +16,7 @@ List<Point> path(Grid<String> race, Point start, Point goal) {
     path.add(cur);
     if (cur == goal)
       return path;
-    race.adjacent(cur.x.toInt(), cur.y.toInt(), (x, y, el) {
+    race.adjacent(cur.xi, cur.yi, (x, y, el) {
       if (el != '#')
         queue.add(Point(x, y));
     });

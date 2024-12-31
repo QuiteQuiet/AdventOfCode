@@ -4,7 +4,7 @@ import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 import 'package:AdventOfCode/grid.dart';
 import 'package:AdventOfCode/space.dart';
 
-int pointOrder(Point a, Point b) => (a.y != b.y ? a.y - b.y : a.x - b.x).toInt();
+int pointOrder(Point a, Point b) => a.yi != b.yi ? a.yi - b.yi : a.xi - b.xi;
 
 class Unit {
   Point loc;
@@ -41,7 +41,7 @@ class Unit {
   maze = Grid.copy(maze);
   units = List.generate(units.length, (i) => Unit(units[i].loc, units[i].type, units[i].hp));
 
-  void replace(Point p, String s) => maze.put(p.x.toInt(), p.y.toInt(), s);
+  void replace(Point p, String s) => maze.put(p.xi, p.yi, s);
 
   List<Point> priority = [Point(0, -1), Point(-1, 0), Point(1, 0), Point(0, 1)];
   Map<String, String> enemies = {'G': 'E', 'E': 'G'};

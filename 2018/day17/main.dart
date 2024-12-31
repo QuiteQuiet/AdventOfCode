@@ -28,52 +28,52 @@ void main() async {
   Point down = Point(0, 1), left = Point(-1, 0), right = Point(1, 0);
   Set<Point> waterTile = {};
 
-  List<(Point, Point)> stack = [(Point(500, 1), down)];
+  List<(Point, Point)> stack = [(Point(500, highest), down)];
   while (stack.isNotEmpty) {
     final (Point cur, Point dir) = stack.removeLast();
-    if (cur.y > lowest ||
-        (dir.x != 0 && '.v'.contains(reservoirs.atPoint(Point(cur.x - dir.x, cur.y + 1)))) ||
+    if (cur.yi > lowest ||
+        (dir.xi != 0 && '.v'.contains(reservoirs.atPoint(Point(cur.xi - dir.xi, cur.yi + 1)))) ||
         !waterTile.add(cur)) {
       continue;
     }
     reservoirs.putPoint(cur, 'v');
 
-    int leftEdge = cur.x.toInt(), rightEdge = cur.x.toInt();
+    int leftEdge = cur.xi, rightEdge = cur.xi;
     for (int i = leftEdge; i >= 0; i--) {
-      if (reservoirs.at(i, cur.y.toInt()) == '#') {
+      if (reservoirs.at(i, cur.yi) == '#') {
         leftEdge = i;
         break;
       }
     }
     for (int i = rightEdge; i < reservoirs.width; i++) {
-      if (reservoirs.at(i, cur.y.toInt()) == '#') {
+      if (reservoirs.at(i, cur.yi) == '#') {
         rightEdge = i;
         break;
       }
     }
 
-    if (leftEdge != cur.x && rightEdge != cur.x) {
+    if (leftEdge != cur.xi && rightEdge != cur.xi) {
       bool floor = true;
       Point below = cur + down;
       for (int i = leftEdge; i < rightEdge; i++) {
-        if ('.v'.contains(reservoirs.at(i, below.y.toInt()))) {
+        if ('.v'.contains(reservoirs.at(i, below.yi))) {
           floor = false;
         }
       }
       if (floor) {
         bool resting = true;
         for (int i = leftEdge + 1; i < rightEdge; i++) {
-          if (reservoirs.at(i, cur.y.toInt()) != 'v') {
+          if (reservoirs.at(i, cur.yi) != 'v') {
             resting = false;
           }
         }
         if (resting) {
           for (int i = leftEdge + 1; i < rightEdge; i++) {
-            Point p = Point(i, cur.y);
+            Point p = Point(i, cur.yi);
             reservoirs.putPoint(p, '~');
           }
           if (rightEdge - leftEdge == 2) {
-            int y = cur.y.toInt();
+            int y = cur.yi;
             while (reservoirs.at(leftEdge, y) == '#' && reservoirs.at(rightEdge, y) == '#') {
               reservoirs.put(leftEdge + 1, y--, '~');
             }
@@ -92,12 +92,10 @@ void main() async {
 
   int still = 0, flowing = 0;
   reservoirs.every((x, y, e) {
-    if (y >= highest) {
       if (e == '~')
         still++;
       if (e == 'v')
         flowing++;
-    }
   });
   print('Part 1: ${still + flowing}');
   print('Part 2: $still');
