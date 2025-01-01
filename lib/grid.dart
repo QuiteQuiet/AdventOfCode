@@ -138,6 +138,15 @@ class Grid<T> {
 
   /// Iterate over adjacent grid elements (the cross)
   /// accounting for borders.
+  ///
+  /// The squares of the grid this will cover is:
+  /// ```
+  /// . . . . .
+  /// . . + . .
+  /// . + x + .
+  /// . . + . .
+  /// . . . . .
+  /// ```
   void adjacent(int x, int y, Function(int x, int y, T el) func) {
     if (x - 1 >= 0) func(x - 1, y, at(x - 1, y));
     if (x + 1 < _w) func(x + 1, y, at(x + 1, y));
