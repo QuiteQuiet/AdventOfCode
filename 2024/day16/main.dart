@@ -32,7 +32,8 @@ void main() async {
     cur.path.add((cur.x, cur.y));
     (int, int, int) here = (cur.x, cur.y, cur.d);
     if (visited.containsKey(here)) {
-      options.add(cur);
+      if (visited[here] == cur.s)
+        options.add(cur); // A valid option for alternate path
       continue;
     }
     visited[here] = cur.s;
@@ -54,8 +55,7 @@ void main() async {
   Set<(int, int)> path = Set.from(best.path),
                   bestPaths = Set.from(best.path);
   for (Point test in options) {
-    int score = visited[(test.x, test.y, test.d)]!;
-    if (path.contains(test.path.last) && test.s == score) {
+    if (path.contains(test.path.last)) {
       bestPaths.addAll(test.path);
     }
   }
