@@ -1,5 +1,6 @@
-import 'dart:io';
 import 'dart:math';
+
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 
 /// Levenshtein algorithm implementation based on:
 /// http://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows
@@ -50,7 +51,7 @@ class Collection {
 void main() async {
   int twos = 0, threes = 0;
   List<String> boxes = new List.empty(growable: true);
-  await new File('input.txt').readAsLines()
+  await aoc.getInput()
   .then((List<String> file) {
     file.forEach((String line) {
       Collection col = Collection(line.split(''));

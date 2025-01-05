@@ -1,12 +1,12 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
+import 'package:AdventOfCode/string.dart';
 
-import '../../../lib/string.dart';
 
 void main() async {
   int freq = 0;
   int? first = null, repeat = null;
   Set<int> prev = new Set();
-  await new File('input.txt').readAsLines()
+  await aoc.getInput()
   .then((List<String> file) {
     while (repeat == null) {
       file.forEach((String line) {

@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 import 'package:AdventOfCode/int.dart';
 
 (int, int, int) getMetaData(List<int> input, int index) {
@@ -33,7 +32,7 @@ import 'package:AdventOfCode/int.dart';
 }
 
 void main() async {
-  List<int> input = (await File('input.txt').readAsString()).split(' ').map(int.parse).toList();
+  List<int> input = (await aoc.getInputString()).split(' ').map(int.parse).toList();
 
   (int, int, int) result = getMetaData(input, 0);
   print('Part 1: ${result.$2}');

@@ -1,6 +1,6 @@
-import 'dart:io';
-
 import 'dart:math';
+
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 
 class Guard {
   late int id, minutes = 0, fellAsleep, mostAsleepAt;
@@ -8,13 +8,12 @@ class Guard {
   Guard(this.id) { asleep = Map<int, int>(); }
 }
 
-void main() {
-  List<String> input = File('input.txt').readAsLinesSync()..sort();
+void main() async {
+  List<String> input = (await aoc.getInput())..sort();
   Map<String, Guard> guards = Map();
   Guard active = Guard(0);
   RegExp format = RegExp(r'\[\d+-\d+-\d+ \d+:(\d+)\] (.+)'),
         guardid = RegExp(r'#(\d+)');
-  File('sorted.txt').writeAsString(input.join('\n'));
 
   input.forEach((String entry) {
     Match match = format.firstMatch(entry)!;

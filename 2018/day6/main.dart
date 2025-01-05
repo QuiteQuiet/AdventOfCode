@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 
 class Grid<T> {
   late List<List<T>> cells;
@@ -19,8 +19,8 @@ class Grid<T> {
   }
 }
 
-void main() {
-  List<List<int>> input = List.from(File('input.txt').readAsLinesSync().map((el) => el.split(', ').map(int.parse).toList()))
+void main() async {
+  List<List<int>> input = List.from((await aoc.getInput()).map((el) => el.split(', ').map(int.parse).toList()))
     ..sort((a, b) => a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);
   List<String> repr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
   Set<String> infinity = Set();

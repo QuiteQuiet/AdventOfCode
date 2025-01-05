@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 
 class Grid<T> {
   late List<List<T>> _cells;
@@ -22,7 +22,7 @@ void main() async {
   Grid<String> fabric = new Grid<String>.initiate(1000, 1000, '.');
   Map<String, int> claims = new Map(), remains = new Map();
   RegExp regex = new RegExp(r"#([0-9]+) @ ([0-9]+),([0-9]+): ([0-9]+)x([0-9]+)");
-  await new File('input.txt').readAsLines()
+  await aoc.getInput()
     .then((List<String> file) {
       file.forEach((String line) {
         RegExpMatch match = regex.firstMatch(line)!;

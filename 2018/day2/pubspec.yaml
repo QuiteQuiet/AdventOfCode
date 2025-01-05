@@ -1,7 +1,0 @@
-name: advent2
-description: A sample command-line application
-dependencies:
-  queries:
-
-environment:
-  sdk: '^3.2.0'

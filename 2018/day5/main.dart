@@ -1,5 +1,6 @@
-import 'dart:io';
 import 'dart:collection';
+
+import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 
 String process(String input) {
   ListQueue<String> stack = ListQueue();
@@ -16,8 +17,8 @@ String process(String input) {
   return stack.toList().join('');
 }
 
-void main() {
-  String input = File('input.txt').readAsStringSync();
+void main() async {
+  String input = await aoc.getInputString();
   String output = process(input);
   print('Part 1: ${output.length}');
 
