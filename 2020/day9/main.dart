@@ -14,7 +14,7 @@ void main() async {
   }
 
   int replace = 0, invalid = 0;
-  for (int index in 25.to(input.length - 1)) {
+  for (int index in preamble.length.to(input.length - 1)) {
     if (possible(input[index])) {
       preamble[replace] = input[index];
       replace = (replace + 1) % preamble.length;
