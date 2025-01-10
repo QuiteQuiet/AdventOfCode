@@ -12,9 +12,9 @@ void main() async {
     if (cache[cur] != -1) return cache[cur];
     if (adapters[cur] == adapters.last) return cache[cur] = 1;
 
-    int options = 0, start = adapters[cur];
-    while (cur < adapters.length - 1 && adapters[++cur] - start <= 3)
-      options += cache[cur] = compatible(cur, adapters);
+    int options = 0;
+    adapters.indexed.skip(cur + 1).takeWhile((e) => e.$2 - adapters[cur] <= 3)
+      .forEach((e) => options += cache[e.$1] = compatible(e.$1, adapters));
     return options;
   }
   print('Part 2: ${compatible(0, [0, ...adapters, adapters.last + 3])}');
