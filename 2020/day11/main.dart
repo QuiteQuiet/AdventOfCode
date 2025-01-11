@@ -2,9 +2,9 @@ import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
 import 'package:AdventOfCode/grid.dart';
 
 int seatSimulation(Grid<String> seats, int limit, bool Function(Grid<String>, int, int, int, int) isOccupied) {
+  Grid<String> next = Grid.filled(seats.width, seats.height, '.');
   int changed = 1;
   while (changed > 0) {
-    Grid<String> temp = Grid.filled(seats.width, seats.height, '.');
     changed = 0;
     seats.every((x, y, e) {
       if (e == '.') return;
@@ -18,16 +18,18 @@ int seatSimulation(Grid<String> seats, int limit, bool Function(Grid<String>, in
         }
       }
       if (e == 'L' && occupied == 0) {
-        temp.put(x, y, '#');
+        next.put(x, y, '#');
         changed++;
       } else if (e == '#' && occupied >= limit) {
-        temp.put(x, y, 'L');
+        next.put(x, y, 'L');
         changed++;
       } else {
-        temp.put(x, y, e);
+        next.put(x, y, e);
       }
     });
-    seats = temp;
+    Grid<String> tmp = seats;
+    seats = next;
+    next = tmp;
   }
   return seats.fold(0, (prev, x, y, e) => prev + (e == '#' ? 1: 0));
 }
