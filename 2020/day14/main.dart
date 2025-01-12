@@ -38,9 +38,7 @@ Iterable<int> allAddresses(String mask) sync* {
 void main() async {
   List<String> lines = await aoc.getInput();
 
-  Stopwatch time = Stopwatch()..start();
   (int, int) res = initialize(lines);
   print('Part 1: ${res.$1}');
   print('Part 2: ${res.$2}');
-  print(time.elapsed);
 }
