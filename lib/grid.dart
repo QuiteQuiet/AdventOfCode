@@ -210,6 +210,15 @@ class Grid<T> {
       }
   }
 
+  void rotate() {
+    List<T> copy = List.from(_cells);
+    for (int y in 0.to(_h - 1))
+      for (int x in 0.to(_w - 1))
+        copy[x * _w + _w - y - 1] = _cells[y * _w + x];
+    _cells.clear();
+    _cells = copy;
+  }
+
   /// Reduce the collection to a single value by iteratively
   /// combining each element with an existing value.
   E fold<E>(E initial, E Function(E prev, int x, int y, T e) f) {
