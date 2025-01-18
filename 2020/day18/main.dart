@@ -21,7 +21,7 @@ int advancedMath(List<String> math) {
   return priority.fold(1, (p, e) => p * e);
 }
 
-int helpWithHomework(List<List<String>> homework, int Function(List<String>) howToMath) {
+int helpWithHomework(List<List<String>> homework, int Function(List<String>) mathSystem) {
   int sum = 0;
   List<List<String>> stack = [];
   for (List<String> line in homework) {
@@ -31,12 +31,12 @@ int helpWithHomework(List<List<String>> homework, int Function(List<String>) how
         stack.add([]);
       } else if (line[index] == ')') {
         List<String> part = stack.removeLast();
-        stack.last.add(howToMath(part).toString());
+        stack.last.add(mathSystem(part).toString());
       } else {
         stack.last.add(line[index]);
       }
     }
-    sum += howToMath(stack.removeLast());
+    sum += mathSystem(stack.removeLast());
   }
   return sum;
 }
