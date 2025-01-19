@@ -210,13 +210,22 @@ class Grid<T> {
       }
   }
 
+  /// Rotates clockwise by 90°. For larger rotations call the function again.
+  /// Only works for n * n grids. Will fail on n * m.
   void rotate() {
-    List<T> copy = List.from(_cells);
-    for (int y in 0.to(_h - 1))
-      for (int x in 0.to(_w - 1))
-        copy[x * _w + _w - y - 1] = _cells[y * _w + x];
-    _cells.clear();
-    _cells = copy;
+    int layers = _w ~/ 2;
+    for (int i = 0; i < layers; i++) {
+      int first = i, last = _w - first - 1;
+      for (int element = first; element < last; element++) {
+        int offset = last - (element - first);
+
+        T tmp = at(element, first);
+        put(element, first, at(first, offset));
+        put(first, offset, at(offset, last));
+        put(offset, last, at(last, element));
+        put(last, element, tmp);
+      }
+    }
   }
 
   /// Reduce the collection to a single value by iteratively
