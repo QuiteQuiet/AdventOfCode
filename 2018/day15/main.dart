@@ -21,18 +21,14 @@ class Unit {
   Set<Point> visited = {};
   while (toDo.isNotEmpty) {
     final (Point cur, Point first, int length) = toDo.removeFirst();
-    if (!visited.add(cur)) {
+    if (!visited.add(cur))
       continue;
-    }
-    if (cur == end) {
+    if (cur == end)
       return (first, length);
-    }
 
-    for (Point p in priority) {
-      if (maze.atPoint(cur) == '.') {
+    for (Point p in priority)
+      if (maze.atPoint(cur) == '.')
         toDo.add((cur + p, first, length + 1));
-      }
-    }
   }
   return (Point(-1, -1), -1);
 }
@@ -59,15 +55,16 @@ class Unit {
       int shortest = maze.width * maze.height;
       for (Unit enemy in units.where((e) => e.type == enemies[unit.type]! && e.hp > 0)) {
         done = false;
+        if (unit.loc.manhattanDist(enemy.loc) - 1 > shortest)
+          continue;
         for (Point p in priority) {
           Point next = enemy.loc + p;
           if (unit.loc == next) {
             reachable.add((unit.loc, 0));
             break;
           }
-          if (maze.atPoint(next) != '.' || unit.loc.manhattanDist(next) > shortest) {
+          if (maze.atPoint(next) != '.')
             continue;
-          }
           final (Point move, int length) = bfs(maze, priority, unit.loc, next);
           if (length > 0) {
             reachable.add((move, length));
