@@ -79,5 +79,5 @@ void main() async {
     if (after31.isEmpty && num42 > 0 && num31 > 0 && num42 - num31 > 0)
       matches2++;
   }
-  print(matches2);
+  print('Part 2: $matches2');
 }
