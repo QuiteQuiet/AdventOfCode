@@ -8,7 +8,7 @@ class Point {
   int x, y, s;
   Point(this.x, this.y, this.s);
   // Sorta-equality that skips steps for equality checks
-  bool operator==(Object? o) => o is Point && x == o.x && y == o.y;
+  bool operator==(Object o) => o is Point && x == o.x && y == o.y;
   int get hashCode => Object.hash(x, y);
 }
 

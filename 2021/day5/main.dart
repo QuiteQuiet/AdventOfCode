@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
-import 'package:AdventOfCode/grid.dart';
 import 'package:AdventOfCode/space.dart';
 import 'package:AdventOfCode/string.dart';
 
