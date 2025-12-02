@@ -11,8 +11,7 @@ void main() async {
     int start = dial;
     dial = switch (op[0]) {
       'R' => dial + times,
-      'L' => dial - times,
-      _ => -1,
+      _ => dial - times,
     };
     passes += dial.abs() ~/ 100;
     if (dial <= 0 && start != 0) passes++;
