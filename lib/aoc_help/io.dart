@@ -45,7 +45,7 @@ Future<String> fromSite(String year, String day) async {
     throw Exception('Failed to fetch input from site. Check session cookie/connection and try again');
   } else {
     String input = response.body;
-    await io.File('input.txt').writeAsString(input);
+    await io.File('input.txt').writeAsString(input.substring(0, input.length - 1));
     return input;
   }
 }
