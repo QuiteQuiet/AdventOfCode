@@ -31,11 +31,14 @@ class Point {
   Point operator-(Point o) => Point(_x - o._x, _y - o._y);
   Point operator*(num o) => Point(_x * o, _y * o);
 
-  /// Euclidian distance between two points
+  /// Euclidian distance between two points.
   num euclidianDist(Point o) => sqrt(pow(_x- o._x, 2) + pow(_y - o._y, 2));
 
-  /// Manhattan distance between two points
+  /// Manhattan distance between two points.
   int manhattanDist(Point o) => ((_x - o._x).abs() + (_y - o._y).abs()).toInt();
+
+  /// Area of the rectangle the two points define.
+  int area(Point o) => (((_x - o._x).abs() + 1) * ((_y - o._y).abs() + 1)).toInt();
 }
 
 class Line {
