@@ -6,6 +6,7 @@ dependencies:
   dart_numerics: ^0.0.6
   trotter: ^2.2.0
   http: ^1.1.2
+  advance_math: ^5.4.3
 
 environment:
   sdk: '^3.2.0'
