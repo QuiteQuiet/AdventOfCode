@@ -75,9 +75,8 @@ void main() async {
   }
   print('Part 1: $sum');
 
-  int buttonPresses = 0;
+  num buttonPresses = 0;
   for (Diagram cur in diagrams) {
-    num smallest = 1000000000;
     int buttons = cur.buttons.length;
     List<ColumnMatrix> c = List.generate(buttons, (i) => ColumnMatrix(cur.buttons[i]));
 
@@ -115,14 +114,28 @@ void main() async {
 
     // Exactly 1 solution
     if (free.isEmpty) {
-      smallest = linearFunc.fold(0, (s, f) => s + f.apply([]));
+      num presses = linearFunc.fold(0, (s, f) => s + f.apply([]));
+      if (presses == 0) {
+        // The linear algebra library I use for this solution don't actually
+        // treat the augmented matrix correctly, so for a few (2) lines in
+        // my input it ends up breaking the matrix entirely and finds no solution.
+        // Luckily those have a single unique solution so their presses can
+        // be found through a normal matrix inverse operation.
+        Matrix Ainv = Matrix.fromColumns(c.take(c.length - 1).toList()).inverse();
+        Matrix solution = Ainv * c.last;
+        presses = solution.elements.reduce((a, b) => a.round() + b.round());
+      }
+      buttonPresses += presses;
 
     // Test combinations to find the smallest
     } else {
+      num smallest = 1000000000;
       List<int> options = List.generate(limit.toInt(), (i) => i),
                 numbers = new List.filled(buttons, 0),
                 freeList = free.toList();
 
+      // TODO: This code is fairly fast except one 24s outlier that takes
+      //       execution time from ~2s to ~30s. Maybe fix that one day.
       for (final amalgam in Amalgams(freeList.length, options)()) {
         for (final (int i, int a) in amalgam.indexed) {
           numbers[freeList[i]] = a;
@@ -146,18 +159,8 @@ void main() async {
           }
         }
       }
+      buttonPresses += smallest;
     }
-    if (smallest == 0) {
-      // The linear algebra library I use for this solution don't actually
-      // treat the augmented matrix correctly, so for a few (2) lines in
-      // my input it ends up breaking the matrix entirely and finds no solution.
-      // Luckily those have a single unique solution so their presses can
-      // be found through a normal matrix inverse operation.
-      Matrix Ainv = Matrix.fromColumns(c.take(c.length - 1).toList()).inverse();
-      Matrix solution = Ainv * c.last;
-      smallest = solution.elements.reduce((a, b) => a.round() + b.round());
-    }
-    buttonPresses += smallest.toInt();
   }
-  print('Part 2: $buttonPresses');
+  print('Part 2: ${buttonPresses.toInt()}');
 }

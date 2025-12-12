@@ -34,5 +34,5 @@ void main() async {
     }
   }
   print('Part 1: $fresh');
-  print('Part 2: ${freshRanges.fold<int>(0, (sum, e) => sum + e[1] - e[0] + 1)}}');
+  print('Part 2: ${freshRanges.fold<int>(0, (sum, e) => sum + e[1] - e[0] + 1)}');
 }
