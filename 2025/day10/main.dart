@@ -1,7 +1,7 @@
 import 'package:AdventOfCode/aoc_help/get.dart' as aoc;
+import 'package:AdventOfCode/int.dart';
 import 'package:advance_math/advance_math.dart';
 import 'package:collection/collection.dart';
-import 'package:trotter/trotter.dart';
 
 class Diagram {
   List<int> goal, joltages;
@@ -28,6 +28,21 @@ class Func {
       value += e.value * x[e.key];
     }
     return value;
+  }
+}
+
+Iterable<Map<int, int>> generator(Map<int, List<int>> limits) sync* {
+  List<int> variables = [...limits.keys.toList(), 1000, 1001]; // Pad to always have 3+ elements to take from
+  variables.sort();
+
+  int va = variables[0], vb = variables[1], vc = variables[2];
+  List<int> first = limits[va]!, second = limits[vb] ?? [0, 0], third = limits[vc] ?? [0, 0];
+  for (int a in first[0].to(first[1])) {
+    for (int b in second[0].to(second[1])) {
+      for (int c in third[0].to(third[1])) {
+        yield {va: a, vb: b, vc: c};
+      }
+    }
   }
 }
 
@@ -87,8 +102,8 @@ void main() async {
     // This depends on one of more variable.
     Matrix rref = a.reducedRowEchelonForm();
     List<Func> linearFunc = [];
-    Set<int> free = new List.generate(buttons, (i) => i).toSet();
     int rowIndex = 0;
+    Map<int, List<int>> limits = {};
     num limit = cur.joltages.reduce((a, b) => a < b ? b : a);
     for (int index = 0; index < buttons; index++) {
       if (rowIndex >= rref.length) {
@@ -101,7 +116,13 @@ void main() async {
           if (i > index && rref[rowIndex][i].value != 0)
             weights[i] = -rref[rowIndex][i].value;
         }
-        free.remove(index);
+        for (int w in weights.keys) {
+          limits[w] ??= [0, 0];
+          num value = (constant / weights[w]!).absolute();
+          if (constant > 0 && weights[w]! < 0 && limits[w]![1] < value) {
+            limits[w]![1] = value.ceil();
+          }
+        }
         linearFunc.add(Func(-1, constant, weights));
         rowIndex++;
       } else {
@@ -113,7 +134,7 @@ void main() async {
     }
 
     // Exactly 1 solution
-    if (free.isEmpty) {
+    if (limits.isEmpty) {
       num presses = linearFunc.fold(0, (s, f) => s + f.apply([]));
       if (presses == 0) {
         // The linear algebra library I use for this solution don't actually
@@ -129,17 +150,13 @@ void main() async {
 
     // Test combinations to find the smallest
     } else {
-      num smallest = 1000000000;
-      List<int> options = List.generate(limit.toInt(), (i) => i),
-                numbers = new List.filled(buttons, 0),
-                freeList = free.toList();
+      limits.values.forEach((l) { if (l[1] == 0) l[1] = limit.ceil(); });
 
-      // TODO: This code is fairly fast except one 24s outlier that takes
-      //       execution time from ~2s to ~30s. Maybe fix that one day.
-      for (final amalgam in Amalgams(freeList.length, options)()) {
-        for (final (int i, int a) in amalgam.indexed) {
-          numbers[freeList[i]] = a;
-        }
+      num smallest = 1000000000;
+      List<int> numbers = new List.filled(buttons, 0);
+
+      for (final next in generator(limits)) {
+        next.forEach((k, v) { if (k < numbers.length) numbers[k] = v; });
 
         List<num> result = [];
         bool valid = true;
